@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>世界卡埋点 · 对照 PM 清单</title>
+<style>
+  :root{
+    --bg:#0f1115; --card:#171a21; --line:#262b36; --txt:#e6e8ec; --sub:#9aa3b2;
+    --th-bg:#1d212b; --code-bg:#10131a; --hover:#1b1f28; --chip-bg:#1c2230;
+    --green:#3fb950; --orange:#e3a008; --yellow:#d4b106; --gray:#6b7280; --red:#f85149;
+    --blue:#58a6ff; --pink:#f75ecc; --purple:#7976ff;
+  }
+  body.light{
+    --bg:#f6f7f9; --card:#ffffff; --line:#e2e6ea; --txt:#1b1f28; --sub:#586172;
+    --th-bg:#eef1f5; --code-bg:#eef1f6; --hover:#f1f4f8; --chip-bg:#eef1f6;
+    --green:#1a7f37; --orange:#bc4c00; --yellow:#9a6700; --gray:#6b7280; --red:#cf222e;
+    --blue:#1f6feb; --pink:#bf3989; --purple:#6639ba;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);font:15.5px/1.6 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",Segoe UI,sans-serif;padding:32px 28px 100px;transition:background .2s,color .2s}
+  h1{font-size:27px;margin:0 0 4px}
+  .meta{color:var(--sub);font-size:14px;margin-bottom:20px}
+  .stats{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:20px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;min-width:112px}
+  .stat .n{font-size:29px;font-weight:700}
+  .stat .l{color:var(--sub);font-size:13px;margin-top:2px}
+  .stat.g .n{color:var(--green)} .stat.f .n{color:var(--blue)} .stat.y .n{color:var(--yellow)} .stat.gr .n{color:var(--gray)}
+  h2{font-size:20px;margin:34px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+  h2 .c{color:var(--sub);font-size:14px;font-weight:400;margin-left:8px}
+  table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  th,td{text-align:left;padding:10px 13px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:var(--th-bg);color:var(--sub);font-weight:600;font-size:13.5px}
+  td.ref{font-weight:700;color:var(--sub);white-space:nowrap;font:12.5px ui-monospace,monospace}
+  tr:last-child td{border-bottom:none}
+  tr:hover td{background:var(--hover)}
+  code{font:13px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--blue);background:var(--code-bg);border-radius:4px;padding:2px 6px;white-space:nowrap;cursor:pointer;transition:background .15s,color .15s}
+  code:hover{outline:1px solid var(--blue)}
+  code.copied{background:rgba(63,185,80,.25);color:var(--green);outline:1px solid rgba(63,185,80,.5)}
+  td.evt{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  td.evt code{flex:0 1 auto;overflow:hidden;text-overflow:ellipsis}
+  button.cp{flex:none;border:1px solid var(--line);background:var(--chip-bg);color:var(--sub);border-radius:6px;padding:2px 9px;font-size:14px;line-height:1.5;cursor:pointer;vertical-align:middle}
+  button.cp:hover{border-color:var(--blue);color:var(--blue)}
+  button.cp.done{border-color:var(--green);color:var(--green)}
+  .p{color:var(--sub);font:13px ui-monospace,monospace}
+  .badge{display:inline-block;font-size:12.5px;font-weight:600;border-radius:20px;padding:2px 10px;white-space:nowrap}
+  .b-ok{background:rgba(63,185,80,.15);color:var(--green);border:1px solid rgba(63,185,80,.4)}
+  .b-pm{background:rgba(212,177,6,.18);color:var(--yellow);border:1px solid rgba(212,177,6,.4)}
+  .b-fix{background:rgba(88,166,255,.15);color:var(--blue);border:1px solid rgba(88,166,255,.45)}
+  .b-no{background:rgba(107,114,128,.18);color:var(--gray);border:1px solid rgba(107,114,128,.4)}
+  .note{color:var(--sub);font-size:13.5px}
+  .callout{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--blue);border-radius:8px;padding:13px 18px;margin:14px 0;font-size:14.5px}
+  .callout b{color:var(--txt)}
+  .legend{display:flex;flex-wrap:wrap;gap:14px;color:var(--sub);font-size:13.5px;margin:8px 0 0}
+  em{color:var(--blue);font-style:normal}
+  /* 勾选列 */
+  th.chk-h{width:38px;text-align:center;color:var(--green)}
+  td.chk{width:38px;text-align:center}
+  td.chk input{width:18px;height:18px;cursor:pointer;accent-color:var(--green)}
+  tr.done td:not(.chk){opacity:.42}
+  tr.done td.ref{text-decoration:line-through}
+  /* 右上角控制条 */
+  .ctrl{position:fixed;top:14px;right:16px;display:flex;align-items:center;gap:10px;z-index:50}
+  .ctrl .prog{font-size:13.5px;color:var(--sub);background:var(--card);border:1px solid var(--line);border-radius:20px;padding:6px 13px}
+  .ctrl .prog b{color:var(--green)}
+  .ctrl button{font-size:14px;cursor:pointer;background:var(--card);color:var(--txt);border:1px solid var(--line);border-radius:20px;padding:6px 15px}
+  .ctrl button:hover{border-color:var(--blue);color:var(--blue)}
+  /* 可达路径气泡 + 可达性徽章 + 列宽（缩备注/宽事件）*/
+  td.evt-cell{min-width:190px}
+  td.note,td.note-cell{max-width:150px;font-size:12.5px}
+  .tier{display:inline-block;width:36px;margin-right:6px;font-size:11.5px;font-weight:500;color:var(--sub);cursor:help;user-select:none}
+  .tier.t-deep{color:var(--red);font-weight:700}
+  td.evt-cell .ev-txt{cursor:help;border-bottom:1px dotted var(--sub)}
+  #wtip{position:fixed;z-index:100;display:none;max-width:360px;background:var(--card);color:var(--txt);border:1px solid var(--line);border-radius:10px;box-shadow:0 8px 28px rgba(0,0,0,.35);padding:12px 14px;font-size:13.5px;line-height:1.55;pointer-events:none}
+  #wtip .h{font-weight:700;margin-bottom:6px}
+  #wtip .r{color:var(--sub);margin-top:4px}
+</style>
+</head>
+<body>
+
+<div class="ctrl">
+  <span class="prog">已核对 <b id="prog-n">0</b> / <span id="prog-t">0</span></span>
+  <button id="theme-btn" type="button">☀️ 白天</button>
+</div>
+
+<h1>世界卡埋点 · 对照 PM 清单（163–250 行）</h1>
+<div class="meta">分支 lengmo_20260522_feat_world_book_ui · 2026-05-25 · 按 PM 清单<b>原始行顺序</b>逐条排 · 87 条归张昊（A3 个人页归 fuxiaojie，已移出）· tsc 0 error · 未 commit</div>
+
+<div class="stats">
+  <div class="stat g"><div class="n">80</div><div class="l">✅ 符合</div></div>
+  <div class="stat y"><div class="n">5</div><div class="l">⚠️ 待 PM 拍值</div></div>
+  <div class="stat gr"><div class="n">2</div><div class="l">🚫 不做（B24/C11）</div></div>
+  <div class="stat"><div class="n">87</div><div class="l">你负责（88 PM − A3 归 fuxiaojie）</div></div>
+</div>
+
+<div class="legend">
+  <span><span class="badge b-ok">✅ 符合</span> 事件已发、参数对得上</span>
+  <span><span class="badge b-pm">⚠️ 待PM拍值</span> 按代码实际值，等 PM 确认</span>
+  <span><span class="badge b-no">🚫 不做</span> 定了不做/已下线</span>
+</div>
+
+<div class="callout">
+  <b>关于「参数」列</b>：PM 表的「参数/版本/负责人/产品」列我手上没有（粘贴截断了），所以本表<b>参数列 = 代码实际发送值</b>。A1/A2 的 source 已按 PM 校正为 <code>home_plus_dialog</code>；其余条目等你给 PM 参数列后再逐行 ✓/✗。
+</div>
+
+<!-- ============ 世界卡创建 ============ -->
+<h2>世界卡创建 <span class="c">20 条（A3 个人页归 fuxiaojie，已移出）</span></h2>
+<table>
+<tr><th>ref</th><th>模块</th><th>事件（PM）</th><th>代码事件名</th><th>参数（代码）</th><th>状态</th><th>备注</th></tr>
+<tr><td class="ref">A1</td><td>首页+号弹窗</td><td>CreateWorld 卡片曝光</td><td><code>cus.view_worldcard_create_card</code></td><td class="p">source=home_plus_dialog</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">A2</td><td>首页+号弹窗</td><td>点击 CreateWorld 卡片</td><td><code>cus.click_nav_create_world</code></td><td class="p">source=home_plus_dialog</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">A4</td><td>创建方式选择页</td><td>创建方式选择页曝光</td><td><code>cus.view_worldcard_create_method_page</code></td><td class="p">—</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">A5</td><td>创建方式选择页</td><td>点击 ManuallyCreate</td><td><code>cus.click_worldcard_method_manually</code></td><td class="p">—</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">A6</td><td>创建方式选择页</td><td>点击 ImportFromFile</td><td><code>cus.click_worldcard_method_import</code></td><td class="p">—</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">A7</td><td>创建方式选择页</td><td>ViewGuide 点击</td><td><code>cus.click_worldcard_view_guide</code></td><td class="p">—</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">A8</td><td>创建方式选择页</td><td>返回 / 退出</td><td><code>cus.click_worldcard_create_back</code></td><td class="p">—</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">A9</td><td>命名弹窗</td><td>NameYourWorld 弹窗曝光</td><td><code>cus.view_worldcard_name_dialog</code></td><td class="p">—</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">A10</td><td>命名弹窗</td><td>点 Create（命名进入）</td><td><code>cus.click_worldcard_name_create</code></td><td class="p">input_length</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">A11</td><td>命名弹窗</td><td>点 SkipforNow</td><td><code>cus.click_worldcard_name_skip</code></td><td class="p">—</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">A12</td><td>命名弹窗</td><td>关闭弹窗（外部/esc/X）</td><td><code>cus.logic_worldcard_name_dialog_dismiss</code></td><td class="p">—</td><td><span class="badge b-ok">✅</span></td><td class="note">本轮新补；三态不细分（仿 B32）</td></tr>
+<tr><td class="ref">A13</td><td>一键导入流程</td><td>选完文件</td><td><code>cus.logic_worldcard_import_file_selected</code></td><td class="p">file_size_kb / file_format</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">A14</td><td>导入 Loading 弹窗</td><td>loading 弹窗曝光</td><td><code>cus.view_worldcard_import_loading</code></td><td class="p">—</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">A15</td><td>系统/后端</td><td>解析成功</td><td><code>cus.logic_worldcard_import_success</code></td><td class="p">file_size_kb / note_count / duration</td><td><span class="badge b-ok">✅</span></td><td class="note">三参数全前端算出（File 大小/数响应条目/前端掐表），不依赖后端返回</td></tr>
+<tr><td class="ref">A16</td><td>系统/后端</td><td>解析失败</td><td><code>cus.logic_worldcard_import_failed</code></td><td class="p">reason</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">A17</td><td>导入失败弹窗</td><td>弹窗曝光</td><td><code>cus.view_worldcard_import_failed_dialog</code></td><td class="p">reason</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">A18</td><td>导入失败弹窗</td><td>点 Retry</td><td><code>cus.click_worldcard_import_failed_retry</code></td><td class="p">reason</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">A19</td><td>导入失败弹窗</td><td>点 Gotit</td><td><code>cus.click_worldcard_import_failed_got_it</code></td><td class="p">—</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">A20</td><td>一键导入流程</td><td>失败 toast 展示</td><td><code>cus.view_worldcard_import_failed_toast</code></td><td class="p">reason</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">A21</td><td>一键导入流程</td><td>Cancel 中止导入</td><td><code>cus.click_worldcard_import_cancel</code></td><td class="p">—</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+</table>
+
+<!-- ============ 世界卡编辑器 ============ -->
+<h2>世界卡编辑器 <span class="c">47 条</span></h2>
+<table>
+<tr><th>ref</th><th>模块</th><th>事件（PM）</th><th>代码事件名</th><th>参数（代码）</th><th>状态</th><th>备注</th></tr>
+<tr><td class="ref">B1</td><td>世界卡编辑器</td><td>编辑页首次进入</td><td><code>cus.logic_worldcard_editor_first_enter</code></td><td class="p">source</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">B2</td><td>世界卡编辑器</td><td>Tab 切换</td><td><code>cus.logic_worldcard_editor_tab_switch</code></td><td class="p">from_tab / to_tab</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">B3</td><td>世界卡编辑器</td><td>编辑器内 ViewGuide 点击</td><td><code>cus.click_worldcard_editor_view_guide</code></td><td class="p">current_tab</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">B4</td><td>世界卡编辑器</td><td>顶栏返回点击</td><td><code>cus.logic_worldcard_editor_back</code></td><td class="p">has_unsaved_changes</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">B5</td><td>编辑器 - EditNotes</td><td>搜索框输入</td><td><code>cus.logic_worldcard_editor_search</code></td><td class="p">keyword_length / result_count</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">B6</td><td>编辑器 - EditNotes</td><td>筛选 chip 切换</td><td><code>cus.click_worldcard_editor_filter</code></td><td class="p">tag</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">B7</td><td>编辑器 - EditNotes</td><td>分类展开/折叠</td><td><code>cus.click_worldcard_category_toggle</code></td><td class="p">category / action / is_default</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">B8</td><td>编辑器 - EditNotes</td><td>点分类右侧+号新建条目</td><td><code>cus.click_worldcard_add_note</code></td><td class="p">category / entry=plus_button</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">B9</td><td>编辑器 - EditNotes</td><td>点 StarterCard 新建（PC空态）</td><td><code>cus.click_worldcard_add_note</code></td><td class="p">category / entry=starter_card / card_type</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">B10</td><td>编辑器 - EditNotes</td><td>点击已有条目（进入编辑）</td><td><code>cus.click_worldcard_note_select</code></td><td class="p">category / note_id_local</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">B11</td><td>编辑器 - EditNotes</td><td>单条目垃圾桶图标点击</td><td><code>cus.click_worldcard_note_delete_icon</code></td><td class="p">category / note_id_local</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">B12</td><td>条目删除确认弹窗</td><td>二确弹窗曝光</td><td><code>cus.view_worldcard_note_delete_modal</code></td><td class="p">category</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">B13</td><td>条目删除确认弹窗</td><td>点 Delete</td><td><code>cus.click_worldcard_note_delete_confirm</code></td><td class="p">category</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">B14</td><td>条目删除确认弹窗</td><td>点 Cancel</td><td><code>cus.click_worldcard_note_delete_cancel</code></td><td class="p">category</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">B15</td><td>条目编辑页</td><td>进入条目编辑页</td><td><code>cus.logic_worldcard_note_enter</code></td><td class="p">category / is_new / note_id_local</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">B16</td><td>条目编辑页</td><td>横幅 +AddNote 点击</td><td><code>cus.click_worldcard_add_note</code></td><td class="p">category / entry=horizontal_banner</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">B17</td><td>条目编辑页</td><td>Image 上传开始</td><td><code>cus.logic_worldcard_note_image_start</code></td><td class="p">category / file_size_kb / format</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">B18</td><td>条目编辑页</td><td>Image 上传成功</td><td><code>cus.logic_worldcard_note_image_success</code></td><td class="p">category / duration</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">B19</td><td>条目编辑页</td><td>Image 上传失败</td><td><code>cus.logic_worldcard_note_image_fail</code></td><td class="p">category / reason</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">B20</td><td>条目编辑页</td><td>TriggerMode 切换</td><td><code>cus.click_worldcard_trigger_mode</code></td><td class="p">category / to_mode=always_on|keyword</td><td><span class="badge b-pm">⚠️</span></td><td class="note">to_mode 取值待 PM 确认</td></tr>
+<tr><td class="ref">B21</td><td>条目编辑页</td><td>添加 keyword chip</td><td><code>cus.click_worldcard_keyword_add</code></td><td class="p">category / keyword_count / total_chars</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">B22</td><td>条目编辑页</td><td>删除 keyword chip</td><td><code>cus.click_worldcard_keyword_remove</code></td><td class="p">category / keyword_count</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">B23</td><td>条目编辑页</td><td>PriorityLevel 星级调整</td><td><code>cus.click_worldcard_priority_change</code></td><td class="p">category / from_star / to_star</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">B27</td><td>条目编辑页</td><td>点 SaveAllChanges</td><td><code>cus.click_worldcard_note_save_all</code></td><td class="p">category / note_count</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">B24</td><td>条目编辑页</td><td>后台自动保存（10s静默）</td><td class="p">—</td><td class="p">—</td><td><span class="badge b-no">🚫</span></td><td class="note">功能不存在（草稿实时写 localStorage）；已划线不做</td></tr>
+<tr><td class="ref">B25</td><td>条目编辑页</td><td>保存请求成功</td><td><code>cus.logic_worldcard_note_save_success</code></td><td class="p">category / save_type=manual</td><td><span class="badge b-pm">⚠️</span></td><td class="note">只有 manual（无 autosave 功能）</td></tr>
+<tr><td class="ref">B26</td><td>条目编辑页</td><td>保存请求失败</td><td><code>cus.logic_worldcard_note_save_failed</code></td><td class="p">category / reason</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">B29</td><td>条目编辑页</td><td>返回触发 UnsavedChanges 弹窗</td><td><code>cus.view_worldcard_note_unsaved_modal</code></td><td class="p">category</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">B30</td><td>未保存变更弹窗</td><td>点 Save</td><td><code>cus.click_worldcard_note_unsaved_save</code></td><td class="p">—</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">B31</td><td>未保存变更弹窗</td><td>点 Discard</td><td><code>cus.click_worldcard_note_unsaved_discard</code></td><td class="p">—</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">B32</td><td>未保存变更弹窗</td><td>被动关闭（X/外部/esc）</td><td><code>cus.logic_worldcard_note_unsaved_dismiss</code></td><td class="p">—</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">B33</td><td>保存失败重试弹窗</td><td>弹窗曝光</td><td><code>cus.view_worldcard_note_retry_modal</code></td><td class="p">category / reason</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">B34</td><td>保存失败重试弹窗</td><td>点 Retry</td><td><code>cus.click_worldcard_note_retry_retry</code></td><td class="p">—</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">B35</td><td>保存失败重试弹窗</td><td>点 BacktoEdit</td><td><code>cus.click_worldcard_note_retry_back_to_edit</code></td><td class="p">—</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">B28</td><td>条目编辑页</td><td>保存失败兜底 toast 展示</td><td><code>cus.view_worldcard_note_save_failed_toast</code></td><td class="p">reason</td><td><span class="badge b-ok">✅</span></td><td class="note">toast 待实装</td></tr>
+<tr><td class="ref">B36</td><td>编辑器 - WorldInfo</td><td>CoverImage 上传成功</td><td><code>cus.logic_worldcard_cover_image_success</code></td><td class="p">file_size_kb / format</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">B37</td><td>编辑器 - WorldInfo</td><td>Rating 选项切换</td><td><code>cus.click_worldcard_rating_change</code></td><td class="p">rating=filtered|unfiltered|18+</td><td><span class="badge b-pm">⚠️</span></td><td class="note">清单写 sfw/nsfw/18+，代码枚举不同</td></tr>
+<tr><td class="ref">B39</td><td>编辑器 - WorldInfo</td><td>点 +AddTags</td><td><code>cus.click_worldcard_add_tags</code></td><td class="p">—</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">B43</td><td>Tags 弹窗</td><td>Genre chip 点击</td><td><code>cus.click_worldcard_tags_genre</code></td><td class="p">genre</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">B44</td><td>Tags 弹窗</td><td>ContentTag chip 添加</td><td><code>cus.click_worldcard_tags_content_add</code></td><td class="p">tag / current_count</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">B45</td><td>Tags 弹窗</td><td>ContentTag chip 移除</td><td><code>cus.click_worldcard_tags_content_remove</code></td><td class="p">tag / current_count</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">B46</td><td>Tags 弹窗</td><td>Save</td><td><code>cus.click_worldcard_tags_done</code></td><td class="p">genre / tag_count / content_tags</td><td><span class="badge b-pm">⚠️</span></td><td class="note">按钮文案实际是 Done</td></tr>
+<tr><td class="ref">B47</td><td>Tags 弹窗</td><td>Cancel</td><td><code>cus.click_worldcard_tags_cancel</code></td><td class="p">—</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">B38</td><td>编辑器 - WorldInfo</td><td>Visibility 切换</td><td><code>cus.click_worldcard_visibility_change</code></td><td class="p">visibility</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">B48</td><td>可见性变更确认弹窗</td><td>Public→Private 二确曝光</td><td><code>cus.view_worldcard_visibility_confirm_modal</code></td><td class="p">original_visibility / target_visibility</td><td><span class="badge b-ok">✅</span></td><td class="note">仅编辑已发布态且被人用过</td></tr>
+<tr><td class="ref">B49</td><td>可见性变更确认弹窗</td><td>Confirm</td><td><code>cus.click_worldcard_visibility_confirm</code></td><td class="p">—</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">B50</td><td>可见性变更确认弹窗</td><td>Cancel</td><td><code>cus.click_worldcard_visibility_cancel</code></td><td class="p">—</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+</table>
+
+<!-- ============ 世界卡发布 ============ -->
+<h2>世界卡发布 <span class="c">20 条（含 1 处 PM 疑似重复）</span></h2>
+<table>
+<tr><th>ref</th><th>模块</th><th>事件（PM）</th><th>代码事件名</th><th>参数（代码）</th><th>状态</th><th>备注</th></tr>
+<tr><td class="ref">C1</td><td>世界卡编辑器</td><td>点 SaveAndPublish（草稿首发）</td><td><code>cus.click_worldcard_save_and_publish</code></td><td class="p">mode / total_notes / unfinished_notes / current_tab</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">C9·a</td><td>发布 Loading 弹窗</td><td>Loading 弹窗展示</td><td><code>cus.view_worldcard_publish_loading_modal</code></td><td class="p">—</td><td><span class="badge b-ok">✅</span></td><td class="note">与下方 C9·b 同一事件 → PM 疑似重复，建议去重一行</td></tr>
+<tr><td class="ref">C10</td><td>系统/后端</td><td>上传成功</td><td><code>cus.logic_worldcard_publish_upload_success</code></td><td class="p">image</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">C11</td><td>系统/后端</td><td>上传失败</td><td class="p">—</td><td class="p">—</td><td><span class="badge b-no">🚫</span></td><td class="note">发布层不分成败，失败靠 B19 兜</td></tr>
+<tr><td class="ref">B42</td><td>编辑器 - WorldInfo</td><td>WorldInfo 必填校验失败</td><td><code>cus.logic_worldcard_worldinfo_required_failed</code></td><td class="p">fields</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">C3</td><td>草稿条目确认弹窗</td><td>二确弹窗曝光</td><td><code>cus.view_worldcard_draft_confirm_modal</code></td><td class="p">ready_count / unfinished_count</td><td><span class="badge b-ok">✅</span></td><td class="note">zero 态（ready_count=0）复用本事件</td></tr>
+<tr><td class="ref">C4</td><td>草稿条目确认弹窗</td><td>点 BacktoEdit</td><td><code>cus.click_worldcard_draft_back_to_edit</code></td><td class="p">—</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">C5</td><td>草稿条目确认弹窗</td><td>点 PublishAnyway</td><td><code>cus.click_worldcard_draft_publish_anyway</code></td><td class="p">unfinished_count</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">C9·b</td><td>发布 Loading 弹窗</td><td>发布 loading 弹窗曝光</td><td><code>cus.view_worldcard_publish_loading_modal</code></td><td class="p">—</td><td><span class="badge b-ok">✅</span></td><td class="note">同 C9·a</td></tr>
+<tr><td class="ref">C12</td><td>系统/后端</td><td>发布成功（直发 Private）</td><td><code>cus.logic_worldcard_publish_success</code></td><td class="p">mode / visibility / world_card_id / total_notes / duration</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">C13</td><td>发布失败弹窗</td><td>弹窗曝光</td><td><code>cus.view_worldcard_publish_failed_modal</code></td><td class="p">reason</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">C14</td><td>发布失败弹窗</td><td>点 Retry / Gotit</td><td><code>cus.click_worldcard_publish_failed_action</code></td><td class="p">action=retry|got_it</td><td><span class="badge b-pm">⚠️</span></td><td class="note">按钮是 Cancel，映射 got_it</td></tr>
+<tr><td class="ref">C15</td><td>审核进度弹窗</td><td>告知弹窗曝光</td><td><code>cus.view_worldcard_review_modal</code></td><td class="p">world_card_id</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">C16</td><td>个人页 - 世界卡 Tab</td><td>发布成功跳转个人页</td><td><code>cus.logic_worldcard_publish_goto_profile</code></td><td class="p">source / world_card_id</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">C17</td><td>世界卡编辑器（已发布）</td><td>进入已发布世界卡编辑器</td><td><code>cus.logic_worldcard_published_editor_enter</code></td><td class="p">world_card_id / source</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">C2</td><td>世界卡编辑器（已发布）</td><td>点 SaveAndUpdate（更新发布）</td><td><code>cus.click_worldcard_save_and_update</code></td><td class="p">mode / world_card_id</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">C18</td><td>离开确认弹窗</td><td>LeaveWithoutPublishing 二确曝光</td><td><code>cus.view_worldcard_leave_modal</code></td><td class="p">world_card_id</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">C19</td><td>离开确认弹窗</td><td>点 SaveandUpdate</td><td><code>cus.click_worldcard_leave_save_update</code></td><td class="p">—</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">C20</td><td>离开确认弹窗</td><td>点 LeaveWithoutSaving</td><td><code>cus.click_worldcard_leave_without_saving</code></td><td class="p">—</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+<tr><td class="ref">C21</td><td>离开确认弹窗</td><td>被动关闭（X/外部/esc）</td><td><code>cus.logic_worldcard_leave_dismiss</code></td><td class="p">—</td><td><span class="badge b-ok">✅</span></td><td></td></tr>
+</table>
+
+<script>
+  // 点击任意 cus.* 事件名 → 复制到剪贴板（file:// 下用 execCommand 兜底）
+  function copyText(text){
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text).catch(fallback);
+    }
+    return fallback();
+    function fallback(){
+      const ta = document.createElement('textarea');
+      ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.focus(); ta.select();
+      try { document.execCommand('copy'); } catch(e) {}
+      document.body.removeChild(ta);
+      return Promise.resolve();
+    }
+  }
+  // 每个「代码事件名」（事件名列 = 直属裸 td 的 code）后面加一个 📋 复制按钮
+  document.querySelectorAll('td > code').forEach(function(el){
+    if (el.parentElement.className !== '') return; // 跳过备注列(td.note)里的 code
+    var name = el.textContent;
+    el.title = name;
+    el.parentElement.classList.add('evt'); // 该格改左右布局：code 左 / 按钮右
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'cp';
+    btn.textContent = '📋';
+    btn.title = '复制 ' + name;
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      copyText(name);
+      btn.textContent = '✓';
+      btn.classList.add('done');
+      clearTimeout(btn._t);
+      btn._t = setTimeout(function(){ btn.textContent = '📋'; btn.classList.remove('done'); }, 900);
+    });
+    el.insertAdjacentElement('afterend', btn);
+  });
+
+  // ---- 白天/夜间切换（localStorage 持久化）----
+  var THEME_KEY = 'wc_track_theme';
+  var themeBtn = document.getElementById('theme-btn');
+  function applyTheme(t){
+    if (t === 'light') { document.body.classList.add('light'); themeBtn.textContent = '🌙 夜间'; }
+    else { document.body.classList.remove('light'); themeBtn.textContent = '☀️ 白天'; }
+  }
+  applyTheme(localStorage.getItem(THEME_KEY) || 'dark');
+  themeBtn.addEventListener('click', function(){
+    var next = document.body.classList.contains('light') ? 'dark' : 'light';
+    localStorage.setItem(THEME_KEY, next);
+    applyTheme(next);
+  });
+
+  // ---- 第一列勾选（localStorage 持久化 + 进度）----
+  var CHK_KEY = 'wc_track_checks';
+  var checks = {};
+  try { checks = JSON.parse(localStorage.getItem(CHK_KEY) || '{}') || {}; } catch(e) { checks = {}; }
+  var rowKeys = [];
+  document.querySelectorAll('table').forEach(function(tbl){
+    tbl.querySelectorAll('tr').forEach(function(tr){
+      if (tr.querySelector('th')) { // 表头行 → 加一个 ✓ 列头
+        var th = document.createElement('th');
+        th.className = 'chk-h';
+        th.textContent = '✓';
+        tr.insertBefore(th, tr.firstChild);
+        return;
+      }
+      var refEl = tr.querySelector('.ref');
+      var key = refEl ? refEl.textContent.trim() : null;
+      var td = document.createElement('td');
+      td.className = 'chk';
+      var cb = document.createElement('input');
+      cb.type = 'checkbox';
+      if (key && checks[key]) { cb.checked = true; tr.classList.add('done'); }
+      cb.addEventListener('change', function(){
+        if (key) { checks[key] = cb.checked; localStorage.setItem(CHK_KEY, JSON.stringify(checks)); }
+        tr.classList.toggle('done', cb.checked);
+        updateProg();
+      });
+      td.appendChild(cb);
+      tr.insertBefore(td, tr.firstChild);
+      if (key) rowKeys.push(key);
+    });
+  });
+  function updateProg(){
+    var done = rowKeys.filter(function(k){ return checks[k]; }).length;
+    document.getElementById('prog-n').textContent = done;
+    document.getElementById('prog-t').textContent = rowKeys.length;
+  }
+  updateProg();
+
+  // ---- 可达路径气泡 + 可达性徽章（hover 事件名所在行的「事件」列）----
+  // tier: 浅=页面显眼 / 弹=弹窗内(给触发路径) / 深=多步或有前置 / 系=系统/无UI
+  var TIER = { '浅':['浅','浅 · 页面显眼'], '弹':['弹窗','弹窗内'], '深':['深','深 · 多步/有前置'], '系':['系统','系统 / 无 UI'] };
+  // [tier, 位置, 路径(浅可空), 组件:行]
+  var TIPS = {
+    'cus.view_worldcard_create_card':['弹','首页 +号弹窗 · CreateWorld 卡片','点左侧栏 Create → 弹窗打开即曝光','CreateNavModal.tsx:51'],
+    'cus.click_nav_create_world':['弹','首页 +号弹窗 · CreateWorld 卡片','点左侧栏 Create → 点该卡','navigation.tsx:385'],
+    'cus.click_create_world_card':['浅','个人页 · 世界卡 Tab · CreateWorld 卡','','MyCards.tsx:94'],
+    'cus.view_worldcard_create_method_page':['浅','创建方式选择页 · 整页','进 /world/create 即曝光','page.tsx:260'],
+    'cus.click_worldcard_method_manually':['浅','创建方式选择页 · ManuallyCreate 卡','','page.tsx:301'],
+    'cus.click_worldcard_method_import':['浅','创建方式选择页 · ImportFromFile 卡','','page.tsx:322'],
+    'cus.click_worldcard_view_guide':['浅','创建方式选择页 · 右上 View Guide','','page.tsx:281'],
+    'cus.click_worldcard_create_back':['浅','创建方式选择页 · 左上返回箭头','','page.tsx:268'],
+    'cus.view_worldcard_name_dialog':['弹','命名弹窗','点 ManuallyCreate → 弹窗打开即曝光','NameYourWorldDialog.tsx:38'],
+    'cus.click_worldcard_name_create':['弹','命名弹窗 · Create 按钮','输入 ≥2 字 → 点 Create','NameYourWorldDialog.tsx:123'],
+    'cus.click_worldcard_name_skip':['弹','命名弹窗 · Skip for Now','','NameYourWorldDialog.tsx:114'],
+    'cus.logic_worldcard_name_dialog_dismiss':['弹','命名弹窗 · 关闭','弹窗内按 X / Esc / 点外部','NameYourWorldDialog.tsx:48'],
+    'cus.logic_worldcard_import_file_selected':['系','系统 · 选完文件','ImportFromFile → 选文件后','page.tsx:138'],
+    'cus.view_worldcard_import_loading':['弹','导入 Loading 弹窗','选合法 .json → 解析中弹出','ImportLoadingDialog.tsx:48'],
+    'cus.logic_worldcard_import_success':['系','系统/后端 · 解析成功','导入合法文件 + 后端解析成功','page.tsx:227'],
+    'cus.logic_worldcard_import_failed':['系','系统 · 解析失败','导入失败(format/size/parse/network/unknown)','page.tsx:147/156/192/210/219'],
+    'cus.view_worldcard_import_failed_dialog':['弹','导入失败弹窗','导入失败(非 size)→ 弹出','ImportFailedDialog.tsx:52'],
+    'cus.click_worldcard_import_failed_retry':['弹','导入失败弹窗 · Retry','','ImportFailedDialog.tsx:75'],
+    'cus.click_worldcard_import_failed_got_it':['弹','导入失败弹窗 · Got it','','ImportFailedDialog.tsx:88'],
+    'cus.view_worldcard_import_failed_toast':['系','toast · 文件过大','⚠️ 仅 .json 且 >5MB 才弹','page.tsx:157'],
+    'cus.click_worldcard_import_cancel':['弹','导入 Loading 弹窗 · Cancel','解析中点 Cancel','ImportLoadingDialog.tsx:83'],
+    'cus.logic_worldcard_editor_first_enter':['系','系统 · 编辑页首次进入','进 /world/{id}/edit 首次','page.tsx:174'],
+    'cus.logic_worldcard_editor_tab_switch':['浅','编辑器 · 顶部 Tab','切 EditNotes / WorldInfo / Preview','page.tsx:182'],
+    'cus.click_worldcard_editor_view_guide':['浅','编辑器顶栏右上 · View Guide','','EditorHeader.tsx:71'],
+    'cus.logic_worldcard_editor_back':['浅','编辑器顶栏左上 · 返回','','page.tsx:721'],
+    'cus.logic_worldcard_editor_search':['浅','EditNotes · 列表上方搜索框','输入(防抖)','EditNotesFrame.pc.tsx:86'],
+    'cus.click_worldcard_editor_filter':['浅','EditNotes · All / Draft chip','','NotesFilterChips.tsx:42'],
+    'cus.click_worldcard_category_toggle':['浅','EditNotes · 分类卡 展开/折叠头','','NoteCategoryCard.tsx:66'],
+    'cus.click_worldcard_add_note':['浅','分类卡 +号 / StarterCard / 横幅(entry 区分)','','NoteCategoryCard.tsx:92'],
+    'cus.click_worldcard_note_select':['浅','EditNotes · 点已有条目卡','','NoteEntryCard.tsx'],
+    'cus.click_worldcard_note_delete_icon':['浅','条目卡 · 垃圾桶图标','','NoteEntryCard.mobile.tsx:86'],
+    'cus.view_worldcard_note_delete_modal':['弹','删除二确弹窗','点条目垃圾桶 → 弹出','DeleteNoteConfirmDialog.tsx:32'],
+    'cus.click_worldcard_note_delete_confirm':['弹','删除二确 · Delete','','DeleteNoteConfirmDialog.tsx:64'],
+    'cus.click_worldcard_note_delete_cancel':['弹','删除二确 · Cancel','','DeleteNoteConfirmDialog.tsx:50'],
+    'cus.logic_worldcard_note_enter':['深','条目编辑页','新建/点条目 → 进条目编辑页','note/[note_id]/page.tsx'],
+    'cus.logic_worldcard_note_image_start':['深','条目编辑页 · 图片上传开始','进条目编辑页 → 上传图片','BasicInfoSection.tsx:239'],
+    'cus.logic_worldcard_note_image_success':['系','系统 · 条目图片上传成功','','BasicInfoSection.tsx:247'],
+    'cus.logic_worldcard_note_image_fail':['系','系统 · 条目图片上传失败','','BasicInfoSection.tsx:254'],
+    'cus.click_worldcard_trigger_mode':['深','条目编辑页 · TriggerMode 切换','进条目编辑页 → 切 Always On/Keyword','TriggerSettingsSection.tsx:85'],
+    'cus.click_worldcard_keyword_add':['深','条目编辑页 · 加 keyword chip','','TriggerSettingsSection.tsx:123'],
+    'cus.click_worldcard_keyword_remove':['深','条目编辑页 · 删 keyword chip','','TriggerSettingsSection.tsx:132'],
+    'cus.click_worldcard_priority_change':['深','条目编辑页 · Priority 星级','','TriggerSettingsSection.tsx:154'],
+    'cus.logic_worldcard_note_save_success':['系','系统 · 条目保存成功','save_type=manual','page.tsx:174'],
+    'cus.logic_worldcard_note_save_failed':['系','系统 · 条目保存失败','','page.tsx:180'],
+    'cus.click_worldcard_note_save_all':['浅','条目编辑页 · SaveAllChanges','','page.tsx:323'],
+    'cus.view_worldcard_note_save_failed_toast':['系','toast · 保存失败兜底','','page.tsx:198'],
+    'cus.view_worldcard_note_unsaved_modal':['弹','未保存变更弹窗','条目编辑页有改动 → 返回触发','page.tsx:215'],
+    'cus.click_worldcard_note_unsaved_save':['弹','Unsaved 弹窗 · Save','','UnsavedChangesDialog.tsx:44'],
+    'cus.click_worldcard_note_unsaved_discard':['弹','Unsaved 弹窗 · Discard','','UnsavedChangesDialog.tsx:33'],
+    'cus.logic_worldcard_note_unsaved_dismiss':['弹','Unsaved 弹窗 · 被动关闭','X / 外部 / esc','UnsavedChangesDialog.tsx:27'],
+    'cus.view_worldcard_note_retry_modal':['弹','保存失败重试弹窗','条目保存失败 → 弹出','SaveRetryDialog.tsx:28'],
+    'cus.click_worldcard_note_retry_retry':['弹','重试弹窗 · Retry','','SaveRetryDialog.tsx:56'],
+    'cus.click_worldcard_note_retry_back_to_edit':['弹','重试弹窗 · BacktoEdit','','SaveRetryDialog.tsx:45'],
+    'cus.logic_worldcard_cover_image_success':['系','系统 · WorldInfo 封面上传成功','WorldInfo Tab → 传封面','WorldInfoFields.tsx:181'],
+    'cus.click_worldcard_rating_change':['浅','WorldInfo Tab · Rating chip 行','切 WorldInfo Tab → 点 Rating','WorldInfoFields.tsx:354'],
+    'cus.click_worldcard_visibility_change':['浅','WorldInfo Tab · Visibility chip 行','','WorldInfoFields.tsx'],
+    'cus.click_worldcard_add_tags':['浅','WorldInfo Tab · +AddTags','','WorldInfoFields.tsx:425'],
+    'cus.logic_worldcard_worldinfo_required_failed':['系','系统 · WorldInfo 必填校验失败','发布时必填项没填','page.tsx:311'],
+    'cus.click_worldcard_tags_genre':['弹','Tags 弹窗 · Genre chip','点 +AddTags → Tags 弹窗','TagsSelectDialog.tsx:45'],
+    'cus.click_worldcard_tags_content_add':['弹','Tags 弹窗 · ContentTag 添加','','TagsSelectDialog.tsx:70'],
+    'cus.click_worldcard_tags_content_remove':['弹','Tags 弹窗 · ContentTag 移除','','TagsSelectDialog.tsx:54'],
+    'cus.click_worldcard_tags_done':['弹','Tags 弹窗 · Save (文案 Done)','','TagsSelectDialog.tsx:77'],
+    'cus.click_worldcard_tags_cancel':['弹','Tags 弹窗 · Cancel','','TagsSelectDialog.tsx:89'],
+    'cus.view_worldcard_visibility_confirm_modal':['深','可见性变更二确弹窗','⚠️ 仅"已发布且被人用过"的卡 → 编辑 → Public 改 Private 才弹','WorldInfoFields.tsx:477'],
+    'cus.click_worldcard_visibility_confirm':['深','可见性二确 · Confirm','','ConfirmVisibilityChangeDialog.tsx:39'],
+    'cus.click_worldcard_visibility_cancel':['深','可见性二确 · Cancel','','ConfirmVisibilityChangeDialog.tsx:51'],
+    'cus.click_worldcard_save_and_publish':['浅','编辑器(草稿) · SaveAndPublish 按钮','','page.tsx:239'],
+    'cus.click_worldcard_save_and_update':['深','编辑器(已发布) · SaveAndUpdate','⚠️ 需在编辑已发布卡的态','page.tsx:235'],
+    'cus.view_worldcard_draft_confirm_modal':['弹','草稿条目二确弹窗','点 SaveAndPublish 且有未完成条目 → 弹','PublishConfirmDialog.tsx:42'],
+    'cus.click_worldcard_draft_back_to_edit':['弹','草稿二确 · BacktoEdit','','PublishConfirmDialog.tsx:74'],
+    'cus.click_worldcard_draft_publish_anyway':['弹','草稿二确 · PublishAnyway','','PublishConfirmDialog.tsx:60'],
+    'cus.logic_worldcard_publish_upload_success':['系','系统 · 发布期图片上传成功','','page.tsx:477'],
+    'cus.logic_worldcard_publish_success':['系','系统 · 发布成功(直发 Private)','','page.tsx:663'],
+    'cus.view_worldcard_publish_loading_modal':['弹','发布 Loading 弹窗','发布中弹出','PublishLoadingDialog.tsx:36'],
+    'cus.view_worldcard_publish_failed_modal':['弹','发布失败弹窗','发布失败 → 弹出','SaveFailedDialog.tsx:26'],
+    'cus.click_worldcard_publish_failed_action':['弹','发布失败弹窗 · Retry / Gotit','','SaveFailedDialog.tsx:44'],
+    'cus.view_worldcard_review_modal':['深','审核进度告知弹窗','⚠️ 发布 unlisted/public 进审核 → 弹','ContentUnderReviewDialog.tsx:36'],
+    'cus.logic_worldcard_publish_goto_profile':['系','系统 · 发布成功跳个人页','','page.tsx:673'],
+    'cus.logic_worldcard_published_editor_enter':['深','系统 · 进入已发布卡编辑器','⚠️ 个人页世界卡 Tab → 点已发布卡编辑','PersonalWorldCardList.tsx:64'],
+    'cus.view_worldcard_leave_modal':['深','离开确认弹窗','⚠️ 编辑已发布卡有改动 → 返回 → 弹','LeaveWithoutPublishingDialog.tsx:28'],
+    'cus.click_worldcard_leave_save_update':['深','离开确认 · SaveandUpdate','','LeaveWithoutPublishingDialog.tsx:46'],
+    'cus.click_worldcard_leave_without_saving':['深','离开确认 · LeaveWithoutSaving','','LeaveWithoutPublishingDialog.tsx:57'],
+    'cus.logic_worldcard_leave_dismiss':['深','离开确认 · 被动关闭','X / 外部 / esc','LeaveWithoutPublishingDialog.tsx:40']
+  };
+  var wtip = document.createElement('div'); wtip.id = 'wtip'; document.body.appendChild(wtip);
+  function moveTip(e){
+    var x = e.clientX + 14, y = e.clientY + 14;
+    var w = wtip.offsetWidth, h = wtip.offsetHeight;
+    if (x + w > innerWidth - 10) x = e.clientX - w - 14;
+    if (y + h > innerHeight - 10) y = innerHeight - h - 10;
+    wtip.style.left = x + 'px'; wtip.style.top = y + 'px';
+  }
+  document.querySelectorAll('td > code').forEach(function(el){
+    if (!el.parentElement.classList.contains('evt')) return; // 仅事件名列（复制按钮循环已标 evt）
+    var cus = el.textContent;
+    var t = TIPS[cus];
+    var evtCell = el.parentElement.previousElementSibling; // 事件(PM) 列
+    var noteCell = el.closest('tr').lastElementChild;       // 备注列
+    if (noteCell) noteCell.classList.add('note-cell');
+    if (!evtCell || !t) return;
+    var meta = TIER[t[0]] || ['❔',''];
+    evtCell.classList.add('evt-cell');
+    var badge = document.createElement('span');
+    badge.className = 'tier' + (t[0] === '深' ? ' t-deep' : ''); badge.textContent = meta[0]; badge.title = meta[1];
+    var txt = document.createElement('span');
+    txt.className = 'ev-txt'; txt.textContent = evtCell.textContent;
+    evtCell.textContent = '';
+    evtCell.appendChild(badge); evtCell.appendChild(txt);
+    evtCell.addEventListener('mouseenter', function(e){
+      wtip.innerHTML = '<div class="h"' + (t[0] === '深' ? ' style="color:var(--red)"' : '') + '>' + meta[1] + '</div>'
+        + (t[1] ? '<div>' + t[1] + '</div>' : '')
+        + (t[2] ? '<div class="r">路径：' + t[2] + '</div>' : '')
+        + (t[3] ? '<div class="r">📄 ' + t[3] + '</div>' : '');
+      wtip.style.display = 'block'; moveTip(e);
+    });
+    evtCell.addEventListener('mousemove', moveTip);
+    evtCell.addEventListener('mouseleave', function(){ wtip.style.display = 'none'; });
+  });
+</script>
+
+</body>
+</html>
