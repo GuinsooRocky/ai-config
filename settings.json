@@ -356,7 +356,12 @@
     ],
     "defaultMode": "auto"
   },
-  "model": "sonnet",
+  "model": "claude-fable-5[1m]",
+  "statusLine": {
+    "type": "command",
+    "command": "bash /Users/lengmo/.claude/statusline-command.sh",
+    "refreshInterval": 5
+  },
   "hooks": {
     "PreToolUse": [
       {
