@@ -37,13 +37,5 @@
       "mcp-server"
     ],
     "env": {}
-  },
-  "soliloquy-tasks": {
-    "type": "stdio",
-    "command": "node",
-    "args": [
-      "/Users/lengmo/Desktop/my-code/soliloquy/mcp/soliloquy-tasks.mjs"
-    ],
-    "env": {}
   }
 }
