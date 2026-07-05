@@ -40,22 +40,24 @@ Auto-triggered when a media URL is detected:
 | `.mp3`, `.m4a` direct link | Audio | → Step 2b (direct download) |
 | Other | Video | → Step 1a (subtitle extraction) |
 
+> **临时文件目录**：一律放会话 scratchpad（系统提示「Scratchpad Directory」给的路径），不用 /tmp。跑下面任何命令前先设：`SP=<scratchpad 路径>`
+
 ### Step 1a: Video — Extract Subtitles
 
 ```bash
 # Clean up temp files
-rm -f /tmp/media_sub*.vtt /tmp/media_audio.mp3 /tmp/media_transcript*.json /tmp/media_segment_*.mp3 2>/dev/null || true
+rm -f $SP/media_sub*.vtt $SP/media_audio.mp3 $SP/media_transcript*.json $SP/media_segment_*.mp3 2>/dev/null || true
 
 # YouTube (prefer English, fallback Chinese)
-yt-dlp --skip-download --write-auto-sub --sub-lang "en,zh-Hans" -o "/tmp/media_sub" "VIDEO_URL"
+yt-dlp --skip-download --write-auto-sub --sub-lang "en,zh-Hans" -o "$SP/media_sub" "VIDEO_URL"
 
 # Bilibili
-yt-dlp --skip-download --write-auto-sub --sub-lang "zh-Hans,zh" -o "/tmp/media_sub" "VIDEO_URL"
+yt-dlp --skip-download --write-auto-sub --sub-lang "zh-Hans,zh" -o "$SP/media_sub" "VIDEO_URL"
 ```
 
 Check for subtitles:
 ```bash
-ls /tmp/media_sub*.vtt 2>/dev/null
+ls $SP/media_sub*.vtt 2>/dev/null
 ```
 - **Has subtitles** → Read VTT content, skip to Step 3
 - **No subtitles** → Step 2a (download audio)
@@ -73,7 +75,7 @@ AUDIO_URL=$(curl -sL -H "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_1
 echo "Audio URL: $AUDIO_URL"
 
 # Download audio
-curl -L -o /tmp/media_audio.mp3 "$AUDIO_URL"
+curl -L -o $SP/media_audio.mp3 "$AUDIO_URL"
 ```
 
 > If curl extraction is empty (rare), fallback: use Puppeteer/browser to get rendered page and extract.
@@ -84,7 +86,7 @@ curl -L -o /tmp/media_audio.mp3 "$AUDIO_URL"
 
 ```bash
 yt-dlp -f "ba[ext=m4a]/ba/b" --extract-audio --audio-format mp3 --audio-quality 5 \
-  -o "/tmp/media_audio.%(ext)s" "APPLE_PODCAST_URL"
+  -o "$SP/media_audio.%(ext)s" "APPLE_PODCAST_URL"
 ```
 
 → Step 2b (check size & transcribe)
@@ -109,11 +111,11 @@ AUDIO_URL=$(curl -s "https://api.bilibili.com/x/player/playurl?bvid=$BV&cid=$CID
   | python3 -c "import json,sys; print(json.load(sys.stdin)['data']['dash']['audio'][0]['baseUrl'])")
 
 # 4. Download audio (Referer header required, otherwise 403)
-curl -L -o /tmp/media_audio.m4s \
+curl -L -o $SP/media_audio.m4s \
   -H "User-Agent: Mozilla/5.0" -H "Referer: https://www.bilibili.com/" "$AUDIO_URL"
 
 # 5. Convert to mp3
-ffmpeg -y -i /tmp/media_audio.m4s -acodec libmp3lame -q:a 5 /tmp/media_audio.mp3
+ffmpeg -y -i $SP/media_audio.m4s -acodec libmp3lame -q:a 5 $SP/media_audio.mp3
 ```
 
 → Step 2b (check size & transcribe)
@@ -123,13 +125,13 @@ ffmpeg -y -i /tmp/media_audio.m4s -acodec libmp3lame -q:a 5 /tmp/media_audio.mp3
 ```bash
 # YouTube may need --cookies-from-browser chrome to bypass bot detection
 yt-dlp --cookies-from-browser chrome -f "ba[ext=m4a]/ba/b" --extract-audio --audio-format mp3 --audio-quality 5 \
-  -o "/tmp/media_audio.%(ext)s" "VIDEO_URL"
+  -o "$SP/media_audio.%(ext)s" "VIDEO_URL"
 ```
 
 ### Step 2b: Check Audio Size & Segment
 
 ```bash
-FILE_SIZE=$(stat -f%z /tmp/media_audio.* 2>/dev/null || stat -c%s /tmp/media_audio.* 2>/dev/null)
+FILE_SIZE=$(stat -f%z $SP/media_audio.* 2>/dev/null || stat -c%s $SP/media_audio.* 2>/dev/null)
 echo "File size: $FILE_SIZE bytes"
 ```
 
@@ -139,7 +141,7 @@ echo "File size: $FILE_SIZE bytes"
 **Splitting large audio (>25MB)**:
 ```bash
 # Get total duration
-DURATION=$(ffprobe -v error -show_entries format=duration -of csv=p=0 /tmp/media_audio.* | head -1)
+DURATION=$(ffprobe -v error -show_entries format=duration -of csv=p=0 $SP/media_audio.* | head -1)
 
 # Split into 10-minute segments (keeps each under 25MB)
 SEGMENT_SEC=600
@@ -148,8 +150,8 @@ SEGMENTS=$(python3 -c "import math; print(math.ceil(float('$DURATION')/$SEGMENT_
 # Cut segments
 for i in $(seq 0 $((SEGMENTS-1))); do
   START=$((i * SEGMENT_SEC))
-  ffmpeg -y -i /tmp/media_audio.* -ss $START -t $SEGMENT_SEC -acodec libmp3lame -q:a 5 \
-    "/tmp/media_segment_${i}.mp3" 2>/dev/null
+  ffmpeg -y -i $SP/media_audio.* -ss $START -t $SEGMENT_SEC -acodec libmp3lame -q:a 5 \
+    "$SP/media_segment_${i}.mp3" 2>/dev/null
 done
 ```
 
@@ -174,10 +176,10 @@ curl -s -X POST "https://api.groq.com/openai/v1/audio/transcriptions" \
   -F "model=whisper-large-v3-turbo" \
   -F "response_format=verbose_json" \
   -F "language=zh" \
-  > /tmp/media_transcript.json
+  > $SP/media_transcript.json
 
 # Extract plain text
-python3 -c "import json; print(json.load(open('/tmp/media_transcript.json'))['text'])"
+python3 -c "import json; print(json.load(open('$SP/media_transcript.json'))['text'])"
 ```
 
 **Whisper model options**:

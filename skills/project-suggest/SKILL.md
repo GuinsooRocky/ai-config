@@ -62,6 +62,7 @@ description: 把外部信息（AI 新闻 / 竞品 PR / 文章 / 痛点 / issue�
 4. **遵守架构规则**（包边界、被禁依赖、type-only import 等）。
 5. **摆出 tradeoff**：如果某 action 有真实代价（重构面积、性能、vendor lock-in），在 Action 里一句话说清。
 6. **文件要具体**：写 `src/feature/foo.ts`，别写「feature 层」。用户没确认路径时可以推测，但标注是推测。
+7. **自检后再交**：每条建议过两问——点名的文件真实存在吗？和已有 RFC/设计文档重复吗？过不了的删掉或标注。
 
 ### Step 4 — 收尾给下一步指引
 

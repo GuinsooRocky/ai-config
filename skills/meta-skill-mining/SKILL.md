@@ -113,6 +113,8 @@ LIMIT 15;
 - `<existing-skill>`：建议补充 <具体改进点>
 ```
 
+> 本 skill 只出候选清单与改进点；已有 skill 的打分/frontmatter 合规审计交给 meta-check-skill。
+
 ---
 
 ## Step 5：更新 mining marker

@@ -1,6 +1,6 @@
 ---
 name: seo-planner
-description: 个人项目 SEO 规划一条龙入口——先对话收集约束（标的项目/市场语言/变现假设/每周投入/现有资产），约束确认后用 Workflow 扇出调研（关键词模式×SERP 现状并行侦察、竞品页面拆解、机会逐条对抗验证），最后合成带优先级的可落地方案（URL 结构/页面模板/质量线/30-60 天执行日历）回主对话拍板。覆盖编辑型 topic cluster 与数据×模板 pSEO 两种打法。触发词："SEO 规划"、"做 SEO"、"SEO 方案"、"关键词矩阵"、"topic cluster"、"pSEO"、"程序化 SEO"、"批量页面"、"给 XX 项目做 SEO"、"seo-planner"。不用于：已有页面的技术体检（用 web-quality-audit / performance / core-web-vitals）、单页 meta/JSON-LD 落码（临场直接写）、站内文案写作（khazix-writer）。
+description: 个人项目 SEO 规划一条龙入口——先对话收集约束（标的项目/市场语言/变现假设/每周投入/现有资产），约束确认后用 Workflow 扇出调研（关键词模式×SERP 现状并行侦察、竞品页面拆解、机会逐条对抗验证），最后合成带优先级的可落地方案（URL 结构/页面模板/质量线/30-60 天执行日历）回主对话拍板。覆盖编辑型 topic cluster 与数据×模板 pSEO 两种打法。触发词："SEO 规划"、"做 SEO"、"SEO 方案"、"关键词矩阵"、"topic cluster"、"pSEO"、"程序化 SEO"、"批量页面"、"给 XX 项目做 SEO"、"seo-planner"。不用于：已有页面的技术体检（用 web-quality-audit / performance / core-web-vitals）、单页 meta/JSON-LD 落码（临场直接写）、站内文案写作（xhs-writer）。
 ---
 
 # seo-planner — 个人项目 SEO 规划
@@ -13,7 +13,7 @@ description: 个人项目 SEO 规划一条龙入口——先对话收集约束�
 - 给个人项目（meat-encyclopedia / MK / 新副业）做 SEO 规划：选词、内容矩阵、pSEO 批量页设计
 - 决定"起 web 端该做哪些页面才有搜索流量"的时刻
 - 已有方案要复核/扩展某条线（可用 resumeFromRunId 只重跑局部）
-- **不用于**：已有页面技术体检（web-quality-audit / performance / core-web-vitals）、单页 meta/JSON-LD 落码（临场直接写）、文章成稿（khazix-writer）
+- **不用于**：已有页面技术体检（web-quality-audit / performance / core-web-vitals）、单页 meta/JSON-LD 落码（临场直接写）、文章成稿（xhs-writer）
 
 ## Phase 1 — 约束对话（缺答案不开跑）
 

@@ -1,10 +1,13 @@
 export const meta = {
   name: 'pr-audit',
   description: 'PR 审查引擎(可选 代码评审/质量体检)：对一组改动并行扇出多路评审 → 逐条独立对抗验证 → 汇总 P0/P1/P2。非阻塞，建 PR 后后台跑。',
+  // phases 与代码里 agent() 的 opts.phase 分组名一一对应（两条 track 并发跑，
+  // 不用全局 phase() —— 它有竞态；见 Workflow 文档对 parallel 内 phase 的警告）
   phases: [
-    { title: '评审' },
-    { title: '验证' },
-    { title: '汇总' },
+    { title: '代码评审' },
+    { title: '验证:代码评审' },
+    { title: '质量体检' },
+    { title: '验证:质量体检' },
   ],
 }
 

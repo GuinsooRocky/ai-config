@@ -1,6 +1,6 @@
 ---
 name: meta-memory-review
-description: 审核 memory_candidates 中的待处理候选，提炼高价值条目写入 auto-memory，清空未通过候选。触发场景：bulk extract 跑完后、定期维护记忆库、会话开始发现大量未审核候选时。触发词：/meta-memory-review、审核记忆候选、清空 memory_candidates。
+description: 审核 memory_candidates 中的待处理候选，提炼高价值条目写入 auto-memory，清空未通过候选。触发场景：bulk extract 跑完后、定期维护记忆库、会话开始发现大量未审核候选时。触发词：/meta-memory-review、审核记忆候选、清空 memory_candidates。只处理 memory_candidates 候选表；改 MEMORY.md 本体用 meta-memory-audit，清 SQLite 库用 memory-clean。
 ---
 
 # Memory Review

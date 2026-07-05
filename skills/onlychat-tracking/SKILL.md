@@ -1,6 +1,6 @@
 ---
 name: onlychat-tracking
-description: OnlyChat 埋点（tracking / 神策 cus.* 事件）的接线 + 核对 + 验证全流程。触发词：接埋点、核对埋点、埋点对照 PM 清单、验证埋点、埋点 verify、tracking guard、tc/tv/tl、生成埋点核对 HTML。从零接线与核对已有埋点都覆盖；含静态 audit 自测 + 运行时验证手册 + 踩坑库 + 可勾选核对 HTML 生成。
+description: OnlyChat 埋点（tracking / 神策 cus.* 事件）的接线 + 核对 + 验证全流程。触发词：接埋点、核对埋点、埋点对照 PM 清单、验证埋点、埋点 verify、tracking guard、"tc/tv/tl 怎么选埋点机制"、生成埋点核对 HTML。从零接线与核对已有埋点都覆盖；含静态 audit 自测 + 运行时验证手册 + 踩坑库 + 可勾选核对 HTML 生成。
 ---
 
 # OnlyChat 埋点 skill

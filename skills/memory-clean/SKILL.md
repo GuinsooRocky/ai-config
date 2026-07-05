@@ -1,6 +1,6 @@
 ---
 name: memory-clean
-description: 交互式精准清理 cc-memory 中期记忆库（SQLite）。支持按关键词/单次会话/项目路径/整库四种粒度，每一步都先预览后确认才执行。适用于：误录入敏感对话、清理测试数据、按项目批量移除。触发词：/memory-clean、清记忆、删 memory、清理 SQLite 中期记忆。
+description: 交互式精准清理 cc-memory 中期记忆库（SQLite）。支持按关键词/单次会话/项目路径/整库四种粒度，每一步都先预览后确认才执行。适用于：误录入敏感对话、清理测试数据、按项目批量移除。触发词：/memory-clean、清记忆、删 memory、清理 SQLite 中期记忆。只清 SQLite 中期记忆库；改 MEMORY.md 文件本体用 meta-memory-audit，审 memory_candidates 候选用 meta-memory-review。
 ---
 
 # Memory Clean — 交互式精准清库

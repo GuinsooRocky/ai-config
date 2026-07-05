@@ -1,6 +1,6 @@
 ---
 name: web-quality-audit
-description: Comprehensive web quality audit covering performance, accessibility, SEO, and best practices. Use when asked to "audit my site", "review web quality", "run lighthouse audit", "check page quality", or "optimize my website".
+description: Comprehensive web quality audit covering performance, accessibility, SEO, and best practices. Use when asked to "audit my site", "review web quality", "run lighthouse audit", "check page quality", or "optimize my website". Static checklist only — for runtime browser-based auditing use the web-quality-audit workflow (~/.claude/workflows/web-quality-audit.js).
 license: MIT
 metadata:
   author: web-quality-skills
@@ -167,6 +167,4 @@ When performing an audit, structure findings as:
 For detailed guidelines on specific areas:
 - [Performance Optimization](../performance/SKILL.md)
 - [Core Web Vitals](../core-web-vitals/SKILL.md)
-- [Accessibility](../accessibility/SKILL.md)
-- [SEO](../seo/SKILL.md)
 - [Best Practices](../best-practices/SKILL.md)

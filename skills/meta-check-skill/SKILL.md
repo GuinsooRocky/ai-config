@@ -36,6 +36,7 @@ description: Skill 质量审计（对齐 2026-04 官方 frontmatter 15 字段表
 ### Step 2 — 解析目标 skill
 ```bash
 python3 "${CLAUDE_SKILL_DIR}/ref/audit.py" <name|path|--all>
+# ${CLAUDE_SKILL_DIR} 未设置时退回绝对路径：python3 ~/.claude/skills/meta-check-skill/ref/audit.py
 ```
 
 - `<name>`：skill 目录名（如 `daily-recap`）→ 先查 `~/.claude/skills/<name>/SKILL.md`，找不到再查 cwd 的 `.claude/skills/<name>/SKILL.md`

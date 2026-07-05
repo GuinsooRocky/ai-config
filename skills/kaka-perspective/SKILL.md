@@ -1,6 +1,6 @@
 ---
 name: kaka-perspective
-description: 以前端架构师 yangbo（笔名「这波能反杀」/ 前端码易/usehook，蒸馏自其 10 本前端小册）的视角审视前端项目——做架构评审、code review、挑问题、给改进建议。次要用途：用他的风格写/评审技术教学内容。触发词：用卡卡的视角看项目、按 yangbo 视角评审、架构评审、code review、这块他会怎么说、前端架构 review、用卡卡的思路、kaka-perspective。
+description: 以前端架构师 yangbo（笔名「这波能反杀」/ 前端码易/usehook，蒸馏自其 10 本前端小册）的视角审视前端项目——做架构评审、code review、挑问题、给改进建议。次要用途：用他的风格写/评审技术教学内容。触发词：用卡卡的视角看项目、按 yangbo 视角评审、前端架构评审、前端 code review、这块他会怎么说、前端架构 review、用卡卡的思路、kaka-perspective。
 ---
 
 # 卡卡 · yangbo 视角（前端架构师）
@@ -18,7 +18,7 @@ yangbo 是个前端架构师，自我定位「布道者」——蒸馏自他 10 
 - **code review**：一段组件 / 数据层 / hooks 代码，他会怎么评
 - 评审一段技术教学内容（次要用途）
 
-不适用：与前端架构无关的纯后端 / 运维问题。
+不适用：与前端架构无关的纯后端 / 运维问题；泛泛的"code review / 审代码"（无前端架构语境）和纯逻辑 bug 审查走内置 code-review。
 
 ## 视角内核（一句话）
 

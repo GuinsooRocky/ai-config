@@ -1,6 +1,6 @@
 ---
 name: meta-memory-audit
-description: Claude Code 记忆系统月度审计：检查所有项目的 MEMORY.md，清理过期条目、合并重复记忆、删除无关项。触发场景：每月记忆整理、感觉记忆杂乱时。触发词：/meta-memory-audit、记忆审计、清理 MEMORY.md。
+description: Claude Code 记忆系统月度审计：检查所有项目的 MEMORY.md，清理过期条目、合并重复记忆、删除无关项。触发场景：每月记忆整理、感觉记忆杂乱时。触发词：/meta-memory-audit、记忆审计、清理 MEMORY.md。只动 MEMORY.md 与记忆文件本体；清 SQLite 中期记忆库用 memory-clean，审 memory_candidates 候选用 meta-memory-review。
 ---
 
 # Memory Audit

@@ -1,6 +1,6 @@
 ---
 name: onlychat-figma-revamp
-description: OnlyChat 项目 Figma UI 改版专用流程 — 严格照 MCP 返回值还原，V2 新组件 + useGradualRollout AB 灰度，V1 零改动。触发词："Implement this design from Figma"、"改版 UI"、"TagListV2/TagBoxV2/XxxV2"、"home_ui_revamp_ab"
+description: OnlyChat 项目 Figma UI 改版专用流程 — 严格照 MCP 返回值还原，V2 新组件 + useGradualRollout AB 灰度，V1 零改动。触发词："Implement this design from Figma"、"按 Figma 改版 UI"、"TagListV2/TagBoxV2/XxxV2"、"home_ui_revamp_ab"
 ---
 
 # OnlyChat Figma UI 改版

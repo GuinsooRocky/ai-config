@@ -132,9 +132,9 @@ ${d.sessionPaths.join('\n')}
 
 ${d.date === scout.targetDate ? `
 5. 若今天（${d.title}）日期为偶数，追加 cc 日记节：
-   find ~/.claude/skills -name "SKILL.md" -newer "$ANCHOR" 2>/dev/null
-   find ~/.claude/agents -name "*.md" -newer "$ANCHOR" 2>/dev/null
-   find ~/.claude/projects/-Users-lengmo/memory -name "*.md" -newer "$ANCHOR" 2>/dev/null
+   find ~/.claude/skills -name "SKILL.md" -mtime -2 2>/dev/null
+   find ~/.claude/agents -name "*.md" -mtime -2 2>/dev/null
+   find ~/.claude/projects/-Users-lengmo/memory -name "*.md" -mtime -2 2>/dev/null
    节标题裸文本"cc 日记（近 2 天）"，不带 ## 前缀。
 ` : ''}
 
