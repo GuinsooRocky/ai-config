@@ -6,12 +6,19 @@
 
 ---
 
+## 删除/清理
+
+- 帮删文件一律 `mv` 到 `~/.Trash`，**绝不 `rm`**（即使用户已批准）——保持可逆（详见 memory: feedback_cleanup_use_trash_not_rm.md）
+
+---
+
 ## 笔记存放约定
 
 - **触发词**：用户说"存学习笔记"/"记一下"/"保存笔记" → 写到 `/Users/lengmo/Desktop/archives/技术总结/`
 - **文件名**：`MM.DD-<简短标题>.md`（例：`04.20-Agent-Loop-四框架设计.md`）
 - **写完告知**：报路径 + 提醒"可拖入有道云笔记 技术总结 文件夹"
 - **理由**：有道云笔记数据加密封闭，无法自动导入，约定本地暂存后手动拖拽
+- **别跟"落档"混**：触发词"落档"= 真实需求落档 → `~/Desktop/cmm/agg/真实需求落档/`（详见 memory: feedback_real_requirement_archive.md）
 
 ---
 
@@ -20,7 +27,7 @@
 - 审 PRD 本身（矛盾/缺文案/反讲）→ `onlychat-prd-reflection`
 - 查代码注释跟 PRD 同没同步（§X.X anchor）→ `cmm-drift-prd`
 - 拿方案对照 PRD 逐点拷问 → `/grill-with-prd`（手动）；无 PRD → `grill-me`
-- 生码成品验收打分 → `pageforge-accept-pipeline`
+- 生码成品验收打分 → 全链路（含造数据+走查）用 `pageforge-accept-pipeline`；报告已齐只打分用 `pageforge-acceptance-judge`
 - 裸"对一下 PRD/看下 PRD"意图不明 → 先反问 a审本身 / b查drift / c拷问方案，别乱选
 
 ---
@@ -38,6 +45,7 @@ Behavioral guidelines to reduce common LLM coding mistakes.
 Before implementing:
 - State your assumptions explicitly. If uncertain, ask.
 - If multiple interpretations exist, present them - don't pick silently.
+- When presenting interpretations: lead with ONE recommendation and proceed; only stop and ask if the fork is irreversible.
 - If a simpler approach exists, say so. Push back when warranted.
 - If something is unclear, stop. Name what's confusing. Ask.
 

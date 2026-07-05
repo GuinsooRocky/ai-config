@@ -1,6 +1,6 @@
 ---
 name: onlychat-prd-reflection
-description: OnlyChat 项目 PRD 反讲文档生成 — 把 PRD 不完美的地方（矛盾 / 缺文案 / 反直觉）现在摆桌上解决，不在代码里发现。每节锚到 PRD §X.X，PRD 改了重跑刷新即可。仅产出 HTML 到 ~/Desktop/cmm/onlychat-World-Path/。我审的是 PRD 本身（矛盾/缺文案/反直觉）；查代码注释跟 PRD 同没同步那是 cmm-drift-prd。触发词：反讲、需求反讲、PRD 反讲、讲一遍 PRD、对一下 PRD、把需求过一遍、扫一遍 PRD、把 PRD 过一遍、PRD 有没有矛盾、看下 PRD。
+description: OnlyChat 项目 PRD 反讲文档生成 — 把 PRD 不完美的地方（矛盾 / 缺文案 / 反直觉）现在摆桌上解决，不在代码里发现。每节锚到 PRD §X.X，PRD 改了重跑刷新即可。仅产出 HTML 到 ~/Desktop/cmm/onlychat-World-Path/。我审的是 PRD 本身（矛盾/缺文案/反直觉）；查代码注释跟 PRD 同没同步那是 cmm-drift-prd。触发词：反讲、需求反讲、PRD 反讲、讲一遍 PRD、把需求过一遍、扫一遍 PRD、把 PRD 过一遍、PRD 有没有矛盾。裸"对一下 PRD/看下 PRD"意图不明，不直接触发本 skill——按全局 CLAUDE.md 的 PRD 路由先分诊。
 ---
 
 # OnlyChat PRD 反讲
@@ -11,7 +11,7 @@ description: OnlyChat 项目 PRD 反讲文档生成 — 把 PRD 不完美的地�
 
 ## 何时使用
 
-- 用户粘 PRD（飞书链接 / 本地文本）+ "反讲" / "对一下 PRD" / "讲一遍 PRD"
+- 用户粘 PRD（飞书链接 / 本地文本）+ "反讲" / "讲一遍 PRD" / "扫一遍 PRD"
 - PRD 大版本改完，重跑刷新反讲文档
 - 新功能开发前的需求消化阶段
 
