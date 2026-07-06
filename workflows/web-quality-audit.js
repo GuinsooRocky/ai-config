@@ -52,8 +52,9 @@ const VERDICT_SCHEMA = {
   required: ['real', 'finalSeverity', 'why'],
 }
 
-// ─── Phase 1：四路并行审计 ────────────────────────────────────────────────
-phase('审计')
+// ─── 审计 → 验证：按维度独立流水（pipeline，无跨维度 barrier）──────────────
+// 验证只依赖本条 finding 自身，不需要跨 lens 全量结果——每路审完立刻验，
+// 不等最慢一路（agent 用 opts.phase 分组，不用全局 phase() 防并发竞态）。
 
 const LENSES = [
   {
@@ -175,32 +176,20 @@ const LENSES = [
   },
 ].filter(l => l.always)
 
-const auditResults = await parallel(
-  LENSES.map(lens => () =>
+const perLens = await pipeline(
+  LENSES,
+  lens =>
     agent(lens.prompt, {
       label: `audit:${lens.key}`,
       phase: '审计',
       schema: FINDINGS_SCHEMA,
-    })
-  )
-)
-
-const allFindings = auditResults
-  .filter(Boolean)
-  .flatMap(r => r.findings)
-
-log(`审计完成，${allFindings.length} 条 finding，开始对抗验证`)
-
-// ─── Phase 2：逐条对抗验证（去掉假阳性）────────────────────────────────────
-phase('验证')
-
-if (allFindings.length === 0) {
-  log('无 finding，跳过验证阶段')
-}
-
-const verdicts = allFindings.length > 0
-  ? await parallel(
-      allFindings.map(f => () =>
+    }),
+  async (auditResult, lens) => {
+    const findings = auditResult?.findings ?? []
+    log(`审计[${lens.key}]：${findings.length} 条 finding${findings.length ? '，立即进入验证' : ''}`)
+    if (findings.length === 0) return []
+    return (await parallel(
+      findings.map(f => () =>
         agent(
           `你是怀疑态度的 Critic，尽量证伪这条 Web 质量 finding。
 打开浏览器自己看一眼 ${url}，亲自验证 location 处的实际情况。
@@ -220,17 +209,19 @@ Finding：${f.title}
           }
         ).then(v => ({ ...f, verdict: v }))
       )
-    )
-  : []
+    )).filter(Boolean)
+  }
+)
+
+const verdicts = perLens.filter(Boolean).flat()
+const totalFindings = verdicts.length
 
 const confirmed = verdicts
-  .filter(Boolean)
   .filter(x => x.verdict?.real && x.verdict?.finalSeverity !== 'skip')
 
-log(`验证完成：${confirmed.length}/${allFindings.length} 条确认，${allFindings.length - confirmed.length} 条驳回`)
+log(`验证完成：${confirmed.length}/${totalFindings} 条确认，${totalFindings - confirmed.length} 条驳回`)
 
-// ─── Phase 3：汇总 ────────────────────────────────────────────────────────
-phase('汇总')
+// ─── 汇总 ────────────────────────────────────────────────────────────────
 
 const byTier = t => confirmed
   .filter(x => x.verdict.finalSeverity === t)
@@ -245,7 +236,7 @@ const report = [
   `# Web 质量审计报告`,
   `**目标：** ${pageDesc}`,
   `**审计维度：** ${LENSES.map(l => l.key).join(' / ')}`,
-  `**结果：** 确认 ${confirmed.length} 条（P0: ${confirmed.filter(x=>x.verdict.finalSeverity==='P0').length} · P1: ${confirmed.filter(x=>x.verdict.finalSeverity==='P1').length} · P2: ${confirmed.filter(x=>x.verdict.finalSeverity==='P2').length}），驳回 ${allFindings.length - confirmed.length} 条假阳性`,
+  `**结果：** 确认 ${confirmed.length} 条（P0: ${confirmed.filter(x=>x.verdict.finalSeverity==='P0').length} · P1: ${confirmed.filter(x=>x.verdict.finalSeverity==='P1').length} · P2: ${confirmed.filter(x=>x.verdict.finalSeverity==='P2').length}），驳回 ${totalFindings - confirmed.length} 条假阳性`,
   '',
   p0 ? `## P0 — 必须立即修（${confirmed.filter(x=>x.verdict.finalSeverity==='P0').length} 条）\n${p0}` : '## P0 — 无',
   '',
@@ -254,4 +245,4 @@ const report = [
   p2 ? `## P2 — 规划修（${confirmed.filter(x=>x.verdict.finalSeverity==='P2').length} 条）\n${p2}` : '## P2 — 无',
 ].join('\n')
 
-return { url, confirmed, falsePositives: allFindings.length - confirmed.length, report }
+return { url, confirmed, falsePositives: totalFindings - confirmed.length, report }

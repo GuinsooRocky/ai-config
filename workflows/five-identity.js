@@ -362,6 +362,57 @@ const refutedP0Titles = new Set(
   verdicts.filter(Boolean).filter(v => !v.isReal).map(v => v.title)
 )
 
+// ── Phase 3b: P1 抽样复核（防 identity 自评把 critical 误标 P1 永久漏检）──────
+// 确定性抽样（每 3 条取 1，~33%；Workflow 禁 Math.random）。抽中的双问：真不真 + 是不是被低估的 P0。
+const p1Findings = allFindings.flatMap(r =>
+  (r.findings || [])
+    .filter(f => f.priority === 'P1')
+    .map(f => Object.assign({}, f, { fromIdentity: r.archetype }))
+)
+const p1Sample = p1Findings.filter((_, i) => i % 3 === 0)
+
+const P1_VERDICT_SCHEMA = {
+  type: 'object',
+  properties: {
+    title: { type: 'string' },
+    isReal: { type: 'boolean' },
+    shouldBeP0: { type: 'boolean', description: '被低估的 critical？' },
+    reason: { type: 'string' },
+  },
+  required: ['title', 'isReal', 'shouldBeP0', 'reason'],
+}
+
+const p1Verdicts = p1Sample.length > 0
+  ? await parallel(
+      p1Sample.map(f => () => agent(`
+You are an adversary doing a spot-check on a P1 finding. Two questions:
+1. Is it REAL? (assume false unless the code proves it)
+2. Is it actually an UNDERESTIMATED P0? (critical/blocking but the identity self-rated it P1)
+
+Finding from ${f.fromIdentity}:
+Title: "${f.title}"
+Description: ${f.description}
+Files: ${(f.files || []).join(', ')}
+Proposed action: ${f.action}
+
+Read every referenced file yourself before answering.
+`, {
+        label: '🔍P1 ' + f.title.slice(0, 40),
+        phase: 'Verify',
+        schema: P1_VERDICT_SCHEMA,
+        agentType: 'adversary',
+      }))
+    )
+  : []
+
+const escalatedP1Titles = new Set(
+  p1Verdicts.filter(Boolean).filter(v => v.isReal && v.shouldBeP0).map(v => v.title)
+)
+const refutedP1Titles = new Set(
+  p1Verdicts.filter(Boolean).filter(v => !v.isReal).map(v => v.title)
+)
+log(`P1 抽样 ${p1Sample.length}/${p1Findings.length}：升级 ${escalatedP1Titles.size}，驳回 ${refutedP1Titles.size}`)
+
 // ── Phase 4: Synthesize (judge) ───────────────────────────────────────────────
 phase('Synthesize')
 
@@ -386,6 +437,11 @@ Adversary verdicts on P0s:
 - Confirmed real P0s: ${JSON.stringify([...confirmedP0Titles])}
 - Refuted (downgrade to P1): ${JSON.stringify([...refutedP0Titles])}
 
+P1 spot-check (${p1Sample.length}/${p1Findings.length} sampled):
+- Escalate to P0 (underestimated criticals): ${JSON.stringify([...escalatedP1Titles])}
+- Refuted P1s (drop or demote to P2): ${JSON.stringify([...refutedP1Titles])}
+- Unsampled P1s stay P1 as-is.
+
 Output this markdown report:
 
 # 🧬 Five Identity Review — ${stage.toUpperCase()}
@@ -395,7 +451,7 @@ Output this markdown report:
 ---
 
 ## 🚨 P0 — Critical (adversary-confirmed)
-[Confirmed P0s only. Format:]
+[Confirmed P0s + escalated P1s from spot-check. Format:]
 **[emoji Identity]** · \`type\`
 > **[Title]** — [1-sentence description]
 > Files: \`path/to/file:line\`

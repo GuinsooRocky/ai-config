@@ -5,6 +5,7 @@ export const meta = {
     { title: '造数据', detail: 'mock-data-builder 按 PRD 推断数据态，构造多条/单条/空态' },
     { title: '四象限走查', detail: 'visual-qa PC/mobile × dark/light 全覆盖，跳过 Phase 1 确认' },
     { title: '验收打分', detail: 'pageforge-acceptance-judge 四维各 25 分，出缺口清单' },
+    { title: '扣分复核', detail: '复核员逐条查扣分引证是否站得住，防 judge 单点误判' },
   ],
 }
 
@@ -102,6 +103,43 @@ log('走查完成，进入验收打分')
 // ─── Phase 3：验收打分 ─────────────────────────────────────────────────────
 phase('验收打分')
 
+// 四维结构化打分：分数可被程序消费（评估表回填），report 仍是给人读的全文
+const DIM = {
+  type: 'object',
+  properties: {
+    score: { type: 'integer', minimum: 0, maximum: 25 },
+    summary: { type: 'string', description: '该维一句话结论' },
+  },
+  required: ['score', 'summary'],
+}
+const SCORE_SCHEMA = {
+  type: 'object',
+  properties: {
+    prd: DIM,
+    figma: DIM,
+    runnable: DIM,
+    logic: DIM,
+    total: { type: 'integer', minimum: 0, maximum: 100 },
+    figmaDegraded: { type: 'boolean', description: '② 维是否走了无 Figma 降级模式' },
+    gaps: {
+      type: 'array',
+      description: '全部扣分项，每条必须带引证',
+      items: {
+        type: 'object',
+        properties: {
+          dim: { type: 'string', enum: ['prd', 'figma', 'runnable', 'logic'] },
+          desc: { type: 'string' },
+          deduction: { type: 'integer', minimum: 1 },
+          evidence: { type: 'string', description: 'PRD 引句 / Figma 节点值 / 走查报告条目 / file:line' },
+        },
+        required: ['dim', 'desc', 'deduction', 'evidence'],
+      },
+    },
+    report: { type: 'string', description: '完整验收报告 markdown 全文' },
+  },
+  required: ['prd', 'figma', 'runnable', 'logic', 'total', 'gaps', 'report'],
+}
+
 const verdict = await agent(
   `你是 pageforge 验收法官（pageforge-acceptance-judge 角色）。
 
@@ -134,7 +172,49 @@ ${figmaUrl ? `有映射 → 调 Figma MCP 取 rgba/hex/px，直接照抄比对�
 - 没写 = 真没做；tsc 绿 ≠ 需求完成
 - 不开浏览器，不调任何 agent
 - 管线外独立验收：不读 agg/eval/.spec.mjs 考卷，一切证据自取`,
-  { agentType: 'pageforge-acceptance-judge', phase: '验收打分', label: 'judge' }
+  { agentType: 'pageforge-acceptance-judge', phase: '验收打分', label: 'judge', schema: SCORE_SCHEMA }
 )
 
-return { card, dataReport, qaReport, verdict }
+// ─── Phase 4：扣分项轻量复核（防 judge 单点误判）──────────────────────────
+phase('扣分复核')
+
+let gapReview = null
+if (verdict?.gaps?.length) {
+  gapReview = await agent(
+    `你是复核员，只审下面这批「验收扣分项」的引证是否站得住——不重新打分、不开浏览器。
+逐条检查：引证（PRD 引句 / 走查报告条目 / file:line）是否真实存在且支撑该扣分？亲自去读被引的 PRD/代码行。
+
+## 验收卡：${card}
+## PRD：${prdPath}
+## 扣分清单
+${verdict.gaps.map((g, i) => `${i + 1}. [${g.dim}] ${g.desc}（扣 ${g.deduction}）｜引证：${g.evidence}`).join('\n')}
+
+对每条给 upheld true/false + 一句话。引证查无实据或不支撑扣分的标 false。`,
+    {
+      label: 'gap-review',
+      phase: '扣分复核',
+      schema: {
+        type: 'object',
+        properties: {
+          reviews: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                index: { type: 'integer' },
+                upheld: { type: 'boolean' },
+                note: { type: 'string' },
+              },
+              required: ['index', 'upheld', 'note'],
+            },
+          },
+        },
+        required: ['reviews'],
+      },
+    }
+  )
+  const challenged = (gapReview?.reviews ?? []).filter(r => !r.upheld)
+  log(`扣分复核：${challenged.length} 条被质疑${challenged.length ? '（分数未自动改，见 gapReview）' : ''}`)
+}
+
+return { card, dataReport, qaReport, verdict, gapReview }

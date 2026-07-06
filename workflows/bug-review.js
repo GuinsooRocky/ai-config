@@ -82,8 +82,41 @@ log(`adversary 完成，进入裁决`)
 // ─── Phase 3: judge ───────────────────────────────────────────────────────
 phase('裁决')
 
+// 结构化裁决：verdicts/scores 可被程序消费（如回填 fix_plan），report 仍是给人读的全文
+const VERDICT_SCHEMA = {
+  type: 'object',
+  properties: {
+    verdicts: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          id: { type: 'string', description: 'bug 编号，如 #1' },
+          title: { type: 'string' },
+          ruling: { type: 'string', enum: ['TRUE', 'FALSE', 'TRUE-降级', 'TRUE-升级'] },
+          severity: { type: 'string', enum: ['Low', 'Medium', 'Severe'] },
+          reason: { type: 'string' },
+          evidence: { type: 'string', description: 'file:line' },
+        },
+        required: ['id', 'title', 'ruling', 'reason'],
+      },
+    },
+    scores: {
+      type: 'object',
+      properties: {
+        bugHunter: { type: 'number' },
+        adversary: { type: 'number' },
+      },
+      required: ['bugHunter', 'adversary'],
+    },
+    top3ForUser: { type: 'array', items: { type: 'string' }, description: '最需要用户人工确认的 bug（可空）' },
+    report: { type: 'string', description: '完整裁决报告 markdown（按 judge 角色的输出格式）' },
+  },
+  required: ['verdicts', 'scores', 'report'],
+}
+
 const verdict = await agent(
-  `你是裁判（judge）。综合下面两份报告，逐条裁决 TRUE/FALSE，并按 +1/-1 对称规则给两个 Agent 打分。
+  `你是裁判（judge)。综合下面两份报告，逐条裁决 TRUE/FALSE，并按 +1/-1 对称规则给两个 Agent 打分。
 
 ## bug-hunter 报告
 ${bugReport}
@@ -91,11 +124,12 @@ ${bugReport}
 ## adversary 对抗评审
 ${adversaryReport}
 
-输出：
-1. 逐条裁决（#1 TRUE/FALSE + 一句理由）
-2. 评分统计：bug-hunter 得分 / adversary 得分
-3. 需要用户人工确认的 Top 3 bug（如有）`,
-  { agentType: 'judge', phase: '裁决', label: 'judge' }
+要求：
+1. verdicts：逐条裁决（编号/裁决/严重度/理由/file:line 证据）
+2. scores：bug-hunter 与 adversary 各自总分
+3. top3ForUser：最需要用户人工确认的（可空）
+4. report：完整裁决报告 markdown 全文`,
+  { agentType: 'judge', phase: '裁决', label: 'judge', schema: VERDICT_SCHEMA }
 )
 
 return { scope, bugReport, adversaryReport, verdict }

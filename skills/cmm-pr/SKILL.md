@@ -1,11 +1,11 @@
 ---
 name: cmm-pr
-description: 用 tea CLI 给 onlychat 系列 worktree 做 commit→push→PR draft 一条龙编排，支持三档：快冲(low) 单次 Enter 一键梭、轻检(med，默认) 跑 code-review、重检(high) 建 PR 先报 URL 后，后台跑 pr-audit 审查(非阻塞)。commit msg 草稿必给用户审一眼，subject 强制全小写避免 commitlint 翻车。同步默认走 rebase，显式说 merge 才用 merge。commit 后 push 前自动把 target 最新代码前置 rebase 过来（干净无感 / 轻冲突当场解 / 重冲突弹菜单），让 PR 创建即 mergeable。submodule / lockfile / generated 等高敏感路径单独分组高亮。PR 建好后仍自动查 mergeable，§8 降级为竞态兜底。触发词：提pr、cmm-pr、/cmm-pr、commit并PR、提交并PR、提交代码、提交、commit、一把梭、快冲pr、轻检pr、重检pr、开 PR、解冲突rebase、rebase到target。不用于：非 onlychat 项目、agg/agg-tuning worktree、main/master/release 分支。
+description: 用 tea CLI 给 onlychat 系列 worktree 做 commit→push→PR 一条龙编排（默认非草稿，要草稿显式说），支持三档：快冲(low) 单次 Enter 一键梭、轻检(med，默认) 跑 code-review、重检(high) 建 PR 先报 URL 后，后台跑 pr-audit 审查(非阻塞)。commit msg 草稿必给用户审一眼，subject 强制全小写避免 commitlint 翻车。同步默认走 rebase，显式说 merge 才用 merge。commit 后 push 前自动把 target 最新代码前置 rebase 过来（干净无感 / 轻冲突当场解 / 重冲突弹菜单），让 PR 创建即 mergeable。submodule / lockfile / generated 等高敏感路径单独分组高亮。PR 建好后仍自动查 mergeable，§8 降级为竞态兜底。触发词：提pr、cmm-pr、/cmm-pr、commit并PR、提交并PR、提交代码、提交、commit、一把梭、快冲pr、轻检pr、重检pr、开 PR、解冲突rebase、rebase到target。不用于：非 onlychat 项目、agg/agg-tuning worktree、main/master/release 分支。
 ---
 
 # cmm-pr · OnlyChat commit + push + PR 一条龙
 
-把当前 worktree 的改动一气呵成提成 Gitea PR（草稿）。**commit msg 草稿永远给你审一眼**，**默认走 rebase**，**默认 draft**，**快冲档全程只需 1 次 Enter**。
+把当前 worktree 的改动一气呵成提成 Gitea PR。**commit msg 草稿永远给你审一眼**，**默认走 rebase**，**默认非草稿**（普通 open PR、标题干净；要草稿显式说"草稿提pr"），**快冲档全程只需 1 次 Enter**。
 
 数据源：`~/Desktop/cc-memory/onlychat/features.md`（与 cmm-go 共用；`pr_target` 字段定每个 worktree 的默认 PR 目标分支）。
 
@@ -64,7 +64,7 @@ description: 用 tea CLI 给 onlychat 系列 worktree 做 commit→push→PR dra
 | **高档(high)** | 重检pr / 深审pr / high | 同快冲建 PR(先报 URL) → 选审查 → **后台 pr-audit**(不阻塞) | 2 次 |
 
 > 三档**任何一档**走完到 PR 创建后，都会自动跑 §8 mergeable 检测；有冲突弹解冲突菜单（这是 actionable，不是 advisory）。
-> 解冲突子流程 §8.2 单独可触发：用户说"rebase 到 target / 解冲突 rebase / 这 PR 有冲突解一下"时直接进 §8.2，不必从头跑 §0。
+> 解冲突子流程 §8.2 单独可触发：用户说"rebase 到 target / 解冲突 rebase / 这 PR 有冲突解一下"时直接 Read `references/conflict-resolution.md` 进 §8.2，不必从头跑 §0。
 
 ## 主流程
 
@@ -101,7 +101,7 @@ esac
 2. 触发词含 "重检" / "深审" / "high"             → tier=high
 3. 都没匹配                                       → tier=med（默认）
 4. 触发词含 "merge"                              → sync_mode=merge；否则 rebase（默认；memory: feedback_rebase_over_merge）
-5. 触发词含 "非草稿"                              → draft=false；否则 true
+5. 触发词含 "草稿" / "draft" / "wip"              → draft=true；否则 false（**默认非草稿**，普通 open PR，标题无 WIP:）
 ```
 
 在面板顶部显示：`📍 档位: <tier> ／ 同步: <rebase|merge> ／ 草稿: <yes|no>`，并提示「改档位说『快冲pr/重检pr』；要 merge 加『merge』；非草稿加『非草稿』」。
@@ -190,12 +190,12 @@ rebased_to_target=1
 按 rebase 结果分流：
 
 - **干净 replay（无冲突，最常见）** → 无感继续。rebase 后**必重扫 §2 高敏感**（commit replay 把 proto/lockfile/generated 重新带回 staged），再 push。
-- **轻冲突（`conflict_n` ≤ 2 且都是 import 行 / lockfile / 明显并集）** → 不弹菜单，打印一行 `🛑 与 <target> 有 ${conflict_n} 处轻冲突，直接解` → 进 §8.2 逐文件解 → 重扫高敏感 → push。这是一键梭的默认延续，不为它多要一次确认。
+- **轻冲突（`conflict_n` ≤ 2 且都是 import 行 / lockfile / 明显并集）** → 不弹菜单，打印一行 `🛑 与 <target> 有 ${conflict_n} 处轻冲突，直接解` → 进 §8.2 逐文件解（Read `references/conflict-resolution.md`） → 重扫高敏感 → push。这是一键梭的默认延续，不为它多要一次确认。
 - **重冲突（`conflict_n` ≥ 3 / 含 i18n·generated 批量 / 一眼看不出留谁的语义纠缠）** → 先 `git -c core.hooksPath=/dev/null rebase --abort` 回到安全态，打印 `🛑` 行，弹 `AskUserQuestion`：
   - header: "重冲突处理"
   - question: "前置 rebase 到 <target> 撞上 N 处重冲突，怎么办？"
   - options:
-    - `"现在 rebase 解 (Recommended)"` — 重新跑上面的 rebase，进 §8.2 逐文件解
+    - `"现在 rebase 解 (Recommended)"` — 重新跑上面的 rebase，进 §8.2 逐文件解（Read `references/conflict-resolution.md`）
     - `"退回旧行为：先建 PR，留 §8"` — 跳过前置 rebase（`rebased_to_target=0`），直接 push 当前 commit 建 PR，冲突交给 §8 post-PR 流程
     - `"取消"`
 
@@ -204,7 +204,7 @@ rebased_to_target=1
 ```bash
 # 前置 rebase 实际 replay 过（rebased_to_target=1）且分支已在远端 → 历史被重写，必须 --force-with-lease
 if [ "$rebased_to_target" = 1 ] && git rev-parse --verify --quiet "origin/$branch" >/dev/null; then
-  # 先打印 §8.3 的「↻ rebase 重写了 hash」明示（用户看到"强制推送"会问为什么），再推
+  # 先打印 §8.3（references/conflict-resolution.md）的「↻ rebase 重写了 hash」明示，再推
   git push --force-with-lease origin "$branch"
 else
   git push -u origin "$branch"   # 首次 push / 没做 target rebase
@@ -445,126 +445,23 @@ pr_url=$(grep -oE 'https://gitea\.peekaboo\.tech/[^[:space:]]+/pulls/[0-9]+' /tm
 
 **URL 渲染规则**：单独成行、不要套进 markdown code block 反引号（部分终端 hyperlink 不识别），让 iTerm/Warp 等可以 cmd+click 直接打开。同时 `pbcopy` 兜底，应对不支持的终端。
 
-### 8. PR mergeable 检测 + 解冲突子流程
+### 8. PR mergeable 检测 + 解冲突子流程（细节按需加载）
 
-PR 创建后**自动查 mergeable**，不是 advisory 而是 actionable。
+PR 创建后**自动查 mergeable**。§2.2 已在 push 前前置 rebase，本节多数情况一次通过即退出，只兜「前置 rebase 与 PR 创建之间的竞态」和「§2.2 重冲突用户选退回」两种场景。
 
-> ⚠ §2.2 已在 push 前前置 rebase 到 target，所以多数 PR 创建时**本就 mergeable**，本节多数情况一次通过即退出。§8 降级为**兜底**：覆盖前置 rebase 与 PR 创建之间的竞态窗口（target 又被别人推进），以及 §2.2 重冲突时用户选了"退回旧行为"的场景。
-
-#### 8.1. 查 mergeable
-
-```bash
-# 优先 tea pr show；不行就直接打 gitea API
-pr_num=$(echo "$pr_url" | grep -oE '[0-9]+$')
-mergeable=$(tea pr show "$pr_num" --login peekaboo --repo "$repo" --output simple 2>/dev/null \
-  | grep -iE '^mergeable' | awk '{print $NF}')
-
-# 或者 tea pr create 的 stdout 已经包含 "Conflicting files" → 直接当 mergeable=false
-grep -qi 'conflicting files' /tmp/tea-pr-create.log && mergeable=false
-```
-
-`mergeable=false` 或检出 "Conflicting files" 字样 → **先分诊冲突量级，再决定弹不弹菜单**（爆冲档别一律弹，菜单是人工往返，轻冲突直接解更快）：
-
-```bash
-# 数真实冲突文件（merge-tree 纯预演，不动工作区）。注意：只用来「计数」决定走哪条，
-# 别据此编「N 个语义冲突在打架」的叙事——rebase 实际会跳过已合入 commit，真冲突常更少。
-conflict_n=$(git merge-tree --write-tree --name-only "origin/$target" HEAD 2>/dev/null | grep -ic 'CONFLICT')
-```
-
-- **轻冲突（`conflict_n` ≤ 2，且都是 import 行 / lockfile / 明显并集）→ 不弹菜单**，打印一行 `🛑 PR #N 与 <target> 有 ${conflict_n} 处冲突（轻），直接 rebase 解` → **直接进 §8.2 当场解 + §8.3 push**，解完在 §8.4 一句话报「解了哪几处」。这是爆冲的默认延续，不为它多要一次人工确认。
-- **重冲突（`conflict_n` ≥ 3 / 含 i18n·generated 批量 / 一眼看不出该留谁的语义纠缠）→ 才打印 `🛑` 行 + 弹 `AskUserQuestion`**：
-  - header: "解冲突方式"
-  - question: "PR 与 target 有 N 处冲突，怎么处理？"
-  - options：`"现在 rebase 解 (Recommended)"`（进 §8.2）/ `"改走 merge"`（`git merge origin/<target>` 留 merge commit）/ `"留着回头处理"`（汇报 PR URL 后退出）
-
-> 反面教材（2026-06-01 PR #1158→#1159）：merge-tree 预演报 8 个 CONFLICT，我弹了菜单 + 编了「双实现打架」叙事，实际 rebase 自动跳过 2 个已合入 commit，**真冲突只有 1 文件 1 行 import**。轻冲突该直接解，把 12min 压回 5min。
-
-#### 8.2. rebase 解冲突子流程
-
-```bash
-git fetch origin "$target"
-# 硬规则：rebase 全程关钩子（-c core.hooksPath=/dev/null）。否则 rebase --continue
-# 触发 Husky→lint-staged，在「链接式 worktree」里把陈旧 stash 灌进工作区（凭空冒出
-# 别处分支的 atom/测试/WIP），逼出 abort+重跑+诊断，单次坑 ~14min（2026-06-01 PR #1155）。
-git -c core.hooksPath=/dev/null rebase "origin/$target" 2>&1 | tee /tmp/rebase.log
-```
-
-rebase 完成无冲突 → 跳到 §8.3 push。有冲突 → 逐文件处理：
-
-```bash
-conflicts=$(git diff --name-only --diff-filter=U)
-for f in $conflicts; do
-  # 1. 定位冲突区
-  grep -n '<<<<<<<\|=======\|>>>>>>>' "$f"
-  # 2. Read 给用户看
-done
-```
-
-对每个冲突文件，**用人话标注上下侧**（rebase 视角下 `ours/theirs` 跟 merge 是反的，新手 100% 踩）：
-
-```
-冲突: src/i18n/en.json
-  上半段（HEAD / ours，rebase 下=target 侧）：
-    target 分支 feature/lorebook 上别人后加的内容
-  下半段（incoming / theirs，rebase 下=你 commit 这侧）：
-    你这次 commit 9484cc0c5 想加的内容
-
-[a] 全收 target 侧                          # git checkout --ours <file>（rebase 下）
-[b] 全收你 commit 这侧                      # git checkout --theirs <file>（rebase 下）
-[c] 我手动 Edit（用 Read+Edit 解，常见做法是两边都要）
-```
-
-**关键易踩**：rebase 中 `git checkout --ours` 是接受 **target** 的，不是你写的；`--theirs` 才是你的 commit。skill 用人话呈现，不直接暴露 ours/theirs 让用户死记。
-
-解完一个 → `git add <file>` → 下一个。全部解完：
-
-```bash
-GIT_EDITOR=true git -c core.hooksPath=/dev/null rebase --continue   # 关钩子(见 §8.2 顶) + 防 vim 弹窗
-```
-
-**rebase --continue 后必须重新跑一遍 §2 高敏感扫描** —— rebase 把整个 commit replay，submodule pointer / lockfile / generated 又会出现在 staged 区。这是踩过的坑（proto sha 漂移在 rebase 后又跳出来）。
-
-#### 8.3. 解完后 push
-
-push 前**必须打印一行明示**，让用户理解为什么这次是强推（本仓用户踩过——看到 Gitea 事件"从 X 强制推送至 Y"会问"为什么要强推"）：
-
-```
-↻ rebase 重写了 N 个 commit 的 hash（<old_sha7> → <new_sha7>）
-   远端旧 hash 已无效，需 force-with-lease 覆盖
-   （lease 会校验：若远端有别人 commit 会被拒，不是裸 --force）
-```
-
-`<old_sha7>` = rebase 前 `git rev-parse origin/$branch | cut -c1-7`，`<new_sha7>` = rebase 后 `git rev-parse HEAD | cut -c1-7`；N = `git rev-list --count origin/$branch..HEAD` 之类。打印完直接执行：
-
-```bash
-git push --force-with-lease origin "$branch"
-```
-
-**硬规则**：rebase 重写历史后 push **必须 `--force-with-lease`，绝不裸 `--force`**。lease 检查失败（远端有别人 commit）→ 停下报：
-
-```
-⚠ force-with-lease 拒绝：远端 <branch> 有别人未拉取的 commit
-   可能是你另一个 worktree 已经 push 过、或多人共用此分支
-   先 git fetch origin <branch> + git log 看看，再决定是否真的 --force
-```
-
-不要自动升级到 `--force`。
-
-#### 8.4. 汇报
-
-```
-✓ rebase 完成（解了 N 个冲突文件: src/i18n/en.json, ...）
-✓ force-with-lease push 成功
-✓ PR #1234 已自动重新检测
-  <pr_url>
-```
+- mergeable=true → 直接汇报 PR URL，本节结束
+- mergeable=false / stdout 出现 "Conflicting files" → **Read `references/conflict-resolution.md`，按其中 §8.1-8.4 执行**。速记硬规则（细节以该文件为准）：
+  - 轻冲突（≤2 处、import/lockfile 类）不弹菜单直接解；重冲突才弹 AskUserQuestion
+  - rebase 全程 `-c core.hooksPath=/dev/null`（Husky 灌陈旧 stash 的 14min 坑）
+  - rebase 重写历史后 push 一律 `--force-with-lease`，绝不裸 `--force`
+  - `rebase --continue` 后必须重跑 §2 高敏感扫描（submodule/lockfile 会再次冒出）
 
 ## 同步策略
 
 - **默认 rebase**（memory: feedback_rebase_over_merge）：落后自己远端时 `git pull --rebase`
 - 用户触发词含 `merge` → `git pull`（生成 merge commit），仅当用户显式声明
 - 落后 `origin/$target` → **commit 后、push 前自动前置 rebase 到 target**（§2.2）；§8 降级为兜底（前置 rebase 与 PR 创建间的竞态窗口，或 §2.2 重冲突时用户选择退回旧行为）
-- **rebase 重写历史后 push 一律 `--force-with-lease`**，绝不裸 `--force`（见 §8.3）
+- **rebase 重写历史后 push 一律 `--force-with-lease`**，绝不裸 `--force`（见 references/conflict-resolution.md §8.3）
 
 ## 边界
 
@@ -572,21 +469,10 @@ git push --force-with-lease origin "$branch"
   - 快冲档：审 msg 的同一个面板也包含 push 确认，[Enter] 一键
   - 中/高档：分两/三次确认
 - agg / agg-tuning 永远不提（memory: feedback_agg_readonly）
-- 默认 draft；触发词加 `非草稿` 去掉
+- **默认非草稿**（普通 open PR，标题无 WIP:，可直接合）；要草稿显式加 `草稿` / `draft` / `wip`（Gitea 草稿 = 标题 `WIP:` 前缀）
 - target 默认 develop；features.md 显式 `pr_target` 优先；`pr_target: none` 直接拦下
 - 改这个 skill 默认只自用（memory: feedback_skill_personal_only）
 
-## 故障排查
+## 故障排查（细节按需加载）
 
-- `tea: command not found` → `brew install tea`
-- `tea pr create` 401 → token 过期 / 权限不够 → 重新 `tea login add`
-- **commitlint 拒 subject**：草稿已强制全小写；若 user 改 msg 手抖加大写词（Figma / NotesSearchBar 等），重新 Edit 重提
-- **tea CLI flag 漂移**：见 §7，必须运行时 `--help` 探测，别按"备忘"硬拼（如 `--head`）。**`--draft` 不是漂移——Gitea 没有这个 flag**；草稿走标题 `WIP:` 前缀（§7），别再让用户手动 Convert to draft
-- **tea `path segment [0] is empty`**：SSH remote 解析不出 owner/repo → §7 默认带 `--repo`（从 `git config remote.origin.url` 解析）
-- 远端没分支 → `git push -u` 一并建好
-- PR 已存在同分支 → tea 报错；网页关旧 PR 或继续干旧 PR
-- code-review 跑完 user 改了文件 → 跑后再 `git status`，dirty 时停下让 user 决定 amend / 新 commit / 撤回
-- `git pull --rebase` 冲突 → 进 §8.2 解冲突子流程（不要让 user 自己手撸）
-- **rebase --continue 后 staged 区出现 submodule/lockfile** → 这是 commit replay 把高敏感路径再次带出来，**必须重跑 §2 高敏感扫描**再继续 push
-- **force-with-lease 拒绝**：远端有别人 commit → 不要自动升级到 `--force`，停下让 user 排查（可能是另一个 worktree 已 push、多人共用分支等）
-- **链接式 worktree rebase 时凭空冒出别处分支的内容**（atom/测试/WIP，不在任何 commit、不是 user 改的）→ 是 Husky/lint-staged 在 `rebase --continue` 时把陈旧 stash 灌进工作区。**根治：§8.2 全程 `-c core.hooksPath=/dev/null`**。已发生就 abort → 关钩子重跑；残留 untracked 文件挪 `~/.Trash`（别 rm），tracked 的幽灵改动 abort 会清掉。（2026-06-01 PR #1155，单次坑 14min）
+遇到任何报错/异常 → **Read `references/troubleshooting.md`**（12 条：tea CLI flag 漂移 / 401 / commitlint 拒 subject / rebase 幽灵内容 / force-with-lease 拒绝 / staged 区复现高敏感路径等）。

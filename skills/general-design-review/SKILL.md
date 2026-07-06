@@ -136,57 +136,9 @@ Match the method to the product stage:
 
 Common warning: what users say and what users do often diverge. Use behavioral evidence when behavior matters.
 
-## Personas, Empathy, Journeys, And Storyboards
+## Personas, Empathy, Journeys, And Storyboards（按需加载）
 
-Use these artifacts only when they clarify design decisions.
-
-### Personas
-
-Personas should be research-grounded user archetypes, not imagined demographics. Keep:
-
-- Goals
-- Frustrations
-- Current behaviors
-- Context of use
-- Design-relevant constraints
-
-Cut details that would not change a product decision.
-
-### Empathy Maps
-
-Use empathy maps to synthesize qualitative research:
-
-- **Says**: user language and quotes
-- **Thinks**: beliefs, doubts, assumptions
-- **Does**: observable behavior
-- **Feels**: emotional state and reason
-
-The most useful insights often come from contradictions, such as users saying they are satisfied while behaving as if they are frustrated.
-
-### Journey Maps
-
-Use journey maps for a specific actor trying to accomplish a specific goal over time. Include:
-
-- Actor
-- Scenario and expectation
-- Phases
-- Actions
-- Mindsets
-- Emotional highs and lows
-- Opportunities
-
-One journey map should represent one point of view. If there are multiple user types, create separate maps.
-
-### Storyboards
-
-Use storyboards when the team needs a visual sequence of a user scenario. Keep them narrow:
-
-- One persona
-- One scenario
-- One path
-- A few panels showing action, context, and emotion
-
-Low fidelity is fine. The story matters more than polished art.
+评审对象是 persona / empathy map / journey map / storyboard 这类研究产物，或用户要产出一份时 → **Read `references/frameworks.md`**（四种框架的完整评审要点与常见病）。速记：persona 要行为锚定而非人口学拼贴；journey map 的价值在跨阶段情绪落差点；storyboard 只画关键决策帧。
 
 ## Prioritization
 

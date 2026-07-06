@@ -87,11 +87,13 @@ const ANGLES = [
   },
 ]
 
-// ─── Phase 1：三路并行起草 ───
-phase('三路起草')
+// ─── 起草 → 去AI味：按角度独立流水（pipeline，无 barrier）───
+// 每路写完立刻去AI味，不等最慢一路；只有最后对比才真正需要三路齐。
+// pipeline 把 angle 原样传给第二段，顺带修掉旧版 filter(Boolean) 后下标错位配错角度的 bug。
 
-const drafts = await parallel(
-  ANGLES.map(angle => () =>
+const polished = await pipeline(
+  ANGLES,
+  angle =>
     agent(
       `你是小红书内容专家，以卡兹克风格生成一条 XHS 9 宫格图文帖草稿。
 
@@ -139,16 +141,10 @@ ${FORBIDDEN_RULES}
 **帖子正文**:
 （150~300 字，第一行是标题候选1，口语化，最后附 hashtag）`,
       { label: `draft:${angle.key}`, phase: '三路起草' }
-    )
-  )
-)
-
-// ─── Phase 2：三路并行去AI味 ───
-phase('去AI味')
-
-const polished = await parallel(
-  drafts.filter(Boolean).map((draft, i) => () =>
-    agent(
+    ),
+  (draft, angle) => {
+    if (draft == null) return null
+    return agent(
       `你是去AI味专家。对以下小红书草稿逐句扫描，把所有机器腔改成人话。
 
 ${FORBIDDEN_RULES}
@@ -158,55 +154,58 @@ ${FORBIDDEN_RULES}
 2. 检查每张卡片：有没有「凭什么证明 / 常见坑 / 值得关注 / 核心要点」这种模板标签 → 改成「我后来发现 / 真正卡住的是 / 这一步会劝退很多人」这种人话判断
 3. 检查标点规则（破折号/句中冒号/双引号）
 
-## 草稿原文（${ANGLES[i]?.label || ''}）
+## 草稿原文（${angle.label}）
 ${draft}
 
 ## 输出
 改后全文（保持原格式），每处变动在行尾加 【改】 标注。
 最后一行输出：「共改 X 处」`,
-      { label: `polish:${ANGLES[i]?.key || i}`, phase: '去AI味' }
-    )
-  )
+      { label: `polish:${angle.key}`, phase: '去AI味' }
+    ).then(text => ({ angle, text }))
+  }
 )
 
-// ─── Phase 3：汇总对比 ───
-phase('汇总')
+// ─── 汇总对比（真 barrier：确实需要三路齐）───
 
 const validPolished = polished.filter(Boolean)
-const sections = validPolished.map((p, i) => {
-  const angle = ANGLES[i] || { label: `角度${i + 1}` }
-  return `## 草稿 ${String.fromCharCode(65 + i)}（${angle.label}）\n${p}`
-}).join('\n\n---\n\n')
+const sections = validPolished.map((x, i) =>
+  `## 草稿 ${String.fromCharCode(65 + i)}（${x.angle.label}）\n${x.text}`
+).join('\n\n---\n\n')
 
-const report = await agent(
+const COMPARE_SCHEMA = {
+  type: 'object',
+  properties: {
+    recommended: { type: 'string', description: '推荐的草稿字母，如 A' },
+    why: { type: 'string', description: '1-2 段：为什么这路最适合这份素材，结合素材特点' },
+    scores: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          route: { type: 'string' },
+          angle: { type: 'string' },
+          hook: { type: 'string', description: '封面钩子摘要' },
+          collectPotential: { type: 'integer', minimum: 1, maximum: 5 },
+          commentPotential: { type: 'integer', minimum: 1, maximum: 5 },
+        },
+        required: ['route', 'angle', 'hook', 'collectPotential', 'commentPotential'],
+      },
+    },
+    report: { type: 'string', description: '面向用户的完整对比报告 markdown（含三份完整草稿全文）' },
+  },
+  required: ['recommended', 'why', 'scores', 'report'],
+}
+
+const compare = await agent(
   `你是小红书内容编辑，帮用户从三路草稿里选出最适合发布的那路。
 
 ${sections}
 
-## 输出格式
-
-### 三路对比一览
-| 路 | 角度 | 封面钩子（摘要） | 适合场景 | 预计收藏率 | 预计评论互动 |
-|---|---|---|---|---|---|
-| A | 科普向 | ... | ... | ⭐⭐⭐ | ⭐⭐ |
-| B | 单点向 | ... | ... | ... | ... |
-| C | 故事向 | ... | ... | ... | ... |
-
-### 推荐选哪路
-（1~2 段话：为什么这路最适合这份素材，结合素材特点说，不要泛泛而谈）
-
-### 草稿 A — 科普向（完整版）
-（完整粘贴草稿 A 的去AI味后版本）
-
-### 草稿 B — 单点向（完整版）
-（完整粘贴草稿 B）
-
-### 草稿 C — 故事向（完整版）
-（完整粘贴草稿 C）
-
-### 下一步
-用户确认选哪路后，用 references/xiaohongshu_template.html 生成 HTML 文件落到 ~/Desktop/archives/小红书/MM.DD-<标题>.html`,
-  { label: 'assemble', phase: '汇总' }
+## 要求
+- scores：每路给封面钩子摘要 + 收藏潜力/评论互动潜力（1-5 整数）
+- why：结合素材特点说，不要泛泛而谈
+- report：面向用户的完整 markdown 报告，结构为「三路对比一览表 → 推荐选哪路 → 草稿 A/B/C 完整版全文 → 下一步（用户确认后用 references/xiaohongshu_template.html 生成 HTML 落到 ~/Desktop/archives/小红书/MM.DD-<标题>.html）」`,
+  { label: 'assemble', phase: '汇总', schema: COMPARE_SCHEMA }
 )
 
-return report
+return compare
