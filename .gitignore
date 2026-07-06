@@ -13,6 +13,11 @@
 !/design-spec/
 !/CLAUDE.md
 !/RTK.md
+!/model-dispatch.md
+!/judgment-rubrics.md
+!/delegation-templates.md
+!/harness-maintenance.md
+!/CLAUDE.md.proposed.md
 !/settings.json
 !/statusline-command.sh
 !/mcp-servers.json
