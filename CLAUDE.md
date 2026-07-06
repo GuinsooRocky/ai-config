@@ -32,6 +32,15 @@
 
 ---
 
+## 模型调度与判断（制度文件，2026-07-06 Fable 立法）
+
+- 派子 agent / 选 model / 验收升降级 → 先读 `~/.claude/model-dispatch.md`
+- 拿不准"算不算完成 / 该不该问用户 / 该不该换路" → 查 `~/.claude/judgment-rubrics.md`
+- 派工 prompt 直接套 `~/.claude/delegation-templates.md` 的模板（T1 搜索 / T2 实作 / T3 重构 / T4 研究 / T5 审查）
+- 改以上制度文件前，先读 `~/.claude/harness-maintenance.md` 的权限分层
+
+---
+
 ## Andrej Karpathy Coding Guidelines
 
 Behavioral guidelines to reduce common LLM coding mistakes.
