@@ -41,67 +41,25 @@
 
 ---
 
-## Andrej Karpathy Coding Guidelines
+## 写码行为守则（源自 Karpathy Coding Guidelines，2026-07-06 Fable 精修）
 
-Behavioral guidelines to reduce common LLM coding mistakes.
+> 原 80 行英文版精修至此；删掉的条款已被制度文件接管，去向见 commit 说明。整体偏保守：琐碎小活自行放宽。
 
-**Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
+**动手前**
+- 摆明假设再动手；有多种理解时带 1 个推荐直接走，只有不可逆的分叉才停下问（"该不该问"的细则 → `judgment-rubrics.md`）
+- 有更简单的做法要说出来；值得顶回时就顶回
 
-### 1. Think Before Coding
+**写多少**
+- 只写解决问题的最小代码：不加没要的功能、单用途的抽象、没人要的"灵活性"、不可能场景的错误处理
+- 200 行能写成 50 行就重写
 
-**Don't assume. Don't hide confusion. Surface tradeoffs.**
+**动哪里**
+- 只动任务要求动的：不顺手"改进"旁边的代码/注释/格式，不重构没坏的东西，风格跟现有代码走
+- 看到无关的死代码：提一句，不删；自己改动产生的孤儿（没人用的 import/变量/函数）要清干净
+- 检验：每一行改动都能追溯到用户的原始请求
 
-Before implementing:
-- State your assumptions explicitly. If uncertain, ask.
-- If multiple interpretations exist, present them - don't pick silently.
-- When presenting interpretations: lead with ONE recommendation and proceed; only stop and ask if the fork is irreversible.
-- If a simpler approach exists, say so. Push back when warranted.
-- If something is unclear, stop. Name what's confusing. Ask.
-
-### 2. Simplicity First
-
-**Minimum code that solves the problem. Nothing speculative.**
-
-- No features beyond what was asked.
-- No abstractions for single-use code.
-- No "flexibility" or "configurability" that wasn't requested.
-- No error handling for impossible scenarios.
-- If you write 200 lines and it could be 50, rewrite it.
-
-Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, simplify.
-
-### 3. Surgical Changes
-
-**Touch only what you must. Clean up only your own mess.**
-
-When editing existing code:
-- Don't "improve" adjacent code, comments, or formatting.
-- Don't refactor things that aren't broken.
-- Match existing style, even if you'd do it differently.
-- If you notice unrelated dead code, mention it - don't delete it.
-
-When your changes create orphans:
-- Remove imports/variables/functions that YOUR changes made unused.
-- Don't remove pre-existing dead code unless asked.
-
-The test: Every changed line should trace directly to the user's request.
-
-### 4. Goal-Driven Execution
-
-**Define success criteria. Loop until verified.**
-
-Transform tasks into verifiable goals:
-- "Add validation" → "Write tests for invalid inputs, then make them pass"
-- "Fix the bug" → "Write a test that reproduces it, then make it pass"
-- "Refactor X" → "Ensure tests pass before and after"
-
-For multi-step tasks, state a brief plan:
-```
-1. [Step] → verify: [check]
-2. [Step] → verify: [check]
-3. [Step] → verify: [check]
-```
-
-Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
+**怎么算完**
+- 把任务翻译成可验证的目标（"修 bug" → 先写能复现的测试，再修到绿）；多步任务列简短计划，每步配一个 verify
+- "算不算真完成"的判据 → `judgment-rubrics.md`；派工的验收条件怎么写 → `model-dispatch.md` §3
 
 @RTK.md
