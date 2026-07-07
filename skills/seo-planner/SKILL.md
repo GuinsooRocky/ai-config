@@ -1,12 +1,24 @@
 ---
 name: seo-planner
-description: 个人项目 SEO 规划一条龙入口——先对话收集约束（标的项目/市场语言/变现假设/每周投入/现有资产），约束确认后用 Workflow 扇出调研（关键词模式×SERP 现状并行侦察、竞品页面拆解、机会逐条对抗验证），最后合成带优先级的可落地方案（URL 结构/页面模板/质量线/30-60 天执行日历）回主对话拍板。覆盖编辑型 topic cluster 与数据×模板 pSEO 两种打法。触发词："SEO 规划"、"做 SEO"、"SEO 方案"、"关键词矩阵"、"topic cluster"、"pSEO"、"程序化 SEO"、"批量页面"、"给 XX 项目做 SEO"、"seo-planner"。不用于：已有页面的技术体检（用 web-quality-audit / performance / core-web-vitals）、单页 meta/JSON-LD 落码（临场直接写）、站内文案写作（xhs-writer）。
+description: 个人项目 SEO 规划一条龙入口——先对话收集约束（标的项目/市场语言/变现假设/每周投入/现有资产），约束确认后用 Workflow 扇出调研（关键词模式×SERP 现状并行侦察、竞品页面拆解、机会逐条对抗验证），方案判断接地于本地 SEO 知识库（哥飞×英文大牛双路对照，已证伪战术自动枪毙），最后合成带优先级的可落地方案（URL 结构/页面模板/质量线/GEO 专项/待实验项/30-60 天执行日历）回主对话拍板。覆盖编辑型 topic cluster 与数据×模板 pSEO 两种打法。触发词："SEO 规划"、"做 SEO"、"SEO 方案"、"关键词矩阵"、"topic cluster"、"pSEO"、"程序化 SEO"、"批量页面"、"给 XX 项目做 SEO"、"GEO 规划"、"AI 引用"、"被 AI 引用/推荐"、"AI 搜索优化"、"seo-planner"。不用于：已有页面的技术体检（用 web-quality-audit / performance / core-web-vitals）、单页 meta/JSON-LD 落码（临场直接写）、站内文案写作（xhs-writer）。
 ---
 
 # seo-planner — 个人项目 SEO 规划
 
 架构：**skill 对话收约束 → Workflow 确定性扇出调研 → 方案回主对话拍板 → 存盘**。
 工人 agent 全部内联在下方脚本里，不注册独立 agent 文件。
+
+## 知识库接地
+
+方案不是凭空调研，本地已收口一份 SEO 知识库，三条路径按需读：
+
+- **通用真相层**：`~/Desktop/archives/seo/对照与实验/哥飞vs大牛-对照表.md`（哥飞小册 vs 英文大牛双路对照：印证/冲突裁定/单边空白）——**方案合成前必读**；已决裁定不许在方案里翻案
+- **实验格式标杆**：`~/Desktop/archives/seo/对照与实验/待实验清单.md`——只学它的格式（每条=可机械判定判据+成本+时点+优先级），内容是 soliloquy 专属，别照抄进其他项目
+- **深挖入口**：`~/Desktop/archives/seo/notes/`（28 份大牛博客+播客 notes，按需加载，不必全读）
+
+两条规则：
+1. 方案中任何与对照表"证据已决"区冲突的建议＝违规，合成后自查一遍
+2. "证据不足以裁"的两路冲突 → 进方案待实验项，不站队
 
 ## 何时使用
 
@@ -72,7 +84,15 @@ const CTX = `SEO 调研背景：
 - 变现假设：${C.monetization}
 - 每周可投入：${C.weekly_hours} 小时；可接受见效周期：${C.horizon}
 - 现有资产：${C.existing_site}
-通用纪律：所有判断必须带 SERP 证据（WebSearch 实查）；不编造搜索量数字，只用可观察信号描述（autocomplete 是否补全、有无 PAA/相关搜索、首页被谁占、什么内容形态在赢）。`
+通用纪律：所有判断必须带 SERP 证据（WebSearch 实查）；不编造搜索量数字，只用可观察信号描述（autocomplete 是否补全、有无 PAA/相关搜索、首页被谁占、什么内容形态在赢）。
+
+已决裁定（SEO 知识库 2026-07-07 收口，方案建议违反下列任一条即无效）：
+- schema 对 AI 引用无增益（1885 页 DiD 实验≈0，5 家 AI 系统不读 JSON-LD），只当卫生要求半天上限；FAQ 富结果 Google 已基本停支持
+- link velocity/外链"自然节奏"=Google 官方否认的伪概念（Illyes "made-up term"）；外链风险在质量与自然度，不在速度
+- GEO=SEO 延伸+一层，同一份产能：ChatGPT 88% 引用先经搜索命中、AIO 引用大头仍在 Google 前 100——排名是 AI 引用的上游
+- AI 内容红线=无人工审批关卡的批量生产，不是"是否用 AI"（2026 双核心更新口径）
+- llms.txt 已证伪（13.7 万域名 97% 零请求，Google 官方不支持）
+- ChatGPT 仅 34.5% query 联网；Instant/Thinking 引用池重叠仅 25.6%——押单一引用池（如只做 Reddit）要打折`
 
 const CAND_SCHEMA = {
   type: 'object', required: ['candidates'],
@@ -80,7 +100,7 @@ const CAND_SCHEMA = {
     required: ['pattern', 'mode', 'example_queries', 'demand_evidence', 'competition', 'gap'],
     properties: {
       pattern: { type: 'string', description: '查询模式或 topic' },
-      mode: { type: 'string', enum: ['pseo', 'editorial'] },
+      mode: { type: 'string', enum: ['pseo', 'editorial', 'geo'] },
       example_queries: { type: 'array', items: { type: 'string' } },
       demand_evidence: { type: 'string' },
       competition: { type: 'string' },
@@ -98,7 +118,7 @@ const VERDICT_SCHEMA = {
   type: 'object', required: ['keep', 'confidence', 'reason'],
   properties: { keep: { type: 'boolean' }, confidence: { type: 'number' }, reason: { type: 'string' } },
 }
-const PLAN_SCHEMA = { type: 'object', required: ['plan_md'], properties: { plan_md: { type: 'string' } } }
+const PLAN_SCHEMA = { type: 'object', required: ['plan_md'], properties: { plan_md: { type: 'string', description: '硬性含 GEO 专项段与待实验项章节，缺一不可' } } }
 
 phase('Research')
 const scoutTasks = C.pattern_families.map(f => () => agent(
@@ -112,7 +132,11 @@ const editorialTask = () => agent(
   `${CTX}
 你是编辑型选题侦察员，不限于模板化模式。找 3-5 个值得做 pillar 页/内容集群的 topic（教程、对比、选购指南类），逐个用 WebSearch 验证需求信号与竞争度，mode 一律标 editorial。`,
   { label: 'scout:editorial', phase: 'Research', schema: CAND_SCHEMA })
-const found = await parallel([...scoutTasks, editorialTask])
+const geoTask = () => agent(
+  `${CTX}
+你是站外引用池侦察员，用 WebSearch 摸清该赛道 AI 引擎常引的站外阵地：有哪些高流量榜单/评测站？Reddit/Quora 有没有活跃的求荐类 thread？有没有行业目录/资源聚合页可申请收录？产出 2-4 个候选机会，每个带证据、竞争度、可打的缺口；mode 一律标 geo。`,
+  { label: 'scout:geo', phase: 'Research', schema: CAND_SCHEMA })
+const found = await parallel([...scoutTasks, editorialTask, geoTask])
 const raw = found.filter(Boolean).flatMap(r => r.candidates)
 const seen = new Map()
 for (const c of raw) { const k = c.pattern.toLowerCase(); if (!seen.has(k)) seen.set(k, c) }
@@ -136,6 +160,7 @@ const judged = await parallel(candidates.map((c, i) => () => agent(
 2. 零权重新站打得进吗——首页是否被高权重大站垄断
 3. thin content 风险——批量生成后每页有模板外独有价值吗
 4. 养得起吗——每周 ${C.weekly_hours}h 投入下这条线能维持吗
+5. 对照 CTX 里的已决裁定——候选若依赖已证伪战术（schema 拉 AI 引用/按节奏买链/llms.txt/FAQ 富结果），直接 keep=false，reason 写明"违反已决：xxx"
 全部扛住才 keep=true；confidence 0-1；reason 中文一两句。`,
   { label: `verify:${(c.pattern || '').slice(0, 24)}`, phase: 'Verify', schema: VERDICT_SCHEMA })
   .then(v => v ? { ...c, verdict: v } : null)))
@@ -150,13 +175,15 @@ const plan = await agent(
 竞品拆解：${JSON.stringify(teardown)}
 已枪毙（不许在方案中复活）：${JSON.stringify(killed.map(k => ({ pattern: k.pattern, reason: k.verdict.reason })))}
 
-你是 SEO 方案合成师，产出可直接执行的 markdown 方案（plan_md），必须包含：
+你是 SEO 方案合成师，产出可直接执行的 markdown 方案（plan_md），必须包含（第 7、8 条硬性要求，缺一不可）：
 1. 机会优先级表（P0/P1/P2，每条带证据等级与预期角色）
-2. 站点架构：URL 结构（hub/spoke）、pSEO 模板页字段清单、editorial pillar 页清单
-3. 质量线硬规则：每页模板外独有价值是什么；低于线宁可合并不发（防 doorway 惩罚）
+2. 站点架构：URL 结构（hub/spoke）、pSEO 模板页字段清单、editorial pillar 页清单、技术基线体检清单（AI 爬虫显式放行——CDN 默认拦是新常态 / initial HTML 不渲染 JS 可读 / 动态路由 canonical / CWV 三阈值 / sitemap+GSC）
+3. 质量线硬规则：每页模板外独有价值是什么；低于线宁可合并不发（防 doorway 惩罚）；可引用密度句式（首段 30 字直答、H2 先给可摘录结论、统计/定义/对比/步骤四类句式）；篇幅由目标词 SERP 前排均字数决定不设教条；AI 辅助写作必须有人工审批关卡
 4. 30-60 天执行日历——严格对齐每周 ${C.weekly_hours}h，宁可砍范围不画大饼
 5. 现有资产为"${C.existing_site}"：若无站点，给第 0 步基建段（Next.js + SSG 起站清单）
-6. 衡量方式：上线后看什么信号（GSC 曝光/点击/收录）、何时复盘调向`,
+6. 衡量方式：上线后看什么信号（GSC 曝光/点击/收录）、何时复盘调向
+7. GEO 专项段（硬性）：三轨结构——UGC/社区轨、官方文档轨（高推理模式吃官方页）、第三方背书轨（评测站 profile/目录收录/榜单）；branded 问答 own-your-answers 优先
+8. 待实验项章节（硬性，缺了方案不合格）：存疑/冲突/新战术逐条列，每条带可机械判定判据+成本+时点，格式参照待实验清单.md`,
   { label: 'synthesize', phase: 'Synthesize', schema: PLAN_SCHEMA })
 
 return {
@@ -177,7 +204,7 @@ return {
 
 最终交付必须是两样，缺一不可：
 
-1. **主对话方案呈现**：机会优先级表（P0/P1/P2）+ 被枪毙清单及理由 + 证据等级标注——必须区分"SERP 实查"与"推断"；每个 P0 必须附 example_queries 供用户自行搜索复核
+1. **主对话方案呈现**：机会优先级表（P0/P1/P2）+ 被枪毙清单及理由 + 证据等级标注——五档：大样本研究/官方文档/作者实测/个人经验/推测；厂商数据（Ahrefs/Semrush 等自家研究）必须标"利益相关"；每个 P0 必须附 example_queries 供用户自行搜索复核
 2. **确认后的存盘文件**：`~/Desktop/archives/SEO/MM.DD-<项目>-SEO方案.md` = plan_md 全文 + 约束快照（args JSON）+ 枪毙清单
 
 不要只给结论不给证据；不要在用户确认前存盘。
@@ -187,3 +214,4 @@ return {
 - 约束没收齐不许跑 Workflow；跑完没呈现给用户不许存盘
 - 每个机会必须带 SERP 证据；查不到证据的标"假设待验证"，不许混进 P0
 - 方案规模对齐 weekly_hours，超出投入能力的机会进 P2/backlog，不画大饼
+- 方案没有"待实验项"章节不许交付（学≠会）
