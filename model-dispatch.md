@@ -46,14 +46,15 @@ Agent 工具 `model` 参数只认这四个别名（完整 ID 供写文档引用�
 **effort 事实（2026-07-06 核对，别写反）**：
 - **Agent 工具没有 `effort` 参数**，只有 `model`。在 Agent 调用里传 effort 会失败。
 - effort（`low`/`medium`/`high`/`xhigh`/`max`）只有两个落点：Workflow 脚本里 `agent()` 的 opts，和 `.claude/agents/*.md` frontmatter。
-- 省略 `model` = 子 agent 继承主会话模型，**这通常是对的**；只有任务明确匹配下表才显式指定。
+- **派工时显式写 `model`（按下表选），别靠省略继承**。继承只在主会话档位 ≥ 任务所需档时才可接受；实测反复翻车：主会话是 sonnet，派调研/实作的子 agent 沿用 sonnet，用户中途叫停换 opus。**档位拿不准时往上取 opus，别往下省。**[2026-07-10 一日多起沿用主模型被叫停 + onlychat 测试战役三次纠偏]
 
 任务型态 → 选型速查：
 
 | 任务型态 | model | effort（仅 Workflow / frontmatter 可给时） |
 |---|---|---|
 | 批量套已解出的模式 / 格式转换 / 机械提取 | `haiku` | low |
-| 日常搜索 / 读取 / 实作 / 写码 | `sonnet`（或省略继承） | medium |
+| 日常搜索 / 读取 / 简单实作 | `sonnet` | medium |
+| 调研 / 竞品研究 / 实作写码 / 扫描审计 | `opus`（本用户实测偏好，比通用档位激进） | high |
 | 复杂架构 / 难 bug / 跨模块 / 评审裁决 | `opus` | high |
 | 最终对抗验证 / 多答案评审选优 | `opus` | xhigh |
 
