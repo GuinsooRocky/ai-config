@@ -15,4 +15,4 @@ metadata:
 - 每行改动都要能追溯到报告里出现过的现象；追溯不到 = 越界，删掉或单独拎出来问。
 - "顺手把 B/C 一起覆盖了"是危险信号不是周到 —— 多覆盖那条路你没验证过，常成下一个 bug。
 - 想扩范围时显式拆出来："报告只有 A，我打算同时防 B，要不要？"让用户拍，别静默扩。
-- 同源：CLAUDE.md Karpathy "Surgical Changes"；相关 [[feedback-runtime-bug-dont-loop-static]]、[[feedback-comments-not-ground-truth]]、[[feedback-frontend-empty-vs-blank]]
+- 同源：CLAUDE.md Karpathy "Surgical Changes"；相关 [[feedback_runtime_bug_dont_loop_static]]、[[feedback-comments-not-ground-truth]]、[[feedback-frontend-empty-vs-blank]]

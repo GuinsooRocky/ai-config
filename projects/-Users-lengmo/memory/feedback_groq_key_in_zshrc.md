@@ -3,7 +3,7 @@ name: feedback_groq_key_in_zshrc
 description: GROQ_API_KEY 在 ~/.zshrc（仅交互式 shell）；非交互 Bash 工具读不到→401，要从 .zshrc 抠出来
 metadata: 
   node_type: memory
-  type: project
+  type: reference
   originSessionId: ae6c2eee-eb3c-4fe2-930e-8582aaa61f16
 ---
 

@@ -13,4 +13,6 @@ rtk hook 会把 `git status` / `git diff --stat` 等输出做 token 摘要，**�
 
 **How to apply:** 涉及暂存/提交/push 前，git ground truth 一律走 `git -c core.pager=cat status --porcelain=v1`（拿全量文件列表）或 `rtk proxy git <cmd>`（跑未过滤的原始命令，如 `rtk proxy git show <sha> -- <path>` 拿完整 diff）。不要相信 rtk 摘要后的 `--stat` / diff 输出做范围判断。
 
+**过时提醒（2026-06-26 起）**：见 [[reference_rtk_smart_gateway]]——精度命令（含 git）现在默认裸跑不经 rtk 改写，本文件的 porcelain/proxy 绕路多数场景已不需要，只有显式 `#rtk` 强制走 rtk 时才用得上。
+
 关联 [[feedback_commit_policy]]

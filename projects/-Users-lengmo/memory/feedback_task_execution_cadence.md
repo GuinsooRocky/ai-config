@@ -11,6 +11,8 @@ metadata:
 
 实现型任务（加功能 / 改交互 / 重构）动手写代码前，**先讲清：改哪些文件、关键决策点、不改什么**，等用户确认才动 Edit/Write。调研 / 读代码定位可以先做不用问。trivial 小改或用户明说"直接做"才跳过。
 
+**用户说"等我详细说"= 需求还没给完，停下听**（2026-07-11 自动点击脚本）：用户答了"等我详细说了你在做"，我仍抢跑搭了骨架 + 甩 TODO 模板让用户填，被纠正"先了解需求"。正确姿势：需求没讲完时不写码、不发结构化选择题让用户套我的猜测，等用户把需求描述完再动。"骨架无害可逆"不构成抢跑理由——用户要的是先被倾听。
+
 ## 过程中：自动推进，里程碑汇报
 
 多 step 流程（fe-workflow / pageforge / dream-run / 审计 / 演进改造 / 长任务）：
@@ -37,4 +39,4 @@ metadata:
 
 **Why**：fe-workflow 原版要求每 step 确认，2026-05-15 用户覆盖为全自动跑、中途只看总结；"先出方案"来自用户原话。2026-06-12 用户质问"改个 icon 到底花了多少时间多少 token"——小活的调研/验证 overhead 一半是浪费（矢量逆向、重复 grep、全量 tsc），故加分级档。配合 CLAUDE.md Karpathy "Think Before Coding"，但 LLM 默认会过度验证 — 这条做力度闸。
 
-相关：[[project_onlychat]]、[[feedback_worldcard_worktree]]、[[feedback-just-do-no-stop-suggestions]]
+相关：[[project_onlychat]]、[[feedback_worldcard_worktree]]、[[feedback_just_do_no_stop_suggestions]]

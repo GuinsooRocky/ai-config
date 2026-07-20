@@ -7,7 +7,7 @@ metadata:
   originSessionId: 1cc6bcf6-c730-45e8-a4ad-ca13b7e307eb
 ---
 
-daily-recap 已转无人值守 cron（见 [[project_daily_recap_automation]]），不再每日人工调稿、**不要做 promote/喂回样本的命令**。反馈走口头：
+daily-recap 是**触发式 + 断档自动回补**（说"每日复盘"时补写缺的天；无 cron——launchd 里只有 memory-audit / skill-mining 两个任务，2026-07-06 核实），不做 promote/喂回样本的命令。反馈走口头：
 
 - 用户说「**今日总结反馈 xxx**」（一长串自然语言纠正）→ 我负责当场把它消化进 skill：改 `SKILL.md` 规则，或顺手修一份 `ref/samples/` 样本。用户只管说，不管存哪。
 - 同时把这次反馈追加一笔到 `~/.claude/skills/daily-recap/ref/feedback-log.md`（带日期 + 我改了啥）当流水账。

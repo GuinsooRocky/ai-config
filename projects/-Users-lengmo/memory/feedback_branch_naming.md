@@ -50,13 +50,9 @@ lengmo_YYYYMMDD_<type>[_<slug>]
 
 以上分支**必须走 PR / Merge Request 合入**。
 
-### 例外：personal repo（含已脱离原 upstream 的 fork）
+### 例外：personal repo
 
-用户作为唯一维护者的个人仓库（如 `GuinsooRocky/sf-reader-all`）：
-- **可以直接 push main**，无需 feature 分支
-- 无团队、无 CI、无 review，feature 分支只是仪式
-- Why：用户 2026-05-12 表态「personal 直接 push main 心智成本最低」+「不应该叫 fork 了 少了这个概念会少绕跟多」
-- 适用判断：仓库只有用户自己 push、没有 pre-push hook、没有协作者
+个人仓库（唯一维护者、无团队/CI/review）不受此禁推限制，可直接在 main 上改，无需 feature 分支——分支结构细节 + commit/push 政策见 [[feedback_personal_repo_handling]]。
 
 工作仓库（gitea / onlychat / 团队 github）**不在此例外内**，仍按上面禁推规则走。
 
