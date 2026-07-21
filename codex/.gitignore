@@ -1,0 +1,30 @@
+.DS_Store
+**/.DS_Store
+**/__pycache__/
+*.py[cod]
+
+# Credentials and machine-local configuration
+.env
+.env.*
+!.env.example
+.claude.json
+**/.claude.json
+mcp-servers.json
+**/mcp-servers.json
+/claude/settings.json
+*.pem
+*.key
+*.p12
+
+# Large/local memory stores and conversation logs
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+*.jsonl
+*.log
+
+# Local backups and caches
+.continuity-backups/
+.migration-backups/
+.cache/

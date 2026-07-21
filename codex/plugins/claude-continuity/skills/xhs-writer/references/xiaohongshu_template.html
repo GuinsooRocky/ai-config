@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<!--
+  小红书 9 图帖模板 · khazix-writer 小红书产出线
+  默认黑白发布风格，黑字、大留白、轻微米白底、少量线条，不使用红色渐变封面。
+  用法：复制本文件到 ~/Desktop/PRD/小红书/MM.DD-<标题>.html，
+        把【】里的占位文字换成本帖内容。卡片固定 9 张（封面+7内容+引流）。
+        点「导出 9 图」按钮 → 9 张图打包成 1 个 zip，每张 1080×1350（4:5）。
+
+  卡片密度准则（重要，决定一帖是否像 AI 模板腔）：
+    - 每张内容卡默认 2~3 种元素，不超过 4 种。最常用骨架就是 badge + h2 + p（一句话展开）
+    - .box（⚠️ 注解框）只在真有警示 / 反直觉点时加，不要每页都挂
+    - 9 张中安插 1~2 张 .big-card（整页一句大字），用于转折 / 金句 / 收尾铺垫，拉节奏
+    - 不要 eyebrow 小标签 + h2 双标题（已删 .eyebrow），也不要 p1 + p2 + box 三段同义复读
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小红书预览 · 【帖子标题】</title>
+<style>
+  :root {
+    --page: #efede8;
+    --card: #fbfaf7;
+    --ink: #151515;
+    --soft-ink: #3d3d3d;
+    --muted: #77736b;
+    --line: #ded9cf;
+    --panel: #f1eee7;
+    --panel-strong: #e8e3d8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--page);
+    color: var(--ink);
+    font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", -apple-system, sans-serif;
+    line-height: 1.62;
+    padding: 40px 20px 80px;
+  }
+  .wrap { max-width: 1440px; margin: 0 auto; }
+  .page-title { text-align: center; font-size: 22px; font-weight: 800; margin-bottom: 6px; }
+  .page-sub { text-align: center; font-size: 13px; color: var(--muted); margin-bottom: 30px; }
+
+  .title-box {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 20px 26px;
+    margin-bottom: 26px;
+  }
+  .title-box h3 {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 14px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  .title-box .t { font-size: 16px; font-weight: 700; margin-bottom: 10px; color: var(--ink); }
+  .title-box .t:last-child { margin-bottom: 0; }
+  .title-box .t.pick { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
+  .title-box .t small { font-weight: 400; color: var(--muted); font-size: 12px; margin-left: 8px; }
+
+  .export-bar { text-align: center; margin-bottom: 30px; }
+  .export-bar button {
+    background: var(--ink);
+    color: #fff;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .export-bar button:active { transform: scale(.98); }
+  .export-bar button:disabled { background: #aaa; cursor: default; }
+  .export-bar .status { margin-left: 12px; font-size: 13px; color: var(--muted); }
+
+  /* 卡片网格，固定 432×540（4:5），导出时 ×2.5 = 1080×1350 */
+  .grid { display: grid; grid-template-columns: repeat(3, 432px); gap: 24px; justify-content: center; }
+  .card {
+    position: relative;
+    width: 432px;
+    height: 540px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 38px 34px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .badge {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #b0aba1;
+  }
+  .card h2 {
+    font-size: 25px;
+    line-height: 1.34;
+    font-weight: 800;
+    margin-bottom: 18px;
+    color: var(--ink);
+  }
+  .card p {
+    font-size: 15.5px;
+    line-height: 1.72;
+    margin-bottom: 12px;
+    color: var(--soft-ink);
+  }
+  .card strong { color: var(--ink); font-weight: 800; }
+  .card .box {
+    margin-top: 14px;
+    background: var(--panel);
+    border-left: 5px solid var(--ink);
+    padding: 12px 14px;
+    border-radius: 0 6px 6px 0;
+    font-size: 14px;
+    color: var(--soft-ink);
+  }
+  .cover {
+    justify-content: center;
+    background: linear-gradient(180deg, #fbfaf7 0%, #f0ede6 100%);
+  }
+  .cover .big {
+    font-size: 38px;
+    line-height: 1.26;
+    font-weight: 900;
+    letter-spacing: 0;
+    margin-bottom: 22px;
+  }
+  .cover .sub {
+    font-size: 19px;
+    line-height: 1.6;
+    color: var(--soft-ink);
+    padding-top: 18px;
+    border-top: 2px solid var(--ink);
+  }
+  .cover .tag { margin-top: 18px; font-size: 13px; color: var(--muted); }
+
+  .big-card { justify-content: center; align-items: center; text-align: center; }
+  .big-card .big {
+    font-size: 42px;
+    line-height: 1.3;
+    font-weight: 900;
+    color: var(--ink);
+  }
+
+  .endcard {
+    justify-content: center;
+    background: var(--ink);
+    color: #fff;
+    border-color: var(--ink);
+  }
+  .endcard h2 { color: #fff; }
+  .endcard p { color: #e7e4dc; }
+  .endcard .badge { color: rgba(255,255,255,.42); }
+  .endcard .cta {
+    margin-top: 18px;
+    border: 1px solid rgba(255,255,255,.36);
+    padding: 13px 15px;
+    border-radius: 6px;
+    font-size: 15px;
+    color: #fff;
+    font-weight: 700;
+  }
+
+  .caption {
+    margin-top: 40px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 30px 34px;
+  }
+  .caption h3 { font-size: 15px; color: var(--muted); margin-bottom: 16px; letter-spacing: 1px; }
+  .caption p { font-size: 15px; margin-bottom: 13px; color: var(--soft-ink); }
+  .caption .tags { color: #315f9f; font-size: 14px; margin-top: 6px; }
+
+  @media (max-width: 1000px) { .grid { grid-template-columns: 432px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="page-title">小红书帖预览 · 【帖子标题】</div>
+  <div class="page-sub">【角度】 · 9 图 ｜ 【日期】 ｜ 黑白发布风格，导出后即为发布图</div>
+
+  <div class="title-box">
+    <h3>- 帖子标题候选，发布时填小红书标题栏，挑一条 -</h3>
+    <div class="t pick">【标题 1】<small>推荐，痛点直给</small></div>
+    <div class="t">【标题 2】<small>身份代入</small></div>
+    <div class="t">【标题 3】<small>反认知</small></div>
+    <div class="t">【标题 4】<small>戳痛</small></div>
+  </div>
+
+  <div class="export-bar">
+    <button id="exportBtn">导出 9 图，打包 zip · 1080×1350</button>
+    <span class="status" id="exportStatus"></span>
+  </div>
+
+  <div class="grid">
+
+    <!-- 图 1 · 封面 -->
+    <div class="card cover">
+      <div class="badge">1 / 9</div>
+      <div class="big">【封面大字，生活场景/痛点，别堆术语】</div>
+      <div class="sub">【副标，筛共鸣的一句】</div>
+      <div class="tag">【一行可信背书小字】</div>
+    </div>
+
+    <!-- 图 2~8 · 内容卡，每张 2~3 种元素。下面给 3 种 variant 示例，按节奏轮换。 -->
+
+    <!-- variant A · 极简骨架（最常用，全帖至少 3~4 张走这种） -->
+    <div class="card">
+      <div class="badge">2 / 9</div>
+      <h2>【这张卡的判断，一句够重的话】</h2>
+      <p>【用人话展开。可以是具体场景、亲身经历、一个发现，但不要复读标题，不要像教程说明书。】</p>
+    </div>
+
+    <!-- variant B · 极简 + ⚠️ box（只在真有警示 / 反直觉点时用，全帖建议 1~2 张） -->
+    <div class="card">
+      <div class="badge">3 / 9</div>
+      <h2>【判断句】</h2>
+      <p>【正文一段，把情境 / 动作讲清楚。】</p>
+      <div class="box">⚠️ 【真正反直觉的那一句话，或最容易踩的坑。】</div>
+    </div>
+
+    <!-- variant C · 大字卡（整页一句话，用于转折 / 金句 / 收尾铺垫，全帖建议 1~2 张） -->
+    <div class="card big-card">
+      <div class="badge">5 / 9</div>
+      <div class="big">【一句让人停 1 秒的判断。短，重，有重量。】</div>
+    </div>
+
+    <!-- 图 4 / 6 / 7 / 8 按上面 A / B / C 三种骨架轮换，badge 改对应编号 -->
+
+    <!-- 图 9 · 引流 -->
+    <div class="card endcard">
+      <div class="badge">9 / 9</div>
+      <h2>【收尾标题】</h2>
+      <p>【一句收束，回到读者自己的问题。】</p>
+      <div class="cta">【互动钩子，邀读者评论自己的场景】</div>
+    </div>
+
+  </div>
+
+  <div class="caption">
+    <h3>- 正文，发布时贴帖子下方 -</h3>
+    <p>【正文段 1，从一个具体场景切入，不要像摘要。】</p>
+    <p>【正文段 2，把判断讲清楚。】</p>
+    <p>【正文段 3，带互动，最好让读者留下自己的职业/问题/场景。】</p>
+    <p class="tags">#标签1 #标签2 #标签3 #标签4 #标签5</p>
+  </div>
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script>
+  const btn = document.getElementById('exportBtn');
+  const status = document.getElementById('exportStatus');
+  btn.addEventListener('click', async () => {
+    if (typeof html2canvas === 'undefined' || typeof JSZip === 'undefined') {
+      status.textContent = ' 导出库没加载到，联网后刷新页面再试。';
+      return;
+    }
+    const cards = document.querySelectorAll('.grid .card');
+    btn.disabled = true;
+    const zip = new JSZip();
+    for (let i = 0; i < cards.length; i++) {
+      status.textContent = ` 正在渲染 ${i + 1} / ${cards.length} ...`;
+      const card = cards[i];
+      const radius = card.style.borderRadius;
+      card.style.borderRadius = '0';
+      const canvas = await html2canvas(card, { scale: 2.5, backgroundColor: null, logging: false });
+      card.style.borderRadius = radius;
+      const blob = await new Promise(r => canvas.toBlob(r, 'image/png'));
+      zip.file(`小红书-${String(i + 1).padStart(2, '0')}.png`, blob);
+    }
+    status.textContent = ' 正在打包 zip ...';
+    const content = await zip.generateAsync({ type: 'blob' });
+    const link = document.createElement('a');
+    link.download = '小红书九图.zip';
+    link.href = URL.createObjectURL(content);
+    link.click();
+    URL.revokeObjectURL(link.href);
+    status.textContent = ' 已打包成 1 个 zip，去下载文件夹解压，9 张直接发。';
+    btn.disabled = false;
+  });
+</script>
+</body>
+</html>

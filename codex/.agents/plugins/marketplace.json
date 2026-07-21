@@ -1,0 +1,20 @@
+{
+  "name": "ai-continuity",
+  "interface": {
+    "displayName": "Ai Continuity"
+  },
+  "plugins": [
+    {
+      "name": "claude-continuity",
+      "source": {
+        "source": "local",
+        "path": "./plugins/claude-continuity"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

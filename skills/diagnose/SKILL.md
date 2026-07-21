@@ -1,6 +1,7 @@
 ---
 name: diagnose
-description: Disciplined diagnosis loop for hard bugs and performance regressions. Reproduce → minimise → hypothesise → instrument → fix → regression-test. Use when user says "diagnose this" / "debug this", reports a bug, says something is broken/throwing/failing, or describes a performance regression. Trigger words: "diagnose this", "debug this", "fix this bug", "why is X slow", "诊断一下", "查一下这个 bug". Not for architecture review (→ improve-codebase-architecture) or from-scratch design (→ brainstorm).
+description: >-
+  Disciplined diagnosis loop for hard bugs and performance regressions. Reproduce → minimise → hypothesise → instrument → fix → regression-test. Use when user says "diagnose this" / "debug this", reports a bug, says something is broken/throwing/failing, or describes a performance regression. Trigger words: "diagnose this", "debug this", "fix this bug", "why is X slow", "诊断一下", "查一下这个 bug". Not for architecture review (→ improve-codebase-architecture) or from-scratch design (→ brainstorm).
 ---
 
 # Diagnose

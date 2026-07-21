@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>PRD Drift · {{branch}} · {{date}}</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --panel: #161b22;
+      --border: #30363d;
+      --text: #c9d1d9;
+      --muted: #8b949e;
+      --green: #3fb950;
+      --yellow: #d29922;
+      --red: #f85149;
+      --code-bg: #1e242c;
+      --accent: #58a6ff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 32px 48px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, "PingFang SC", "Hiragino Sans", BlinkMacSystemFont, sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    h1 { font-size: 24px; margin: 0 0 4px; }
+    h2 {
+      margin: 40px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+      font-size: 18px;
+    }
+    .meta {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 24px;
+    }
+    .meta code {
+      background: var(--code-bg);
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 12px;
+    }
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin: 24px 0 32px;
+    }
+    .summary-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 16px;
+    }
+    .summary-card .label { color: var(--muted); font-size: 12px; }
+    .summary-card .value { font-size: 28px; margin-top: 4px; font-weight: 600; }
+    .green { color: var(--green); }
+    .yellow { color: var(--yellow); }
+    .red { color: var(--red); }
+    .item {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 16px 20px;
+      margin: 16px 0;
+    }
+    .item.lvl-green { border-left: 4px solid var(--green); }
+    .item.lvl-yellow { border-left: 4px solid var(--yellow); }
+    .item.lvl-red { border-left: 4px solid var(--red); }
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .item-loc {
+      font-family: ui-monospace, "SF Mono", monospace;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .item-loc a { color: var(--accent); text-decoration: none; cursor: pointer; }
+    .item-loc a:hover { text-decoration: underline; }
+    .item-anchor { color: var(--muted); font-size: 12px; margin-top: -4px; }
+    .item-conf { font-size: 12px; color: var(--muted); }
+    .item-type {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .type-A { background: rgba(210, 153, 34, 0.2); color: var(--yellow); }
+    .type-B { background: rgba(63, 185, 80, 0.2); color: var(--green); }
+    .type-C { background: rgba(248, 81, 73, 0.2); color: var(--red); }
+    .type-RED { background: rgba(248, 81, 73, 0.3); color: var(--red); }
+    .block {
+      background: var(--code-bg);
+      border-radius: 4px;
+      padding: 12px 16px;
+      margin: 8px 0;
+      font-family: ui-monospace, "SF Mono", monospace;
+      font-size: 12px;
+      white-space: pre-wrap;
+      overflow-x: auto;
+    }
+    .block-label {
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 12px;
+      margin-bottom: 4px;
+    }
+    .suggestion {
+      background: rgba(88, 166, 255, 0.08);
+      border-left: 3px solid var(--accent);
+      padding: 10px 14px;
+      margin-top: 12px;
+      border-radius: 0 4px 4px 0;
+    }
+    .empty {
+      color: var(--muted);
+      font-style: italic;
+      padding: 20px;
+      text-align: center;
+      background: var(--panel);
+      border-radius: 6px;
+    }
+    .copied { color: var(--green); }
+  </style>
+</head>
+<body>
+  <h1>PRD Drift Report</h1>
+  <div class="meta">
+    分支 <code>{{branch}}</code> · 基于 <code>{{base}}</code> · {{date}}<br>
+    PRD: {{prd_list}}
+  </div>
+
+  <div class="summary">
+    <div class="summary-card">
+      <div class="label">扫描 anchor</div>
+      <div class="value">{{total_anchors}}</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">🟢 已自动改注释</div>
+      <div class="value green">{{green_count}}</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">🟡 待决策</div>
+      <div class="value yellow">{{yellow_count}}</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">🔴 PRD 自身问题</div>
+      <div class="value red">{{red_count}}</div>
+    </div>
+  </div>
+
+  <h2>🟢 已自动改注释</h2>
+  {{green_items}}
+
+  <h2>🟡 待决策（不动代码）</h2>
+  {{yellow_items}}
+
+  <h2>🔴 PRD 自身问题 → 转 onlychat-prd-reflection</h2>
+  {{red_items}}
+
+  <script>
+    document.querySelectorAll('.item-loc a').forEach(a => {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        const path = a.dataset.path;
+        const original = a.textContent;
+        navigator.clipboard.writeText(path).then(() => {
+          a.textContent = '✓ 已复制';
+          a.classList.add('copied');
+          setTimeout(() => {
+            a.textContent = original;
+            a.classList.remove('copied');
+          }, 1200);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
+
+<!--
+  ============================================================
+  Per-item template (Claude 渲染时填充并替换 {{green_items}}
+  等占位符)
+  ============================================================
+
+  <div class="item lvl-{{green|yellow|red}}">
+    <div class="item-header">
+      <div class="item-loc">
+        <span class="item-type type-{{A|B|C|RED}}">{{A|B|C|RED}}</span>
+        <a data-path="{{file}}:{{line}}">{{file}}:{{line}}</a>
+      </div>
+      <div class="item-conf">置信度 {{confidence}}</div>
+    </div>
+    <div class="item-anchor">{{anchor}}{{#section_drifted}} · ⚠ PRD 章节号已变更{{/section_drifted}}</div>
+
+    <div class="block-label">当前注释</div>
+    <div class="block">{{current_comment}}</div>
+
+    <div class="block-label">代码摘要</div>
+    <div class="block">{{current_code_excerpt}}</div>
+
+    <div class="block-label">PRD 当前内容</div>
+    <div class="block">{{prd_content}}</div>
+
+    <div class="suggestion">
+      <strong>{{🟢: 已改为 / 🟡: 建议 / 🔴: PRD 问题}}</strong>：{{suggestion}}
+    </div>
+  </div>
+
+  空区段填充：<div class="empty">本档无条目</div>
+-->

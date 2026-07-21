@@ -1,0 +1,4 @@
+interface:
+  display_name: "Recall Claude History"
+  short_description: "Search your prior Claude sessions safely"
+  default_prompt: "Use $recall-claude-history to find relevant context from my previous Claude sessions."

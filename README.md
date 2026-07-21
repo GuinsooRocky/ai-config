@@ -22,3 +22,22 @@ git clone git@github.com:GuinsooRocky/claude-config.git ~/.claude
 ## 已知限制
 
 - `skills/xhs-writer` 是指向 `~/.agents/skills/khazix-writer` 的 symlink，git 按符号链接本身提交——换机器/克隆到新环境后这个链接会悬空，需要额外同步 `~/.agents/skills/khazix-writer` 的实际内容。
+
+## Codex CLI 无缝衔接
+
+`codex/` 保存同仓库的 Codex marketplace、`claude-continuity` 插件、共享 `AGENTS.md` 和维护脚本。插件把 Claude skills、agents、workflows、commands 转成 Codex 可调用能力；凭证、OAuth 状态、SQLite 记忆库和原始会话不进入插件。
+
+新电脑克隆本仓库后执行：
+
+```bash
+~/.claude/codex/scripts/install-codex.sh
+```
+
+日常更新 Claude 配置后执行：
+
+```bash
+~/.claude/codex/scripts/snapshot.sh
+git -C ~/.claude status
+```
+
+快照脚本会从当前 `~/.claude` 重建 Codex 插件，并在覆盖旧版 skills 前保存本机备份。
