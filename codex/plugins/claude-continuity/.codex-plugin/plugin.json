@@ -1,11 +1,11 @@
 {
   "name": "claude-continuity",
-  "version": "0.1.0+codex.20260721183035",
+  "version": "0.1.0+codex.20260721183835",
   "description": "Migrated Claude skills, agents, workflows, commands, memory access, and safe MCP integrations for Codex.",
   "author": {
     "name": "Lengmo"
   },
-  "repository": "https://github.com/GuinsooRocky/claude-config",
+  "repository": "https://github.com/GuinsooRocky/ai-config",
   "skills": "./skills/",
   "interface": {
     "displayName": "Claude Continuity",

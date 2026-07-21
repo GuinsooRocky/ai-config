@@ -14,7 +14,7 @@ Lengmo 的 Claude Code + Codex CLI 私有配置仓库。目标是让两边共享
 ## 新电脑恢复
 
 ```bash
-git clone git@github.com:GuinsooRocky/claude-config.git ~/.claude
+git clone git@github.com:GuinsooRocky/ai-config.git ~/.claude
 ~/.claude/codex/scripts/verify-no-secrets.sh
 ~/.claude/codex/scripts/install-codex.sh
 ```

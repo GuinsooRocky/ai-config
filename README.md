@@ -1,4 +1,4 @@
-# claude-config
+# ai-config
 
 我的 Claude Code 完整可迁移配置，git 直接跟踪 `~/.claude`，用 `.gitignore` 白名单放行：
 
@@ -13,7 +13,7 @@
 ## 换机器恢复
 
 ```bash
-git clone git@github.com:GuinsooRocky/claude-config.git ~/.claude
+git clone git@github.com:GuinsooRocky/ai-config.git ~/.claude
 # 1. lark app-secret 手动替换回真实值（自己的密码管理器里查）
 # 2. settings.json 里的绝对路径（hook 脚本等）核对一遍
 # 3. launchd/*.plist 拷到 ~/Library/LaunchAgents/ 再 launchctl load
