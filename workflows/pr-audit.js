@@ -12,11 +12,20 @@ export const meta = {
 }
 
 // ===== 配置：cmm-pr fire 前会把这几行 Edit 成当前值 =====
-const REPO = '/Users/lengmo/Desktop/my-code/mk'   // 要审的仓库绝对路径
-const SCOPE = 'uncommitted'                         // 'uncommitted'=审未提交改动 | ref(如'HEAD~1'/'develop')=审 ref...HEAD
+const REPO_DEFAULT = '/Users/lengmo/Desktop/my-code/mk'   // 要审的仓库绝对路径
+const SCOPE_DEFAULT = 'uncommitted'                 // 'uncommitted'=审未提交改动 | ref(如'HEAD~1'/'develop')=审 ref...HEAD
 const RUN_CR = true                                // 代码评审(commit-cr 引擎)
 const RUN_WQA = false                              // 质量体检(web-quality-audit)——仅对网页代码有意义
 // =======================================================
+
+// 保险丝：args 里带绝对路径/审查基准时以 args 为准，防止按名发射时吃到上次残留的写死配置
+// （2026-07-29 教训：残留 mk 配置烧掉 139 万 token 审错仓）
+const argsText = typeof args === 'string' ? args : ''
+const argsRepo = (argsText.match(/\/Users\/[^\s（），。;；()]+/) || [])[0] || null
+const argsScope = (argsText.match(/\b(origin\/[\w./-]+|develop|main|master|HEAD~\d+)\b/) || [])[0] || null
+const REPO = argsRepo || REPO_DEFAULT
+const SCOPE = argsRepo ? (argsScope || 'uncommitted') : SCOPE_DEFAULT
+if (argsRepo && argsRepo !== REPO_DEFAULT) log(`args 覆盖写死配置：REPO=${REPO} SCOPE=${SCOPE}`)
 
 const HOWTO = SCOPE === 'uncommitted'
   ? `已追踪改动跑 \`git -C ${REPO} diff HEAD\`；新增(未追踪)文件用 \`git -C ${REPO} ls-files --others --exclude-standard\` 列出后逐个 Read 全文。`

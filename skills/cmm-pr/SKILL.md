@@ -325,7 +325,8 @@ PR **照常一气呵成建好并先报 URL**，再后台 fire pr-audit 审查，
 
 3. 选了要审 → 后台 fire pr-audit：
    a. Edit ~/.claude/workflows/pr-audit.js 顶部配置：
-      REPO='<worktree>'  SCOPE='<target>'  RUN_CR=true  RUN_WQA=<按上面选择>（质量体检仅 web 项目开）
+      REPO_DEFAULT='<worktree>'  SCOPE_DEFAULT='<target>'  RUN_CR=true  RUN_WQA=<按上面选择>（质量体检仅 web 项目开）
+      （脚本另有 args 保险丝：args 里带绝对路径会覆盖写死值，防按名发射吃到残留配置）
    b. 用 Workflow 工具 run_in_background 跑 ~/.claude/workflows/pr-audit.js
    c. 一行汇报：🔍 pr-audit 后台审查中，报告回来再看；要改补个 fix commit（不必重跑）
 
