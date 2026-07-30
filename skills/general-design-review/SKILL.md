@@ -1,6 +1,6 @@
 ---
 name: general-design-review
-description: Run a compact UX, product, and AI design review by combining the existing UX skills into one lighter guide. Use when reviewing a UI, flow, feature idea, AI product experience, research artifact, onboarding, prioritization decision, or design process. Focus on the highest-impact issues and recommendations, not exhaustive framework detail. Not for Apple-platform HIG specifics (→ apple-hig-expert) or runtime web performance/accessibility audits (→ web-quality-audit).
+description: Run a compact UX, product, and AI design review by combining the existing UX skills into one lighter guide. Use when reviewing a UI, flow, feature idea, AI product experience, research artifact, onboarding, prioritization decision, or design process. Focus on the highest-impact issues and recommendations, not exhaustive framework detail. Not for runtime web performance/accessibility audits (→ web-quality-audit).
 ---
 
 # Design Review
