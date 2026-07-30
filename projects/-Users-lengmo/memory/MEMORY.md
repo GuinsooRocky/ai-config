@@ -1,14 +1,16 @@
-- [Fable立法四件套](project_fable_legislation.md) — 07-06 已落 ~/.claude（model-dispatch/judgment-rubrics/delegation-templates/harness-maintenance，commit 2154682）；**5 行路由指针已贴进 CLAUDE.md（801179c），制度已激活**；观察项=弱模型 session 首次实际引用
+- [Fable立法四件套](project_fable_legislation.md) — 四份制度文件已落 `~/.claude`（model-dispatch / judgment-rubrics / delegation-templates / harness-maintenance），CLAUDE.md 路由指针已贴、制度已激活
 - [pageforge世界卡测试跑进度](project_pageforge_worldcard_testbed_run.md) — **07-02 已叫停、待续跑**；单一真相=agg/V0.0.6/链路水平评估-2026.07.02.md（待结账清单在文末）；续跑归 session c75b6e56；过程全文已落档 archive/
-- [soliloquy调研群组](project_soliloquy_review_panel.md) — **14 席**评审团花名册（7 专业席含财务 + 7 用户席，07-20 创建页评审加小白创作者/图片党两席）；触发词「裁判调研组/soliloquy 调研群组/评审团上场」；opus 并行全读+用户席隔离+否定结论主会话核实；按项目挂名、席位可丰富
-- [出海项目](project_chuhai_oem_seo.md) — 标的=海外 AI 陪伴网站+**站型已拍=soliloquy web 端即站**（PRD 落 soliloquy 仓 designs/2026-07-06-SEO-web端即站.md，技术已拍整套 Next 壳分两波）；**07-07 SEO 知识库收口、方案单一真相升 v2=archives/seo/07.07-SEO-GEO方案-v2.md**（gf/07.06 已标 superseded），seo-planner skill 已接地知识库；原 OEM 方向存档 gf/06.16-* 待拍弃留
-- [独白(soliloquy)项目](project_soliloquy.md) — 个人 Tauri+React/Rsbuild+Supabase 桌面 AI 陪伴客户端；**路径 ~/Desktop/loop_project/soliloquy**（旧 my-code 已迁走）；四刀砍完是纯陪伴形态；**2026-07-03 OC 市场化 pivot**（转做 UGC 角色市场，对标 crushon，PRD=docs/prd/designs/2026-07-03-OC角色卡-PRD.md 唯一现行版 + 施工笔记 docs/logic/OC-实现笔记-onlychat对照.md，OC 第1-3步已全部码完入 main·OC-1a→3b-fix2，真曝光双 flag off 待拍，下一步=owner 侧：改"1200句"口径→发 WTP 邀请→UI 走查）；**07-07 模型升级+链路优化静态收官**（工单=designs/2026-07-07-模型升级与链路优化-交接.md 单一真相；V4-Flash 默认+记忆全套升级 vitest 299/299；⚠ orchestrator 一直活在 Vultr sslip.io，"未部署"是侦察误判、fly 包已撤 b82fd7d；T20 剩 4 步=搬新版+重部署+补KEY+真机验收）；**07-08 三批 loop 全清+迁移闸③已过**（测试 533，commits 在 main；人工闸剩④UI走查/⑤打包+N4b残留）；**07-10 第三批 loop 已装载 20 件**（T26/T25/T27+收尾债，装载即批准）；**T28+M4 管理页全套已完成**（07-11 侦察坐实，「待装载」旧口径作废；selfie 保留口径待 owner ack）；**07-11 QA 马拉松收官 A–G 全清**（T20 升 T39 发布硬前置、T38⑤=会话段模型·记忆跟段走）；**07-11 下午收官：第五批 17 件全清、loop/auto→main 已 push、BACKLOG 全量核账**（4 路侦察报告=loop/reports/2026-07-11-第六批装载侦察.md；假待办 T29/T34/T41/#4 回勾；⚠ 欢迎弹窗「送100点」空头承诺，T39① 注册 hook 落地前别发包）；**07-11 晚 T20 部署窗收官+拍板五连**（T44 §8 五拍全落可装载、T36 换图挂起、T42 全清·image-relay 成功才扣已 deploy、T45 性能批已装载；交接单口径过时=搬运/rsync 本就同步；**T20 KEY 已填（源=.env.local）member 档已通、真剩真机验收一步**；官方号洗 creator_id 等 owner 放行）；迁移走 run-migration.ts；**07-11 深夜动线QA：会员门票制已拍（PRD=designs/2026-07-11-会员门票制-PRD.md）+她主动开口官方买单+fix_plan 动线批8件+BACKLOG簇⑨；真曝光「双flag全关」口径作废=半开态**；**07-13 chat机制竞品走查收官：做五砍一（T75消息树/T76消息置顶/T78摘要可编辑/T79小细节召回/T80人设收口+BYOK开关，E砍）+四终拍（重摇扣1点=owner知情推翻红线①/变体上限5/置顶12条+500字/BYOK默认关）；T72撞号→偏好信号改T77；台账=QA-17/18新页+QA-03 D5+QA-07 D7/D8**
-- [drama-agent项目](project_drama_agent.md) — 短故事→视频 prompt 制作包 SPA；**07-17 白天/晚上两条线已分家**（cmm/ 那份断 origin 纯离线，**my-code/ 那份才是要 SEO+收费的晚上线**，认路径别认仓名）；**单一真相=项目内 `docs/2026-07-17-付费墙与SEO-交接.md`，开工先读**（四份调研全文在 docs/research/）；已拍板=市场**英文**·蒙层**全蒙一字不给**·收款走 soliloquy 那套 NOWPayments·**SEO 要做**（否的是内容农场不是 SEO）·提现/费率/模型=owner 的域别管；付费墙全链路已码完**未提交**；**价格待定 07-18**（实测 NOWPayments 下限 ≈$10，$0.8/$6.6 都收不了）；ENV_KEY 必须 DEV 门控防 Vite 内联 key
+- [soliloquy调研群组](project_soliloquy_review_panel.md) — **14 席**评审团花名册（7 专业席 + 7 用户席）+ 跑法；触发词「裁判调研组 / soliloquy 调研群组 / 评审团上场」；焊死 soliloquy 语境，别的项目另建
+- [出海项目](project_chuhai_oem_seo.md) — 标的=海外 AI 陪伴网站，**站型已拍=soliloquy web 端即站**；方案单一真相=`~/Desktop/archives/seo/07.07-SEO-GEO方案-v2.md`（seo-planner skill 已接地该知识库）；原 OEM 尽调站方向已让位、弃留待拍
+- [独白(soliloquy)项目](project_soliloquy.md) — 个人 Tauri+React19/Rsbuild+Supabase 桌面 AI 陪伴客户端，路径 `~/Desktop/loop_project/soliloquy`；已 pivot 成 UGC 角色卡市场（对标 crushon）。**进度别信记忆、去仓里的 `docs/prd/{BACKLOG,DONE,REDLINES}.md` 现读**
+- [soliloquy跑批线机制修复](project_soliloquy_harness_loops.md) — loop/graph 两条 codex 自主跑批线的机制；07-27 减法收官，**机制唯一真相=main（分支自拉）**；⚠ B26 stash 与 loop worktree 半途现场保留勿动
+- [drama-agent项目](project_drama_agent.md) — 短故事→视频 prompt 制作包 SPA；白天/晚上两条线已分家，**要 SEO+收费的是 `my-code/` 那份，认路径别认仓名**；付费墙代码已进 main 但**一行没部署**。单一真相=项目内 `docs/2026-07-17-付费墙与SEO-交接.md`，开工先读它和记忆文件
 - [别判「不可行」](feedback_dont_declare_infeasible.md) — 不让我拍板≠让我少做事，而是别盲目替他判死刑；子agent的否定结论转述前必须自己核（07-17 一天判错四次「不能做」）
-- [onlychat动态场景卡调研](project_onlychat_dynamic_scene_card_research.md) — 老板派的活（短片/短剧×落地细节×性能×gojelly 四问）；**07-13 只出方案、约定 07-14 开工、就在 onlychat 主仓做**；性能播放侧测法已想透（转码 ladder 才是真产出、"多张同屏自动播"是生死线、结论只认低端安卓）；**开工前要向 owner 要一条 jimeng 原始视频**
-- [竞品对战评测anna](project_co_model_eval_arena.md) — **外号 anna**；~/Desktop/loop_project/co-model-eval-arena（Python 无git 已匿名化）：回放竞品聊天→15子维度盲判→BT榜，既测裸模型也测竞品/soliloquy装置；shim 在 soliloquy 仓 scripts/eval-arena-shim/；⚠ judge 待跨族 key；触发词=「anna/arena对战/给竞品聊天打分/跟soliloquy对战」
-- [Create五大创建测试战役](project_onlychat_create_test_campaign.md) — **07-11 战役收官 233/233 全清 + 已提交**（五域全清；264 文件/2036 用例绿+tsc0+源码0改；3 commits ahead **未 push**；coverage include 五创建域已进 vitest.config.mjs）；单一真相=onlychat-create-test worktree docs/testing/create-component-test/（INVENTORY 全☑ + HANDOFF「✅ 收官后续」）；**剩余待拍=源码债开不开单(NoteEditor.pc.tsx:140 inert 归 next16)+push**；⚠ 教训：**测试也要过 gts lint 别只 vitest+tsc**（38 error 挡 commit：no-var-requires/consistent-type-imports/rules-of-hooks，5×opus 修完再过）、agent 别 mv 自产、per-file JSON 核数、RSC 测法 await Page 同步 params
-- [crushon-admin上pre流程](project_crushon_admin_pre_deploy.md) — **全文=cmm/crushon-admin上pre流程.md**；速记：cherry-pick进release→onlychat仓deploy-argocd(来自=develop别选release)→PR「创建合并提交」合到pre
+- [别把别的项目惯例搬过来](feedback_dont_import_other_project_conventions.md) — 干 A 项目只认 A 自己文档写的；文档没写就说没写，别拿 B 项目的模版/人名填空再标「推断」（07-27 crushon-admin 上线把 onlychat 模版+林珉搬过来被顶）
+- [onlychat动态场景卡调研](project_onlychat_dynamic_scene_card_research.md) — 老板派的活（形态/落地/性能/gojelly 四问），在 onlychat 主仓做；性能测法已想透写在文件里；**开工前要向 owner 要一条 jimeng 原始视频**
+- [竞品对战评测anna](project_co_model_eval_arena.md) — **外号 anna**（触发词：anna/arena对战/给竞品聊天打分/跟soliloquy对战）；回放竞品聊天→15子维度盲判→BT榜。路径 `~/Desktop/loop_project/eval-arena`，施工单一真相=仓内 `docs/prd/` 五份分期 PRD
+- [Create五大创建测试战役](project_onlychat_create_test_campaign.md) — onlychat 五大创建 component test，**已彻底收官进 develop、无待办**（worktree 已删）；留下的教训：**测试也要过 gts lint 别只 vitest+tsc**
+- [crushon-admin上pre流程](project_crushon_admin_pre_deploy.md) — **全文=cmm/onlychat-World-Path/crushon-admin上pre流程.md**；速记：cherry-pick进release→onlychat仓deploy-argocd(来自=develop别选release)→PR「创建合并提交」合到pre
 - [派工显式 model=opus](feedback_delegate_impl_to_opus_subagent.md) — **跨项目**：实作/扫描/调研派子 agent 显式 model=opus 别靠继承（主会话 sonnet 继承=降档，07-10 一天数起被叫停）；独立文件并行扇出别串行，主对话只编排验收；已升制度进 model-dispatch §2；**07-16 边界扩大：浏览器走查/点验也算执行、派 visual-qa，主 agent 只做决策思考调度**
 - [要密钥前先自己翻](feedback_find_credentials_before_asking.md) — 缺凭证先穷尽 .env*/可 ssh 机器/已登录浏览器，拿不到再开口且说清"哪把key缺在哪为什么读不到"（07-11 OPENROUTER key 就在 .env.local 却让 owner 补，被无语）
 - [批量烧付费API先确认](feedback_ask_before_paid_api_batch.md) — >50 次付费调用的批量跑（LLM打分/翻译等）先报预估费用等点头；试跑小样本可直接跑
@@ -33,15 +35,15 @@
 - [dk 直接 push](feedback_dk_commit_push_freely.md) — DK 项目(原 chat-cc-bot)验证过直接 commit+push 不必每次问（仅限本项目，工作仓仍 push 不主动）
 - [DK 后端部署铁律](project_dk_sidecar_deploy.md) — 改后端只能整体 build_app.sh 重建，绝不 in-place 换 sidecar；**全文已迁 dk/CLAUDE.md（2026-07-06 新建）**
 - [Rebase over merge](feedback_rebase_over_merge.md) — use `git rebase` not `git merge` for branch sync; keeps git graph linear
-- [Git ground truth vs rtk](feedback_git_porcelain_with_rtk.md) — **已被智能网关缓解**（git 默认裸跑），仅 `#rtk` 强制摘要场景仍适用；那时暂存/提交前用 `--porcelain` 拿真相
 - [rtk 管道损坏](feedback_rtk_pipeline_corruption.md) — 智能网关缓解了主线，**但 07-02 仍有 ps 假阴性反例**——长输出/机器判断结论一律落盘复核，别只看管道摘要
 - [rtk 智能网关](reference_rtk_smart_gateway.md) — 2026-06-26 起 rtk 不再无脑全改写；`~/.claude/hooks/rtk-smart.sh` 路由：精度命令(git/grep/cat…)默认裸跑、install/build/test/ps/eslint 走 rtk；`#rtk`强制省 `#raw`强制裸；精度命令不用再 proxy 绕路
 - [cmm-pr 提速铁律](feedback_cmm_pr_rebase_hooks_off.md) — rebase 全程关钩子(core.hooksPath=/dev/null) + 时间熔断(≥2 失败/幽灵内容就 abort+问)；别磨 14min
 - [Skill design pattern](feedback_skill_design_pattern.md) — CLAUDE.md 做索引；SKILL.md < 500 行；ref 按需加载；description 用具体触发词
 - [Skill 自审](feedback_skill_dogfood_metacheck.md) — 新建/大改 skill 后必须立即跑 meta-check-skill 自审（≥85 才算交付）
 - [Figma MCP strict](feedback_figma_mcp_strict.md) — Figma MCP 返回的 rgba/hex/px/stops 直接照抄，不估算不替换等价 token
-- [onlychat project](project_onlychat.md) — 主仓 ~/Desktop/cmm/onlychat；经验文档 onlychat-World-Path/（顶层 01-07+19-22，**08-18 在 archive/ 子目录**，接任务前先 ls + 按主题挑读）
-- [World Card worktree](feedback_worldcard_worktree.md) — 世界卡只在 onlychat-world-book 做，不碰 agg-tuning（pageforge 测试床）；认路径别认分支名；**详情已迁 World-Path/04 §十六**
+- [onlychat project](project_onlychat.md) — 主仓 ~/Desktop/cmm/onlychat；经验文档 onlychat-World-Path/（顶层 01-07+19-22，**08-18 在 archive/ 子目录**，接任务先 ls + 按主题挑读）
+- [搜索动效抽样率5%要单独发版](project_onlychat_jank_sample_rate_release.md) — PR #1274 / commit 9f94668efe **不跟常规版本车**；上线后补「生效时间」给数据同学 + 数条数决定要不要回调
+- [World Card worktree](feedback_worldcard_worktree.md) — 世界卡**绝不碰 agg-tuning**（pageforge 测试床）；在哪做用 `worktree list` 现查别认历史名；**详情已迁 World-Path/04 §十六**
 - [pnpm i18n 跑法](project_onlychat_pnpm_i18n_py312.md) — 本机必挂用 3.12 venv 直跑；csvtojson 全量覆盖会删 key 判缺口先 pull；**详情已迁 World-Path/04 §七**
 - [world-book dev OOM](project_worldbook_dev_oom.md) — ~31min OOM 触发机制 + 关键教训（ps rss 偏 75 倍要用 footprint、kill_port 必须连 3001、shell 变量 ${var} 定界）；操作细节见 cmm-go skill
 - [dev tRPC 403/UNAVAILABLE](project_onlychat_dev_proxy_grpc_403.md) — 先查 dev 进程 http_proxy 7897（Clash 污染 grpc-js）；**详情已迁 World-Path/03 末节**
@@ -61,11 +63,13 @@
 - [sf-reader 并发](feedback_sf_reader_concurrency.md) — sf-reader-all 批量要串行/低并发(≤2)；12 并发 Playwright 互相饿死全超时；全文在 unified_inbox.json 不在 stdout
 - [枚举全部来源](feedback_enumerate_all_sources.md) — 用户给一批来源(URL/目录/文件)先列全清单逐个核，绝不静默丢；本地目录也是来源；报覆盖率 X/N
 - [写注释的边界](feedback_writing_comments_rules.md) — 简易逻辑/UI 样式/Figma 节点号不加；PRD 章节号可留；只为非直觉 why 才加
-- [注释不是 ground truth](feedback_comments_not_ground_truth.md) — 代码注释可能过时/脑补/抄错章节号，当 hint 用；PRD/Figma 引用必须翻原文核对
+- [注释不是 ground truth](feedback_comments_not_ground_truth.md) — 代码注释可能过时/脑补/抄错章节号，当 hint 用；PRD/Figma 引用必须翻原文核对；**反向也成立：写工单/审计的「病灶」段必须 grep 出来，别读 PRD 推**（07-21 一天栽两次假待办）
 - [mobile 改动别捅 PC](feedback_mobile_fix_dont_touch_pc.md) — 视口专属 UI 改动用 sm: 门控限定该视口，PC 保原样别为"简单"统一改；用户视外溢为回归
 - [daily-recap 反馈方式](feedback_daily_recap_feedback_loop.md) — "今日总结反馈 xxx"消化进 skill；"清掉反馈"删流水账；不做 promote 命令
 - [小活别开后台workflow](feedback_inline_over_background_workflow.md) — 查事实/读文件/跑命令直接 inline；background workflow 只给真并行大活（会空跑卡死，2026-05-29 空转51min）
+- [按名发射workflow先核配置块](feedback_workflow_check_config_before_fire.md) — 脚本目标常写死在 const 配置块、args 不自动覆盖；07-29 pr-audit 残留 mk 配置烧 139万 token 审错仓；pr-audit 已加 args 保险丝，其他 workflow 未必有
 - [后台任务要 harness 句柄](feedback_background_task_needs_harness_handle.md) — 长跑任务用 Bash 的 run_in_background 起，别 nohup & 甩出去（认 PID 1 当爹→跑完永不通知 session；07-20 查明「近10次跑loop不反馈」就是这行的锅）
+- [长跑要挂 Monitor 报主对话](feedback_long_run_report_to_main_chat.md) — 起 loop/批处理当场挂 Monitor 打每轮进度回对话，**别再问要不要报**（问了无数次）；必须覆盖进程死亡，否则"崩了"和"还在跑"长得一样
 - [onlychat 本地静态图裂](project_onlychat_static_image_local_dev.md) — /static/ 图用 inline backgroundImage 别用 next/image；**详情已迁 World-Path/04 §十四**
 - [调研必须回写资产](feedback_research_must_writeback.md) — ultracode/调研收尾默认带"已有资产回写清单"；新能力优先长在现有 skill 上
 - [brew 证书钩子坏](project_brew_ca_certificates_hook_broken.md) — ca-certificates postinstall 本机必失败；SSL FileNotFoundError 直接手动重建 cert.pem（命令在档）；升级 yt-dlp 前先查 sf-reader python 来源
@@ -78,6 +82,7 @@
 - [agentboard 上报脱敏](reference_agentboard_privacy_patch.md) — peekaboo-ab 已打 privacy-patch(v3)+upload-count-patch(v1)：非cmm会话真实不上传(drop_all_personal)，v1修的是本地日志把drop误算成upload的计数bug；更新覆盖后按顺序重打两个patch；别重跑setup(backfill未脱敏)
 - [会话免上报触发词](feedback_session_report_whitelist_trigger.md) — "把当前会话放入上报白名单"="这个session别上报"→当前 uuid 加进 privacy-rules.json drop_sessions（用户的"白名单"=保护名单别反解）；先 check patch 在位；uuid 按内容指纹认
 - [onlychat CDN 批量种图](reference_onlychat_cdn_batch_upload.md) — querySignedUploadUrlV2 签名直传的 console snippet；拿一批图的 CDN fileURL；原 note-defaults 工具包删了能力存这
+- [长文HTML用codex侧skill](feedback_longform_html_skill_in_codex.md) — 文章/笔记落 HTML 用 ~/.codex/skills/longform-html 的手册模板，别手写版式；找 skill 时 codex 侧也有库存
 - [HTML 预览原地 reload](feedback_browser_preview_reload_in_place.md) — 刷新本地 HTML 预览用 reload 当前标签，绝不 close+reopen（会甩回顶部丢滚动位置）
 - [复制内容按长短分流](feedback_copy_content_delivery.md) — 短文案对话内纯文本(不上表格/#/**)；长内容(文档/报告/全量返回)写 scratchpad 文件报路径；session 关闭自动清理
 - [Obsidian vault=archives](reference_obsidian_vault_archives.md) — 07-12 装机落地，vault 直挂 ~/Desktop/archives 零迁移；只做回看层写入侧不变；砍掉 MCP/PARA/日记插件；剪藏/ 文件夹已建
@@ -86,3 +91,9 @@
 - [--contains 查不出 cherry-pick](feedback_git_contains_misses_cherrypick.md) — 判断改动在不在某分支禁用 git branch --contains（cp 换 hash），按内容/message/文件历史查；07-17 banner 据此对 owner 报过假警报
 - [截断输出≠事实](feedback_truncated_output_is_not_ground_truth.md) — 要下结论的输出不许带 |head（先 --count/--stat 拿总数）；07-17 把 93 个提交看成 10 个,对 owner 喊了「线上要回退」的假警报
 - [PRD不写过程叙事](feedback_prd_clean_no_process_narrative.md) — 拍板结果直接写成正文，拷问实录/翻案痕迹/评审注记全清；留痕去QA台账或decisions.md
+- [auto-clicker 每日自动抓](project_auto_clicker_daily.md) — 07-22 起 launchd 13:30 自动跑，plan-next.mjs 自动挑卡+43轮/张；别在跑的时候编辑 run-daily.sh
+- [pages发布走social-proxy](reference_pages_publish_via_social_proxy.md) — 原pages MCP已死；publish_page/share_page 走 socail-agent.com messages 通道(curl别用urllib)，wei=徐唯原
+- [公开就是公开](feedback_public_means_public.md) — soliloquy 公开面不按成人分级过滤是 owner 拍板；审查报成 bug 别照修、别再问第二遍
+- [跑迁移前查禁跑名单](feedback_check_forbidden_before_batch_migration.md) — 只验技术前置不够；07-27 误跑了被 owner 判死的迁移，装了个每天自动扣点的 cron
+- [commit描述用户影响先行](feedback_commit_desc_user_impact_first.md) — onlychat 老板反馈：改动说明先写用户影响再写实现（首例 50ccf75976）
+- [别自己起 dev app](feedback_no_auto_start_dev_app.md) — 桌面 app 起 dev 抢窗口焦点；验证只做静态(tsc/build/纯逻辑抠出来跑)，要真点的列「待 owner 点」交回去

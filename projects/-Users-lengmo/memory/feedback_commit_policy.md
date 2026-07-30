@@ -10,4 +10,4 @@ originSessionId: 62222e4b-fd3d-4b5d-9f20-c6b5f75148fb
 
 **Why:** 个人项目用户不在意提交节奏；工作仓才需要他亲自把关。
 
-**How to apply:** 工作仓：改完只汇报，不 stage/commit/push。个人项目：可提交（功能分支，好的 message），但不 push；提交前仍按 [[feedback_git_porcelain_with_rtk]] 用 --porcelain 核对、确认无 .env/config.toml 等敏感文件入库。
+**How to apply:** 工作仓：改完只汇报，不 stage/commit/push。个人项目：可提交（功能分支，好的 message），但不 push；提交前仍核对全量改动（`git status --porcelain=v1`）、确认无 .env/config.toml 等敏感文件入库。

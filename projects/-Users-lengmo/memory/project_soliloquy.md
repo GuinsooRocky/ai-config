@@ -1,34 +1,68 @@
 ---
 name: project_soliloquy
-description: 独白(soliloquy)项目=个人 Tauri 桌面 AI 伴侣+收件箱客户端，路径/技术栈/文档位置指针
+description: 独白(soliloquy)项目=个人 Tauri 桌面 AI 陪伴客户端，路径/形态/技术栈/台账位置指针
 metadata: 
   node_type: memory
   type: project
   originSessionId: b9eb6b3a-39fa-4b21-97d6-c08b50f0e514
-  modified: 2026-07-20T13:01:40.824Z
+  modified: 2026-07-30T07:29:10.491Z
 ---
 
-「独白」= **soliloquy** 项目，路径 `~/Desktop/loop_project/soliloquy`（个人项目，非工作仓；2026-07-03 确认已从 ~/Desktop/my-code/ 迁走，勿再用旧路径）。
+「独白」= **soliloquy**，路径 `~/Desktop/loop_project/soliloquy`（个人项目，非工作仓；已从 `~/Desktop/my-code/` 迁走，勿用旧路径）。
 
-- **是什么**：以你为中心的对话桌面客户端，三端同步。两类对象：独白会话(inbox，不调 AI 的记事/收件箱) + 伙伴会话(companion，有人格+三层混合记忆+mood/亲密度的 AI 角色，默认 seed 一个 cinco)。
-- **定位（2026-07-02 拆分拍板）**：soliloquy=**陪伴线**（对标 CrushOn，将长 OC/会员/无审查）；干净线（学习伙伴/看板/收件箱/干净陪伴，对标 Notion/Coze）拆往 `~/Desktop/my-code/lich`。拆法=整仓拷走各自砍；**拆完两仓完全独立互不同步**，搬功能仅用户主动说。详见 soliloquy docs/prd/roadmap.md。
-- **拆分进度（2026-07-02）**：lich 已整仓接收（同 commit 3a3fc8d + 独立 Supabase 实例）；soliloquy 第一刀已砍看板+news 整线（commit 27167c0，细节见 docs/dev-log.md）。**遗留**：① ~~identifier 撞名~~ 已解决（lich=com.lengmo.lich + 全套改身份 + cinco→companion，commit bd1e0ea）；② ~~soliloquy-tasks MCP~~ 已摘（mcp remove 去注册 + Settings 接入 UI 删 + .mjs 进废纸篓）、~~pg_cron~~ news-cron/news-probe 已 unschedule（cron.job 现为空）；tasks/news_sources 表数据保留；③ ~~学习线~~ 已砍（7b3b451：realm 维度整体移除、Header 双 tab 删、tutor 线拆、tutor/news 会话隐藏；realm/role 列 + learning_records 表数据保留）；④ 终刀(7d1cf0f)：linker 整线 + P3 穿透残骸砍净，**DB 已清**（drop tasks/news_sources/learning_records，删 news/tutor 会话级联消息；linker 历史行 ×1 仅隐藏未删）,远端 news-cron 函数已删——**四刀全部完成，代码+库都是纯陪伴形态，重做（OC/会员）可开工；伙伴对话发送/重试/图像路径动过参数链，dev 起来后先走一遍**。lich 侧全部就绪（库/存储/news 供水/MCP lich-tasks），互不同步原则生效。
-- **方向大改（2026-07-03，OC 市场化 pivot）**：OC 从「伙伴的私有人设」翻案为**可复用、可发布的角色素材**（对标 crushon/onlychat：OC 独立成表 ↔ 伙伴=实例，靠 `oc_id` 引用，状态留实例侧）。**主动翻掉 roadmap「不做 UGC 角色市场」必输点**（差异化押 MCP）。PRD=`docs/prd/designs/2026-07-03-OC角色卡-PRD.md`（**唯一现行版**，七问全拍完+§13 官方采买/抽卡+onlychat 施工笔记 `docs/logic/OC-实现笔记-onlychat对照.md`；旧 07-02 PRD 已删进废纸篓，每次原地覆盖不留旧版）。**第 1 步「本地解耦」已在 loop/auto 码完**（2026-07-04，8 commit：#4 删伙伴RPC + #9 count-only + OC-1a 数据层/1b 实例化+库UI+AI/1c 图册改挂+SillyTavern导入器 + FIX-1/2/3 bug修 + 迁移硬化；check.sh 全绿 82 测试；bug验收三件套跑过、修完）。**关键模型**：实例化那刻拷 persona/gender/appearance 到 conversations、注入读会话自己的（**不 live-read oc**），编辑 OC 不牵连老实例（FIX-1 拨正 OC-1a 一度实现成 live-read 的偏差）。**第 2/3 步也码完（2026-07-04 loop 连跑）**：OC-2a 可见性分桶+置顶 / 2b 市场·详情壳(去社交统计,MARKET_ENABLED=false 壳态) / 3a 未成年硬拦 / 3b 审核态状态机+下架RPC+写侧硬闸(真开public flag off);bug 三件套跑过、judge 抓的 P1 已修。**已 ff 并入 main(dada69b)**。**迁移已跑 5 条**(050000 oc表 / 080000 tier·origin / 090000 pinned / 100000 review_state+oc_takedown / 110000 写侧guard);**131 张 crushon 真种子已导入**(oc-mock→importCrushonCard.ts 适配器+import-crushon-seeds.ts;用 crushon id 当 oc.id 去重幂等;**挂 guinsoorocky@gmail.com uid=3b6cd1df**,不是 admin——自测登这个号才看得到,RLS 按 creator_id 过滤)。种子头像是 crushon 外链(cdn.crushon.ai)。**未跑**:030000锁名组/040000删RPC/060000回填/070000图册(=「现有伙伴→也变OC」那条链,故意没跑,种子不需要)。**待 owner**：① UI 走查(claude --chrome 跑 visual-qa,loop 写了 handoff 在 manual-verify) ② 图片落脚点——见新 PRD `docs/prd/designs/2026-07-04-图片托管CDN方案.md`(挖出**签名URL 1年过期炸弹**+外链坑,P1 拆炸弹+re-host 131 种子,量大换 R2) ③ 要不要跑 backfill 让现有伙伴也变 OC。M4 remoteTurn 在制。**编排搬后端 M3 已部署**(Vultr Tokyo + sslip.io HTTPS，b2c083a)、M4 客户端切 /turn owner 在制。合规/公开面 gated 到第 2/3 步，未成年硬拦是公开唯一硬闸。
-- **模型升级与链路优化（2026-07-07，双 session 车道执行完毕·静态层收官）**：单一真相=`docs/prd/designs/2026-07-07-模型升级与链路优化-交接.md`（含拍板补充+进度台账+真机验收清单）。已落 main：member 默认切 `deepseek/deepseek-v4-flash`、杂活节点下放便宜档、RP 技法包（预填/禁词/两层 prompt，默认关）、记忆链路全套（profile 优先/Msg ts 时间戳/拆封顶 300→5000/assistant 入池/摘要事件化带日期/时间加权/嵌入非阻塞预热；检索抽 `retrieval.ts`、reflect 抽 `reflect.ts`）、server 接线（abort 透传/persona/受理即扣方案①）；全库 vitest 299/299。**部署纠偏教训**：orchestrator 其实一直活在 Vultr（sslip.io，07-07 `/health` ok）——那轮侦察只翻仓内配置漏了 M3 runbook 文末部署记录，误判"未部署"还拍了 fly.io，已推翻；~~fly 包 `a32c6f6` 待 revert~~ ✅ 已撤（`b82fd7d`，07-11 侦察核实）。剩 4 步：orchestrator 搬 client 新版逻辑 → rsync 重部署 → owner 补 VPS `OPENROUTER_API_KEY` → 真机验收清单一次走完（T20，已升为 T39 订阅页发布硬前置）。
-- **2026-07-08 loop 收官（北极星 10 件 loop 项全清，8 commit 在 `main`·`952119b`→`41e1f3d`）**：单一真相=`docs/dev-log.md`（每条含改法+验收）。跑完 ①只读市场对 tester 开(`.env.production` ENABLED=true/ADULT=false，防 `.env.local` 成人闸漏包) / ②多气泡回复(splitReplyBubbles 拆条+`[图]`混排+prompt激活) / ⑦人格护栏L1(PERSONA_ANCHOR 常量注入 graph post-history，**非 buildSystemPrompt 顶部**·研究驱动待 owner ack) / ⑨lib error 统一文案通道(UserFacingError+userErrorKey，英文测试者可读) / ⑩onboarding BYOK 状态机(`onboarding.ts`) / ⑥记忆手动置顶Pin(独立 `pinned` 列+`memoryPins.ts`+CompanionProfile 📌 UI) / ⑧图片资产账本A0(`image_assets`表+imageAssetRepo+生成漏斗记账，A1 其余漏斗/回填/图册切主进 BACKLOG)。测试 379→**432**，每步 check.sh 绿。**最终验收 bug-hunter：0 P0/0 P1 + 3 P2 已修**(#1 Pin 整行写→setPinned 单列/#2 `[图]`复制回喂泄漏→stripImageMarker/#3 pinned 缺列致整轮记忆静默丢→saveMemory 降级重试)。**⚠ commits 在 main 不是 loop/auto**(owner 说大开发期落哪都行；main 已与 soliloquy-loop worktree 的 loop/auto 分叉)。**待 owner**：① 跑迁移(③，本轮新增 3 条 `20260708120000_companion_pinned`/`130000_image_assets`/`140000_delete_account`) ② UI 走查(④) ③ 诱导测试(⑦真效果) ④ 打包(⑤) ⑤ ack 人设锚位置。48 源调研落 `docs/prd/research/2026-07-08-长对话人设稳定-抗重复-类人感-调研.md`(+raw/)。fix_plan 仅剩 ③④⑤ [skip]，下批从 BACKLOG 重排。
-- **2026-07-08 OC 市场·卡片流批全清（11 件 loop + 最终验收，13 commit 在 `main`·`0d67acd`→`9880a0d`）**：料源=owner 拍板施工基准 `docs/QA/01-首页OC卡片-功能栏.md`+`02-OC卡片流.md`（单一真相），逐条战报见 `docs/dev-log.md`。筛选区 6（三档子tab/控件行重构砍Top3+排序性别下拉/一排5大卡/排序搬后端+分页30+无限滚动+骨架屏/标签真实合集distinct并集+可展开/keep-alive materialMounted）+ 卡片流 5（tagline/点赞oc_like+chat_count自增禁自赞/收藏oc_favorite+我的OC子tab/作者露出origin判官方/⋮菜单举报屏蔽分享）。**最终验收 bug-hunter 0 P0-P1 + 4 修**（分页可达性+冷启动observer挂不上/换排序竞态feedGen/禁自赞own卡/屏蔽回滚）。测试 432→**486**。**⚠ 8 张迁移全已写但没跑（loop 只写不跑，随人工闸③）**：companion_pinned/image_assets/140000_delete_account/oc_tagline/oc_like/oc_favorite/oc_moderation/190000_delete_account_add_oc_social（190000 是最新 delete_my_account 含全 23 表，替 140000 那版）。**未做（doc §未定/别擅自补）**：搜索扩tag/屏蔽标签首版/性别非二元/tag排序/用户@名(username系统)/less like this。**待 owner**：跑迁移③→真机走查④(manual-verify 已登记卡片流五项+筛选区六项)→打包⑤。commits 在 main 非 loop/auto。
-- **2026-07-08 第二批 loop（详情页批 + IA 重构，14 件全跑完）**：料源 = `docs/QA/03-OC详情页.md`（D1-D4）+ `docs/prd/designs/2026-07-08-全局侧边栏导航-IA重构-PRD.md`（§4 N1-N9）+ 01/02 硬欠补账；逐条战报 `docs/dev-log.md`。**14 件全清**（22 commit 在 main·`1729097`→`214abd4`，测试 486→**533**）：补-2 作者 username（`user_profile` 表+author_profiles RPC 公开读+@名露出）/ 详-1 相册多图（`oc.gallery_urls` 挂卡行，**非 image_assets：那表 owner-only 访客读不到**）/ 详-2 详情两栏重排（左固定转化区/右主体+⋮菜单）/ 详-3 跑马灯+缩略图驱动 hero / 详-4 响应式四档 / **N1 全局导航骨架**（顶3-tab→左侧5视图 activeView，旧 Header 删、localStorage 迁移、⌘B 收展、⌘⇧H 退役）/ N2 底部快捷区（主题/语言/档位徽章）/ N3 对话两级 / N4 创作台撤销（删 Studio/Chat 孤儿 UI 1866 行，图像能力在 CincoChat generateImage 保留）/ N5 首页三子tab / N6 拆 MemberCenter→ProfileView(余额/交易/username)+SubscribeView(套餐卡壳) / N7 通知视图（`my_oc_notifications` DEFINER RPC 绕 owner-only RLS + 红点）/ N8 移动端底部导航条（主题/语言收进 ProfileView）/ N9 keep-alive（首页 keep-alive N1 已交付，余视图有意保持刷新）/ N4b Sidebar 收窄安全部分（撤 Studio 行+死 props）。**唯一残留** `[ ]`＝**N4b 残留**：`Sidebar.tsx` `tab==='idea'` inbox 分组块与 **LIVE 伙伴 inline-create 草稿逻辑同锅**（共用 301-309 草稿 effect）+ **伙伴列表零单测**→硬拆风险落日常主力，已记 fix_plan「先补伙伴列表测试兜底→再拆，不带测试不硬拆」。⚠ **迁移新增 3 条只写没跑**（`200000_user_profile`/`210000_oc_gallery`/`220000_oc_notifications`，随人工闸③）；owner 占位项落 decisions（username 规则/inbox 数据处置/gallery re-host）；真机走查登记 manual-verify（IA 导航骨架 + 详情页重排）。⚠ commits 全在 main（大开发期）；工作树另有 owner 并行改的 docs/OcDetail linter/i18n，非本轮、未碰。
-- **2026-07-09 状态（迁移闸已过 + P0 质量地基 PRD 批）**：**人工闸③迁移已全跑完**（Claude 亲跑 23 条补齐 + 07-08 三批全部，零报错；`delete_my_account` 现删 24 表；种子 gallery 回填 19 个拿到真相册图，`crushonGalleryUrls` 键名 bug 已修）——fix_plan 人工闸只剩 ④走查(`claude --chrome`)/⑤打包 [skip] + N4b 残留。**07-09 新 PRD 批**（全在 BACKLOG §1 簇⓪，待批准）：**T26 关系模型重构 P0**（亲密度三档锚覆盖作者人设、instantiate 不设 state → 人格断裂在第二句话；方案=亲密度降级为 OC 属性 `relationship_mode`）、**T25 记忆检索上库 pgvector P0**（向量在浏览器内存 Map 不落库，tester 包静默降级召回 → **排在打包前，否则自测记忆结论不作数**）、T27 输入助手分流 P1（嘴替vs编剧双 prompt 按 oc_id 分流）、T28 模型供给与选择 P1（文字白名单五模型+图侧六模型池**已拍**，六拍板点在 PRD §5；Atlas Cloud 调研 owner 自认领）。另 ee869d6 修了**生产包内联 owner API key** 红线（红线 #13 立法）+ persona 截断翻案 revert。**未推送**：main ahead origin（07-09/07-10 docs commits），push 不主动。
-- **2026-07-10**：**第三批 loop 已装载 20 件**（另一并行 session 干的：T26/T25/T27 + 收尾债 + T23 侦察/T24 诊断；"待批准"的 P0 装载即视为批准）；**T28 模型供给升 v0.4 实施稿**（ad4f625，owner 四拍：六项菜单/默认档维持 BYOK 官方档默认化≈2 个月后 §6 立项/配置全上账号级/入口三处 N 套；六模型行为调研落 research/07-10——slug 全证实、deny 语义证实、V4-Pro 干净价 0.67/1.34、MiMo 观察位；**T28 本批已撤下，装载=把 PRD §7.0 装载块粘进 fix_plan**，别自行捡回；人工闸重点=Kontext dev/Pony 商用许可核查是无审查锁脸单点支撑）；**同日二轮 Q&A 升 v0.5 链路定稿（3e95420）**：聊天生图整体退场（发图=相册挑）、生图唯一主场地=「管理」tab 她的管理页（侧栏双 tab：对话扁平不分级/管理一人一项即原分组；工作台=锁脸+改图本轮做+动作级过滤不静默，产物直落相册），线框=docs/ui/2026-07-10-管理tab与她的管理页-线框.html；⚠ IA 牵连：分组嵌套侧栏形态退场（§5.4-S2 口径更新）。**M4 四份子 PRD 已写完+验收+12 项全拍板落稿**（designs/2026-07-10-{侧栏双tab,她的管理页,画她工作台,摘除聊天现场生图}-PRD.md，施工序 1→2→3→4，装载=各份 §7.0 粘 fix_plan；关键定案：拖拽/移动分组这轮摘干净、轻线程加文字标、改图上传原图也入相册(role=material+origin:'upload')、**selfie 保留**=T7 只作废带锚半份·selfie_gen 转待办本轮不实施——此条口径已报 owner 复核待 ack；未 commit）。
-- **2026-07-11 QA 产品细聊马拉松收官（A–G 全清）**：`docs/QA/00-议题清单.md` 议题地图全部 ✅，16 份 QA 决策文档（09-16 为 07-11 一天所出：实例化拷贝/图像对账/三页/计费/审核/拦截/onboarding/会话即沉淀）。要点：**T20 切编排后端升为 T39 发布硬前置**（一轮 1 点口径只在服务端成立）；**T35 升级=owner-only 审核队列页**（市场总开关前置 b 落地件）；**T9 升级=欢迎弹窗+四气泡**（硬前置 T37+T39）；**T38 ⑤ 升级=会话段模型**（owner 拍记忆好感跟会话走、单活跃换档——取代 07-03"固定会话独家承载记忆"旧口径，拍板箱已标改判）；G1/G2=T25/T26 已施工收官，剩 owner 人工验收（golden set 英文组必须过 + 诱导测试）。**下一步=收官盘点施工顺序**（T9/T35/T37/T38/T39/T40/T41/T42+创建页批的依赖排序，两个线框轮：订阅页+创建页）。
-- **2026-07-11 下午：第五批合入 main 已 push + BACKLOG 全量核账**：第五批 loop 17 件全清（测试 955→1094，bug 三件套 0 P0/P1），loop/auto→main 干净 ff 54 commit **已 push origin**。4 路 opus 侦察核账 30 条未勾项（报告=`loop/reports/2026-07-11-第六批装载侦察.md`，BACKLOG 已按证据改写 commit 426c745/d1906f5）：**T28+M4 管理页全套其实已完成**（07-10 memory「T28 待装载」已过时；BACKLOG 里被 commit 的 merge 冲突标记已修，HEAD 侧为真）；T29/T34/T41/#4 记忆三件套/T8 尾巴全是假待办已回勾；T11 三层全已码；**会话段 3 潜伏 bug 已被并行 session 修掉（4545748）**。真剩的：可装载新码仅 8 小件（清单在报告 §二），大头是人工闸——迁移批 5+ 条/T40 pg_dump+drop/T31 回填/T33 rehost/T36 换图/T20 剩 4 步/T42① image-relay/T39① 注册送 100 点 hook（**欢迎弹窗「送 100 点」在空头承诺状态，落地前别发包**）；QA-06 D3「默认官方」未兑现（billing_mode 仍 byok）转挂 T37。
-- **2026-07-11 晚：T20 部署窗收官 + 拍板五连（owner 在场一问一答）**：T44 §8 五拍全落（base 14/干脆 120·180·240/骨架屏/mobile 同批/例外区仅 hero+欢迎弹窗，PRD 可装载）；**T36 换图挂起**（owner 拍「不考虑版权」，真实规模全库 1572 卡非 191）；**T42 3/3 全清**（image-relay「成功才扣」`8413c37` 已 deploy+冒烟）；**T45 性能优化批已装载**（BACKLOG+fix_plan 4 件，基准=docs/logic/2026-07-11-性能体检报告.md）。T20 核对发现交接单口径全过时：4 项搬运+服务器代码**本就同步**，只补 4 条断言（`3fb2f4e`）+restart+`/health` ok；**T20 KEY 已填**（key 源=项目 .env.local 的 PUBLIC_OPENROUTER_API_KEY，抄进 VPS server.env+restart，member 档已通），**真剩=真机验收清单一步**（攒单在交接单文末）。personaFit client/server 分叉进 decisions（建议随 T11 接线批）。`.env.production` ORCHESTRATOR_URL 留空是故意的（tester 包走本地图三理由），别填。另：官方号洗 creator_id（1572 行）方案备好 dry-run 已过，等 owner 放行执行。vitest 1128/1128。
-- **技术栈**：Tauri + React + **Rsbuild**（已替 Vite）+ pnpm；后端自有 **Supabase**（2026-06-30 起 **RLS 全表开 + OTP 邮箱登录**，按 user_id 隔离）；repo 契约层 `src/lib/repo/`（contract.ts 接口 + supabase.ts 唯一实现 + index.ts 指向）。
-- **改后端数据**：迁移走 `pnpm tsx scripts/run-migration.ts <file>`（用 .env.setup 的库 owner 直连）；验证/造数据可用 anon key（.env.local）跑临时脚本。
-- **文档**：`docs/` 已重构为 `api/`、`archive/`、`logic/`、`prd/`、`ui/`、`dev-log.md`；PRD 在 `docs/prd/PRD.md`，路线图 `docs/prd/roadmap.md`，设计文档在 `docs/prd/designs/`。
-- **必输点(别撞)**：通用 AI 助手 / ~~UGC 角色市场~~（**2026-07-03 已主动翻案要做，见方向大改**）/ mobile mood 打卡 / 角色 IP 分发 / 高频付费档。红线：未成年硬拦(公开唯一刑事红线)、AI 不主动播报、no-auto-delete、news 零抓取代码进 app、BYOK 永久免费。
-- 工作法沿用全局：项目情报落项目文档不进全局 memory(见 [[feedback_project_intel_stays_in_project_docs]])；删文件走废纸篓(见 [[feedback_cleanup_use_trash_not_rm]])。
+## 是什么
 
-- **07-13 chat 机制竞品走查收官（决策会话，零代码零 push）**：料源=docs/logic/2026-07-13-chat机制-竞品对照.md §11，六件逐件三层过（拍→链路→形态）全清——**做五砍一**：A 消息树与变体（QA-17 新页/T75，翻 QA-07 D2 两拍：variants 改做、回溯改非破坏分支；迁移=加列不回填零迁移）、B 消息级置顶（QA-07 D7/T76）、C 摘要可改可删（QA-07 D8/T78，用户改的是定案+还 passages 只增不删的债）、D 小细节记忆与主动召回（QA-18 新页/T79，owner 委托代拍；不碰 pgvector §4 排序锁）、F 详情页人设收口+作者 BYOK 开关（QA-03 D5/T80，前置=T48 select 收窄）；E Save Memory 砍（撞 QA-16 哲学）。**派生四终拍全清**：BYOK 开关默认关 / **重摇扣 1 点（owner 知情推翻竞品红线①「变体绝不按次计量」，发布后盯反馈）** / 变体上限 5 / 置顶容量 12 条+单条 500 字。顺手：BACKLOG T72 撞号→偏好信号改 T77。owner 本轮基调=「不要怕麻烦，哪怕聊天质量提高一点点都要做」+「对聊天效果有用的都做上」。T75-T80 全在 BACKLOG 待装载。
-- **07-20 创建页第二波战役收官（调研→14 视角评审→PRD，零代码）**：料仓=research/2026-07-16-创建页竞品调研/（07 对账/08 口径/09 补漏/10 候选/11 评审），**PRD=designs/2026-07-20-创建页第二波-PRD.md（T117）**；五件可施工（F1 生图接线参考图锚脸/F2 相册/F3 重裁剪+一图多用/F4 一句话快建/F5 教学文案），F6 导出+6 项待拍进 decisions「创建页 14 视角评审派生」节；关键核实=persona 全量下发（07-14 翻案，T80 只砍列表）、图价目真值 2/5/13/23/40/70（充值页 PRD §1 印错挂 T116 勘误）、QA-04「默认公开」已回写作废。
-- **07-11 深夜动线 QA 收官（ultracode 16-agent 动线评估→owner 逐条拍板）**：报告=docs/prd/research/2026-07-11-产品动线链路评估-ultracode.md（含 ⓪ 节拍板与勘误，读报告先读 ⓪）。**最大拍板=会员门票制**（会员=纯权限身份解锁官方/他人 OC、可 BYOK 聊不烧点、credits 只管官方算力、自建卡自由；PRD=designs/2026-07-11-会员门票制-PRD.md 唯一真相）+ **她主动开口的消息官方买单不扣点**（现状 dormant 回访扣用户 1 点=纠正对象）。fix_plan 新装「动线 QA 批」8 件（内嵌配置引导卡/破冰件前置/订阅页实体化 T39② 解闸不等线框/不扣点标记/门票闸 M1/被开聊人数/弹窗 CTA 直落 cinco/小件四连），BACKLOG 新挂簇⑨ T57-T65。**三勘误**：①key 墙归因偏（handleSend 不拦 key，跳设置的是灵感/增强/重试）②空货架证伪（1572 全 public/approved）③"桌面常驻"是卖点但 src-tauri 无任何常驻基建（T60 挂账）。真曝光旧口径「双 flag 全关」作废=实为半开态（市场真查库、仅成人档关）。
+以你为中心的对话桌面客户端，三端同步。两类对象：**独白会话**（inbox，不调 AI 的记事/收件箱）+ **伙伴会话**（companion，有人格 + 三层混合记忆 + mood/亲密度的 AI 角色）。
+
+**定位**：陪伴线，对标 CrushOn。干净线（学习伙伴/看板/收件箱）已整仓拆去 `~/Desktop/my-code/lich`，**拆完两仓完全独立互不同步**，搬功能只在你主动说的时候。
+
+**2026-07-03 pivot**：OC 从"伙伴的私有人设"翻案为**可复用、可发布的角色素材**——OC 独立成表 ↔ 伙伴=实例，靠 `oc_id` 引用，状态留实例侧。这条 pivot 主动推翻了原 roadmap「不做 UGC 角色市场」的必输点。
+
+## 关键设计不变量（改这块前先想清楚）
+
+**实例化那一刻把 persona/gender/appearance 拷进 `conversations`，注入时读会话自己的那份，绝不 live-read `oc`。** 所以编辑 OC 不会牵连已有的老实例。（OC-1a 一度实现成 live-read，FIX-1 拨正过——别再滑回去。）
+
+## 台账在哪（2026-07-30 核实的现行结构）
+
+| 用途 | 位置 |
+|---|---|
+| 待办池 | `docs/prd/BACKLOG.md`（编号发放：下一个可用见文件头） |
+| 已完成归档 | `docs/prd/DONE.md` |
+| **红线单一真相** | `docs/prd/REDLINES.md` ← 别在别处抄红线，会漂 |
+| 拍板箱 | `loop/decisions.md`（append-only，已 1500+ 行——**引用它只用标题搜，别记行号**） |
+| 人工闸（要人眼/真机的） | `loop/manual-verify.md` |
+| 设计文档 | `docs/prd/designs/` |
+
+⚠ 旧口径作废：`loop/fix_plan.md` 和「BACKLOG 簇⑨」那套编号**已随 07-27 机制重构消失**，别再找。
+
+## 技术栈
+
+Tauri + React 19 + **Rsbuild**（已替 Vite）+ pnpm；后端自有 **Supabase**（RLS 全表开 + OTP 邮箱登录，按 user_id 隔离）；repo 契约层 `src/lib/repo/`（contract.ts 接口 + supabase.ts 唯一实现 + index.ts 指向）。
+
+**改后端数据**：迁移走 `pnpm tsx scripts/run-migration.ts <file>`（用 `.env.setup` 的库 owner 直连）；验证/造数据可用 anon key（`.env.local`）跑临时脚本。
+
+## 红线
+
+**只有一条值得刻在这里**：未成年内容是无审查卖点下**唯一不可越的刑事红线**（`safetyGuard` 拦原文+增强后文本，出图侧另有闸）。
+
+其余全部去 `docs/prd/REDLINES.md` 现读——那里每条带状态，**有翻案过的**（「不做群聊」2026-07-16 已翻案、「不做 UGC 角色市场」2026-07-03 已翻案），照旧记忆办事会办错。
+
+## 当前真待办（2026-07-30 进仓核实）
+
+1. **「四线施工决策包」还没跑** —— `designs/2026-07-26-四线施工决策包.md` 不存在。这是 07-26 四线调研（埋点/多语言/季付年付/图谱记忆）审判收官后唯一挂着的下一步：出依赖顺序 / 冲突矩阵 / 预算合并 / 合并待拍表。
+2. **官方种子号 creator_id 迁不迁** —— 仍在 `BACKLOG.md` 的「待拍」节（T22 的根，权宜方案 b 现行）。dry-run 早备好，等你放行。
+3. **T36 种子卡换图** —— 挂账中（07-11 owner 拍「不考虑版权」）。
+
+## 已作废的旧口径（别再照着办）
+
+- ~~T20 剩 4 步 / 真机验收~~ → **T20 发布硬前置 2026-07-15 已全清**，只剩 owner 软 A/B 验收且非发布阻断
+- ~~selfie 保留、待 owner ack~~ → **已 ack 且反向**：T7 整条挂账不做（owner 07-13 拍）
+- ~~N4b Sidebar 残留~~ → 全仓 0 命中，已消失
+- ~~人工闸 ③迁移 / ④走查 / ⑤打包~~ → 编号体系不存在了，现在看 `loop/manual-verify.md`
+- ~~四线拍板在 decisions.md :987-1020~~ → 行号已漂，按标题搜
+
+## 历史
+
+07-03→07-26 的逐批施工战报（OC 三步、市场卡片流、IA 重构、QA 马拉松、模型升级、内部账号门控等）原本抄在这里，**2026-07-30 移除**——仓已跑到 T155，`docs/prd/DONE.md` 才是那些东西的正式归档。要考古去 DONE.md 和 `loop/decisions.md`。原文备份在 `~/.Trash/memory-project_soliloquy-备份-20260730.md`。
+
+相关：[[project_soliloquy_harness_loops]]（跑批线机制）、[[project_soliloquy_review_panel]]（14 席评审团）、[[project_co_model_eval_arena]]（anna 评测）、[[feedback_project_intel_stays_in_project_docs]]、[[feedback_cleanup_use_trash_not_rm]]

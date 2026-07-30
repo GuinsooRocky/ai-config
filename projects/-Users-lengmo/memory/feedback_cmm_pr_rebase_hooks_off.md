@@ -21,4 +21,4 @@ metadata:
 
 时间预期：普通 commit+push+PR ~3–5min；带必要 rebase ~6–8min；未知意外被熔断压到「几分钟内停下问你」。
 
-相关：[[feedback_worldcard_worktree]]（世界卡只在 onlychat-world-book 做）、[[feedback_git_porcelain_with_rtk]]、[[feedback_rebase_over_merge]]。
+相关：[[feedback_worldcard_worktree]]（世界卡绝不碰 agg-tuning）、[[reference_rtk_smart_gateway]]、[[feedback_rebase_over_merge]]。

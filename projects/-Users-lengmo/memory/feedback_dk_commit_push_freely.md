@@ -11,4 +11,4 @@ metadata:
 
 **Why:** 用户明说"直接 commit+push 就好，省得你每次提"（2026-06-18）。个人自有仓，节奏要快。
 
-**How to apply:** 验证过（smoke/单测/能跑）就分逻辑单元 commit + push origin HEAD。仍守：never commit .env/config.toml/.build/dist/db；用 `--porcelain`/`rtk proxy git` 拿真相；不是我改的文件先看 diff 再决定是否一起提。此授权**仅限本项目**，不外溢到工作仓（见 [[feedback_commit_policy]] 全局仍是 push 不主动）。
+**How to apply:** 验证过（smoke/单测/能跑）就分逻辑单元 commit + push origin HEAD。仍守：never commit .env/config.toml/.build/dist/db；提交前核对全量改动（`git status --porcelain=v1`）；不是我改的文件先看 diff 再决定是否一起提。此授权**仅限本项目**，不外溢到工作仓（见 [[feedback_commit_policy]] 全局仍是 push 不主动）。

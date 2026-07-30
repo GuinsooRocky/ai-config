@@ -11,4 +11,4 @@ RTK（Rust Token Killer）= 第三方开源工具 **`github.com/rtk-ai/rtk`**，
 
 已知现有能力（strings 扒出）：`rtk learn`（从 CC error history 学 CLI 纠正，类似 headroom learn 用户已有）、`rtk proxy`（不过滤仅跟踪，逃生口但要重跑）、`rtk cache` **不存在**（无 CCR 可逆缓存）。
 
-2026-06-18 已给上游提 CCR（Capture-Compress-Recall 可逆缓存）feature issue → [#2485](https://github.com/rtk-ai/rtk/issues/2485)，蹭 #1777（agent 缺信息重跑卡死，priority:high）。相关坑：#2148 rtk 现有缓存返回 stale 状态。用法痛点见 [[feedback_git_porcelain_with_rtk]] [[feedback_rtk_pipeline_corruption]]。
+2026-06-18 已给上游提 CCR（Capture-Compress-Recall 可逆缓存）feature issue → [#2485](https://github.com/rtk-ai/rtk/issues/2485)，蹭 #1777（agent 缺信息重跑卡死，priority:high）。相关坑：#2148 rtk 现有缓存返回 stale 状态。用法痛点见 [[reference_rtk_smart_gateway]] [[feedback_rtk_pipeline_corruption]]。

@@ -5,6 +5,7 @@ metadata:
   node_type: memory
   type: feedback
   originSessionId: ceab74e4-7fa6-4edd-b8ed-19dcc9fa01a3
+  modified: 2026-07-30T06:47:32.107Z
 ---
 
 **⚠ 2026-06-26 更新**：已装智能网关 [[reference_rtk_smart_gateway]]——精度命令(含 curl/grep/cat/管道首命令)默认裸跑不再过 rtk，本条描述的污染大部分已被缓解。下面是旧钩子（无脑全改写）时代的踩坑记录，仅当走 `#rtk` 强制或命中 savings 白名单时仍适用。
@@ -13,10 +14,8 @@ metadata:
 
 rtk PreToolUse hook（`rtk hook claude`）改写命令时**不识别管道语境**：`curl ... | python3 -c "json.load(...)"` 被改写成 `rtk curl ... | python3 ...`。rtk 对 curl stdout 做 token 截断/加注（完整输出 tee 到 `~/Library/Application Support/rtk/tee/*.log`），下游 python3 拿到的是残缺 JSON → `Invalid control character` / `Unterminated string`。实测 2026-06-12：GitHub API 5197 字节合法 JSON，tee 日志完整，管道下游收到的是截断版。
 
-另一坑（已修正归因 2026-06-12）：`rtk ls` 错报 `(empty)` **不是空格路径问题，是 locale 问题**——本机 `LANG=zh_CN.UTF-8` 下 `ls -la` 日期是 `6月 12 21:04`，0.38.0 的解析器用英文月份正则做锚点，全部行匹配失败 → 整目录吞成 `(empty)`。上游 **v0.39.0 已修**（`LC_ALL=C` + 解析失败回退 raw），升级 rtk 即可治这条。
-
-上游状态（2026-06-12 核查）：管道改写 bug = issue #1560（P1-critical），已有 3 个 open PR（#1639/#2229/#2274）无人 review，**别再提重复 PR**；#2274 的"只改写管道末段"方案有隐患——`rtk grep` 无视管道 stdin 去搜文件系统（issue #838，master 上实测仍坏）。
+上游状态：管道改写 bug = issue #1560（P1-critical），已有多个 open PR 无人 review，**别再提重复 PR**。（原文另记的 `rtk ls` locale 误报已由上游 v0.39.0 修掉，2026-07-30 清理。）
 
 **Why:** rtk 的过滤是给模型眼睛省 token 设计的，不是给机器消费设计的；混进数据管道就是数据损坏，而且报错形态（JSON 解析失败）会误导去怀疑数据源（GitHub API / curl）而不是 rtk。
 
-**How to apply:** 输出要被下游程序解析（pipe 给 python/jq/wc、`$(...)` 捕获）时，三选一绕过 rtk：① `rtk proxy <cmd>` 跑原始命令；② 用绝对路径（`/usr/bin/curl`、`/bin/ls`）——hook 只匹配裸命令名；③ 先 `curl -o /tmp/x.json` 落盘再解析文件。怀疑 rtk 截断时去 tee 目录找完整输出。同根问题见 [[feedback_git_porcelain_with_rtk]]。
+**How to apply:** 输出要被下游程序解析（pipe 给 python/jq/wc、`$(...)` 捕获）时，三选一绕过 rtk：① `rtk proxy <cmd>` 跑原始命令；② 用绝对路径（`/usr/bin/curl`、`/bin/ls`）——hook 只匹配裸命令名；③ 先 `curl -o /tmp/x.json` 落盘再解析文件。怀疑 rtk 截断时去 tee 目录找完整输出。同根问题已并入 [[reference_rtk_smart_gateway]]。
