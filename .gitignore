@@ -34,6 +34,9 @@
 /projects/-Users-lengmo/*
 !/projects/-Users-lengmo/memory/
 
+# firecrawl 是指向 ~/.agents 的外部符号链接（官方安装器管理，新机器重装即得），不入库
+/skills/firecrawl
+
 # 各目录内部的派生垃圾
 __pycache__/
 *.pyc
