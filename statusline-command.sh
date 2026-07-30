@@ -3,7 +3,12 @@
 # Claude Code 每次刷新会把会话信息(JSON)喂给 stdin，stdout 第一行渲染为状态栏
 
 input=$(cat)
-JQ=/usr/bin/jq
+JQ=$(command -v jq 2>/dev/null || true)
+
+if [[ -z "$JQ" ]]; then
+  printf '%s\n' "Claude Code"
+  exit 0
+fi
 
 IFS=$'\t' read -r model model_id cwd transcript cost dur_ms < <(
   printf '%s' "$input" | "$JQ" -r '[

@@ -1,6 +1,8 @@
 ---
 name: write-a-prompt
-description: 生成或优化「给别的 session 执行」的高质量 prompt。触发词：生成 prompt、写个 prompt、帮我生成 prompt、给我出个 prompt、优化这个 prompt、把 prompt 改好、promort（用户高频错拼）、/write-a-prompt。仅当交付物本身是 prompt 时触发；不抢「写文章/写稿子」（归 xhs-writer）、「写个 skill」（归 write-a-skill）、「聊设计再写」（归 brainstorm）。
+description: Create or improve a high-quality prompt for another agent or session.
+  Use when the user asks to write, generate, or optimize a prompt that someone else
+  will execute.
 ---
 
 # Write-a-Prompt

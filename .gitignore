@@ -23,6 +23,9 @@
 !/mcp-servers.json
 !/launchd/
 !/codex/
+!/ai-config.json
+!/profiles/
+!/scripts/
 
 # memory 单独放行（projects/ 下其余都是原始会话 jsonl，不放行）
 !/projects/

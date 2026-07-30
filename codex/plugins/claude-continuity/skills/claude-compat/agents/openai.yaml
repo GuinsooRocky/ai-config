@@ -1,4 +1,0 @@
-interface:
-  display_name: "Claude Compatibility Bridge"
-  short_description: "Reuse your live Claude abilities in Codex"
-  default_prompt: "Use $claude-compat to resolve and run this capability the way my Claude setup does."

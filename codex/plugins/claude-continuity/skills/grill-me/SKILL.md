@@ -1,6 +1,7 @@
 ---
 name: grill-me
-description: Interview the user relentlessly about a plan or design until reaching shared understanding, resolving each branch of the decision tree. Use when user wants to stress-test a plan, get grilled on their design, or mentions "grill me"、"拷问我"、"挑战这个方案"、"把这个计划问透". 无 PRD 的方案拷问用本 skill；有 PRD 对照逐点拷问用 /grill-with-prd；从 0 把模糊想法聊成设计用 brainstorm.
+description: Interview the user one question at a time to resolve ambiguity in a plan
+  or design. Use only when the user explicitly asks to be grilled or challenged interactively.
 ---
 
 # Grill Me — 方案拷问（无 PRD 版）

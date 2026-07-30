@@ -11,6 +11,9 @@
 
 payload=$(cat)
 
+# 新机器没有安装 rtk 时完全旁路，不让 Claude 每次执行 Bash 都报错。
+command -v rtk >/dev/null 2>&1 || exit 0
+
 # 1. #raw 优先级最高 → 直接裸跑
 if printf '%s' "$payload" | grep -q '#raw'; then
   exit 0

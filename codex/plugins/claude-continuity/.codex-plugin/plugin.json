@@ -1,7 +1,7 @@
 {
   "name": "claude-continuity",
-  "version": "0.1.0+codex.20260721183835",
-  "description": "Migrated Claude skills, agents, workflows, commands, memory access, and safe MCP integrations for Codex.",
+  "version": "0.1.0+codex.20260722095327",
+  "description": "Portable daily skills plus an on-demand catalog of migrated AI capabilities for Codex.",
   "author": {
     "name": "Lengmo"
   },
@@ -9,22 +9,20 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Claude Continuity",
-    "shortDescription": "Continue your established Claude workflows in Codex.",
-    "longDescription": "Carries Lengmo's reusable Claude skills, specialist agents, orchestration workflows, commands, memory lookup, and safe MCP integrations into Codex.",
+    "shortDescription": "Use shared AI capabilities without loading everything at startup.",
+    "longDescription": "Exposes a small daily skill set and routes less-common skills, agents, workflows, and commands from a portable bundled catalog only when a task needs them.",
     "developerName": "Lengmo",
     "category": "Productivity",
     "capabilities": [
       "Skills",
       "Agents",
       "Workflows",
-      "Memory",
-      "MCP"
+      "On-demand catalog"
     ],
     "defaultPrompt": [
-      "Continue this task using my established Claude workflow.",
-      "Run my migrated agent review flow on the current project.",
-      "Recall the relevant decision from my previous Claude sessions."
+      "Find the best existing capability for this task.",
+      "Run my established review workflow on this project.",
+      "Use my shared AI workflow without loading unrelated skills."
     ]
-  },
-  "mcpServers": "./.mcp.json"
+  }
 }

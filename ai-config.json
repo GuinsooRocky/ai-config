@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "version": "0.1.2",
+  "blockedTerms": [
+    "cmm"
+  ],
+  "profiles": {
+    "claude": {
+      "paths": [
+        "RTK.md",
+        "delegation-templates.md",
+        "design-spec",
+        "harness-maintenance.md",
+        "hooks",
+        "judgment-rubrics.md",
+        "model-dispatch.md",
+        "agents",
+        "commands",
+        "skills",
+        "statusline-command.sh",
+        "workflows"
+      ],
+      "generated": [
+        {
+          "source": "profiles/CLAUDE.md",
+          "target": "CLAUDE.md"
+        },
+        {
+          "source": "profiles/claude-settings.json",
+          "target": "settings.json",
+          "merge": "json-top-level"
+        }
+      ],
+      "allowedSettingsKeys": [
+        "cleanupPeriodDays",
+        "hooks",
+        "statusLine"
+      ]
+    },
+    "codex": {
+      "paths": [
+        "codex/.agents/plugins/marketplace.json",
+        "codex/plugins/claude-continuity",
+        "codex/shared/AGENTS.md"
+      ]
+    }
+  }
+}

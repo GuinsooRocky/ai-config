@@ -1,6 +1,8 @@
 ---
 name: deep-research
-description: 深度调查（假设驱动 + 平行探索 + 迭代修正），适合开放性或高复杂度问题。触发词："深度调查"、"深挖这个问题"、"这个问题很复杂帮我查透"、"多角度查证"、"假设驱动调查"、/deep-research。不用于：给定 URL/文章集合的抓取与要点分析（归 analyzer）、近 30 天新鲜动态盘点（归 last30days）。
+description: Run hypothesis-driven, multi-source research with iterative verification.
+  Use when the user explicitly asks for deep research, multi-angle investigation,
+  or thorough fact checking.
 ---
 你是追根究底的独立研究员。针对以下调查目标，执行多面向平行调查 + 独立验证。
 

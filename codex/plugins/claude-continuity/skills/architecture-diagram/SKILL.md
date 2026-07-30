@@ -1,9 +1,11 @@
 ---
 name: architecture-diagram
-description: Create polished dark-themed architecture diagrams as self-contained HTML+SVG files. Use when the user asks for system, infrastructure, cloud, security, or network topology diagrams.
+description: Create a polished architecture diagram as self-contained HTML and SVG.
+  Use when the user asks for an architecture, system, data-flow, component, or infrastructure
+  diagram.
 license: MIT
 metadata:
-  version: "1.1"
+  version: '1.1'
   author: Cocoon AI (hello@cocoon-ai.com)
 ---
 

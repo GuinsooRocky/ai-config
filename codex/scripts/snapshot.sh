@@ -12,8 +12,12 @@ copy_file() {
   cp "$source" "$destination"
 }
 
-copy_file "$HOME/.codex/AGENTS.md" "$repo_root/shared/AGENTS.md"
+if [[ "${CONTINUITY_SNAPSHOT_AGENTS:-0}" == "1" ]]; then
+  copy_file "$HOME/.codex/AGENTS.md" "$repo_root/shared/AGENTS.md"
+fi
 
-CONTINUITY_CLAUDE_SOURCE="$claude_root" "$repo_root/scripts/rebuild-codex-plugin.sh"
+CONTINUITY_CLAUDE_SOURCE="$claude_root" \
+CONTINUITY_PROFILE="${CONTINUITY_PROFILE:-core}" \
+  "$repo_root/scripts/rebuild-codex-plugin.sh"
 "$repo_root/scripts/verify-no-secrets.sh"
 echo "Snapshot complete. Review git status before committing."

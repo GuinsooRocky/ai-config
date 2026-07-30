@@ -1,8 +1,11 @@
 ---
 name: last30days
-version: "3.6.0"
-description: "Research what people actually say about any topic in the last 30 days. Pulls posts and engagement from Reddit, X, YouTube, TikTok, Hacker News, Polymarket, GitHub, and the web."
-argument-hint: 'last30days nvidia earnings reaction | last30days AI video tools | last30days what users want in react'
+version: 3.6.0
+description: Research what people have actually said about a topic in the last 30
+  days using current public sources and engagement signals. Use for recent sentiment
+  and trend research.
+argument-hint: last30days nvidia earnings reaction | last30days AI video tools | last30days
+  what users want in react
 allowed-tools: Bash, Read, Write, AskUserQuestion, WebSearch
 homepage: https://github.com/mvanhorn/last30days-skill
 repository: https://github.com/mvanhorn/last30days-skill
@@ -11,54 +14,54 @@ license: MIT
 user-invocable: true
 metadata:
   openclaw:
-    emoji: "📰"
+    emoji: "\U0001F4F0"
     requires:
       env: []
       optionalEnv:
-        - SCRAPECREATORS_API_KEY
-        - OPENAI_API_KEY
-        - XAI_API_KEY
-        - OPENROUTER_API_KEY
-        - PARALLEL_API_KEY
-        - BRAVE_API_KEY
-        - APIFY_API_TOKEN
-        - AUTH_TOKEN
-        - CT0
-        - BSKY_HANDLE
-        - BSKY_APP_PASSWORD
-        - TRUTHSOCIAL_TOKEN
+      - SCRAPECREATORS_API_KEY
+      - OPENAI_API_KEY
+      - XAI_API_KEY
+      - OPENROUTER_API_KEY
+      - PARALLEL_API_KEY
+      - BRAVE_API_KEY
+      - APIFY_API_TOKEN
+      - AUTH_TOKEN
+      - CT0
+      - BSKY_HANDLE
+      - BSKY_APP_PASSWORD
+      - TRUTHSOCIAL_TOKEN
       bins:
-        - node
-        - python3
+      - node
+      - python3
     primaryEnv: SCRAPECREATORS_API_KEY
     files:
-      - "scripts/*"
+    - scripts/*
     homepage: https://github.com/mvanhorn/last30days-skill
     tags:
-      - research
-      - deep-research
-      - reddit
-      - x
-      - twitter
-      - youtube
-      - tiktok
-      - instagram
-      - hackernews
-      - polymarket
-      - digg
-      - bluesky
-      - truthsocial
-      - trends
-      - recency
-      - news
-      - citations
-      - multi-source
-      - social-media
-      - analysis
-      - web-search
-      - hiring-signals
-      - ai-skill
-      - clawhub
+    - research
+    - deep-research
+    - reddit
+    - x
+    - twitter
+    - youtube
+    - tiktok
+    - instagram
+    - hackernews
+    - polymarket
+    - digg
+    - bluesky
+    - truthsocial
+    - trends
+    - recency
+    - news
+    - citations
+    - multi-source
+    - social-media
+    - analysis
+    - web-search
+    - hiring-signals
+    - ai-skill
+    - clawhub
 ---
 
 # STEP 0: STALE-CLONE SELF-CHECK — RUN BEFORE READING BELOW

@@ -1,6 +1,8 @@
 ---
 name: project-suggest
-description: 把外部信息（AI 新闻 / 竞品 PR / 文章 / 痛点 / issue）转成贴合当前项目实际约定、按优先级排序的改进建议清单——每条都锚到真实文件/契约，不空谈。触发词：给改进建议、项目改进、提点建议、这篇/这个能给项目带来啥、ideas for X、suggest improvements，或直接粘一段新闻/PR/文章说"看看对项目有啥用"。常接在 analyzer 之后（analyzer 抓内容 → project-suggest 转成本项目可执行的改进项）。不用于：开新功能前的设计对齐（用 brainstorm）、把需求落档存盘（那是另一回事）。
+description: Turn external information into prioritized, codebase-grounded improvement
+  suggestions. Use when the user asks what a project should learn or improve from
+  an article, issue, competitor, or trend.
 ---
 
 # project-suggest
