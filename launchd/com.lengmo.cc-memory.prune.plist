@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.lengmo.cc-memory.prune</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/lengmo/bin/python3</string>
+        <string>/Users/lengmo/Desktop/cc-memory/memory/scripts/prune_old_sessions.py</string>
+    </array>
+
+    <!-- 每周一 10:20。保留期 90 天，每周裁一次足够；脚本幂等，漏跑一次无副作用。 -->
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Weekday</key>
+        <integer>1</integer>
+        <key>Hour</key>
+        <integer>10</integer>
+        <key>Minute</key>
+        <integer>20</integer>
+    </dict>
+
+    <key>RunAtLoad</key>
+    <false/>
+
+    <key>StandardOutPath</key>
+    <string>/Users/lengmo/.claude/cache/scheduled-runs/launchd-cc-memory-prune.out.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/lengmo/.claude/cache/scheduled-runs/launchd-cc-memory-prune.err.log</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin</string>
+        <key>HOME</key>
+        <string>/Users/lengmo</string>
+    </dict>
+</dict>
+</plist>
