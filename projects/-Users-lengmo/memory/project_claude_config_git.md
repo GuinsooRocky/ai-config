@@ -1,18 +1,23 @@
 ---
 name: project-claude-config-git
-description: ~/.claude 本体现在是私有 git 仓库 GuinsooRocky/claude-config，白名单 .gitignore 只跟踪可复用配置
+description: ~/.claude 是私有仓库 GuinsooRocky/ai-config 的直接 checkout；cc-防丢失快照已删；Desktop/cc-memory/ai-config 是同仓中立副本
 metadata: 
   node_type: memory
   type: project
   originSessionId: 2389aa12-6873-4592-bd4d-1e4eacf9dc22
+  modified: 2026-07-30T08:04:48.832Z
 ---
 
-`~/.claude` 目录本身已 `git init` 并推到私有仓库 [GuinsooRocky/claude-config](https://github.com/GuinsooRocky/claude-config)（2026-07-01 建）。用白名单式 `.gitignore`（先 `/*` 忽略一切，再 `!` 放行）只跟踪：`agents/`、`skills/`、`commands/`、`hooks/`、`workflows/`、`design-spec/`、`CLAUDE.md`、`RTK.md`、`README.md`。
+`~/.claude` 目录本身是私有仓库 [GuinsooRocky/ai-config](https://github.com/GuinsooRocky/ai-config) 的直接 checkout（2026-07-01 建，原名 claude-config，2026-07-22 改名并重构成 Claude/Codex 共用能力源）。白名单式 `.gitignore` 只跟踪可复用配置 + memory + 消毒过的 settings/mcp/launchd。
 
-**Why**：想把 skill/agent/workflow 的迭代做成可 diff、可 commit 的版本历史，而不是每次手动 rsync 整份快照。真正排除不掉的只有机器专属的原始状态：`history.jsonl`、`projects/`（除 memory 外的原始会话 jsonl）、`sessions/`、`session-env/`、`telemetry/`、`cache/`、`stats-cache.json`。**`settings.json`/`mcp-servers.json`/`launchd/*.plist` 现在是跟踪的**（当天被后续 commit `7cd770c "Merge memory + sanitized settings/mcp/launchd into claude-config"` 并入白名单，经消毒确认无密钥泄漏后放行）——这与本记忆最初的说法相反，以此为准。
+**同一仓库有两份工作副本，别当成两个仓库**：
+- `~/.claude` —— 运行时（旧式直接 checkout，本机继续用这种方式）
+- `~/Desktop/cc-memory/ai-config` —— 中立副本，装着安装器体系（`profiles/` + `scripts/install-*.sh`，新机器走安装器投影，不再推荐直接 clone 成 `~/.claude`）；发布协议是 `./scripts/prepare-update.sh patch` 校验后手动 commit/push
+
+两边都可能脏，同步顺序：各自 commit → `pull --rebase` → push（07-30 实操过一轮，分叉可解）。
 
 **How to apply**：
-- 以后改 `~/.claude/skills|agents|commands|hooks|workflows|design-spec` 下的文件，可以提醒用户 `git status`/`commit` 做增量备份（他没主动要求就别自作主张 push，参考 [[feedback_commit_policy]]，但这是他自己的私有仓库不是工作仓，个人项目提交无所谓可自行判断）
-- 跟静态整机快照 `~/Desktop/cc-memory/cc-防丢失`（rsync 全量，含 settings/mcp 密钥，换机器恢复用）是两回事，不要混淆或互相替代
-- `skills/xhs-writer` 是指向 `~/.agents/skills/khazix-writer` 的 symlink，git 只存了链接本身，不是内容——克隆到新环境这个链接会悬空，呼应 [[feedback_personal_repo_handling]] 里 skill 双份同步的例外情形
-- 已确认无密钥泄漏（推送前扫过 hooks/commands/workflows/design-spec，无 secret/token/api-key 硬编码）
+- 改 `~/.claude/skills|agents|...` 后可提醒 `git status`/`commit` 增量备份；个人仓 commit 可自行判断，push 不主动（[[feedback_commit_policy]]）
+- `skills/xhs-writer` 已从 symlink **实体化为真实文件**（2026-07-30），单一真相在 `~/.claude`；`~/.agents/skills/khazix-writer` 反向改成了指向它的 symlink——改内容只改 `~/.claude` 这份
+- `skills/firecrawl` 是指向 `~/.agents` 的外部 symlink，已 gitignore 不入库（官方安装器管理，新机器重装即得）
+- 静态整机快照 `~/Desktop/cc-memory/cc-防丢失` **已于 2026-07-30 删除**（进 `~/.Trash/cc-防丢失-20260730`），独有内容（xhs-writer 全套）已入库，不再存在"两套备份"

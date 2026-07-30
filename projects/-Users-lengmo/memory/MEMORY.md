@@ -86,7 +86,7 @@
 - [HTML 预览原地 reload](feedback_browser_preview_reload_in_place.md) — 刷新本地 HTML 预览用 reload 当前标签，绝不 close+reopen（会甩回顶部丢滚动位置）
 - [复制内容按长短分流](feedback_copy_content_delivery.md) — 短文案对话内纯文本(不上表格/#/**)；长内容(文档/报告/全量返回)写 scratchpad 文件报路径；session 关闭自动清理
 - [Obsidian vault=archives](reference_obsidian_vault_archives.md) — 07-12 装机落地，vault 直挂 ~/Desktop/archives 零迁移；只做回看层写入侧不变；砍掉 MCP/PARA/日记插件；剪藏/ 文件夹已建
-- [~/.claude 是私有 git 仓库](project_claude_config_git.md) — 已推 GuinsooRocky/claude-config；白名单 .gitignore 跟 agents/skills/commands/hooks/workflows/design-spec/CLAUDE.md/RTK.md/settings.json/mcp-servers.json/launchd/；跟 cc-防丢失 全量快照是两回事
+- [~/.claude 是私有 git 仓库](project_claude_config_git.md) — GuinsooRocky/**ai-config**（原 claude-config）的直接 checkout；`Desktop/cc-memory/ai-config` 是同仓中立副本（装着新机器安装器）；cc-防丢失快照 07-30 已删；xhs-writer 已实体化、单一真相在 ~/.claude
 - [生成 prompt 的质量标准](feedback_prompt_generation_quality_bar.md) — 用户常让我生成 prompt 要质量稳定高；按固定 rubric（角色+硬规则/焊真实上下文/输出契约/内建优先级/可逆护栏/填空位）过一遍，别临场发挥
 - [--contains 查不出 cherry-pick](feedback_git_contains_misses_cherrypick.md) — 判断改动在不在某分支禁用 git branch --contains（cp 换 hash），按内容/message/文件历史查；07-17 banner 据此对 owner 报过假警报
 - [截断输出≠事实](feedback_truncated_output_is_not_ground_truth.md) — 要下结论的输出不许带 |head（先 --count/--stat 拿总数）；07-17 把 93 个提交看成 10 个,对 owner 喊了「线上要回退」的假警报

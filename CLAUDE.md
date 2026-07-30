@@ -17,7 +17,7 @@
 - 微信/小红书/X/B站/YouTube/播客链接 → `analyzer` skill（走 sf-reader-all，本机浏览器 + 登录态）；**云端抓这些站会吃风控页**
 - 英文站单页 → WebFetch 够用
 - 整站 URL 清单（`firecrawl map`）/ 整站抓（`crawl`）/ 关键词搜索带正文（`search`）→ `firecrawl` skill
-- 官方 init 装的 31 个 firecrawl-* 子 skill 已砍（在 `~/.Trash/firecrawl-skills-20260730/`），只留主入口
+- 官方 init 装的 31 个 firecrawl-* 子 skill 已砍，只留主入口；07-30 曾被重装回来一次，二次清理时连 `~/.agents/.skill-lock.json` 里的条目一起剪了——再冒出来就照这两步再砍
 
 ---
 
