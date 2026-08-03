@@ -1,6 +1,6 @@
 ---
 name: meta-check-skill
-description: Skill 质量审计（对齐 2026-04 官方 frontmatter 15 字段表）— 用四步法（加载词典 → 解析 frontmatter+body → 逐项打分 → 生成报告）检测某个 SKILL.md 的质量，按 5 维度满分 100 评分并给修复优先级。触发词："检测 skill"、"审 skill"、"skill 水平"、"skill audit"、"skill 评审"、"skill 打分"、"meta check skill"。输入支持：skill 目录名（如 `daily-recap`）、SKILL.md 绝对路径、或 `--all` 同时扫 `~/.claude/skills/` 和当前 cwd 的 `.claude/skills/`。
+description: Skill 质量审计（对齐 2026-04 官方 frontmatter 15 字段表）— 用四步法（加载词典 → 解析 frontmatter+body → 逐项打分 → 生成报告）检测某个 SKILL.md 的质量，按 5 维度满分 100 评分并给修复优先级；另含进阶的 description 触发率优化循环（真跑 claude -p 测该不该触发，按 held-out 分选最优）。触发词："检测 skill"、"审 skill"、"skill 水平"、"skill audit"、"skill 评审"、"skill 打分"、"meta check skill"、"这个 skill 为什么叫不动"、"优化 description 触发率"、"测一下触发准不准"。输入支持：skill 目录名（如 `daily-recap`）、SKILL.md 绝对路径、或 `--all` 同时扫 `~/.claude/skills/` 和当前 cwd 的 `.claude/skills/`。不用于：写一个新 skill（归 write-a-skill）、从对话记录挖 skill 候选（归 meta-skill-mining）。
 ---
 
 # Meta-Check Skill
@@ -55,6 +55,57 @@ audit.py 内置 5 类 scorer，逐条匹配词典并返回 `(score, issues[])`�
 - 每条 issue 必须**可执行**（说清"缺什么 → 怎么加"），不要空话
 - 结尾给 **Top 3 修复优先级**（高/中/低）
 - 让用户自己决定要不要修 —— 不要自动改别的 skill
+
+## 进阶：description 触发率优化（行为 eval）
+
+上面的五维打分是**静态**的——看 SKILL.md 写得规不规范。它答不了「这条 description 实际会不会被触发」。
+真要量那个，用 `ref/desc-opt/`（抄自官方 `anthropics/skills` 的 skill-creator，只取了 description 优化这条循环）。
+
+**何时用**：静态满分了但实际叫不动它；改完 description 想知道是变好还是变坏；跟邻近 skill 抢触发说不清谁该赢。
+
+⚠️ **先报预估再跑**：默认 20 条 query × 3 次 × (1 基线 + 5 轮迭代) ≈ **360 次 `claude -p` 子进程调用**，走你自己的订阅额度，耗时以十分钟计。跑之前必须报清楚次数等用户点头（可用 `--max-iterations 2 --runs-per-query 1` 先小样本试）。
+
+### Step 1 — 造 eval set
+
+20 条真实 query，一半该触发、一半不该，存成 JSON：
+
+```json
+[{"query": "用户会真的打出来的话", "should_trigger": true}]
+```
+
+写好 query 是整件事的成败点：**要具体到带文件路径、真实项目名、口语和错字**，不要「格式化这个数据」这种抽象句。
+负例最有价值的是**近似误触发**——跟本 skill 共享关键词但实际该走别的 skill 的那些。「写个斐波那契」当 PDF skill 的负例毫无信息量。
+
+### Step 2 — 让用户过一遍
+
+把 `ref/desc-opt/assets/eval_review.html` 里的三个占位符替换掉（`__EVAL_DATA_PLACEHOLDER__` / `__SKILL_NAME_PLACEHOLDER__` / `__SKILL_DESCRIPTION_PLACEHOLDER__`），写到 scratchpad 后 `open`。用户可以改 query、翻转 should_trigger，然后点导出——文件落到下载目录，名字形如 `eval_set.json`；导出多次会出现 `eval_set (1).json`，**取最新那份**。
+
+**这步不能跳**——query 造得烂，优化出来的 description 就是烂的。
+
+### Step 3 — 跑循环
+
+```bash
+cd ~/.claude/skills/meta-check-skill/ref/desc-opt
+python3 -m scripts.run_loop \
+  --eval-set <eval_set.json> \
+  --skill-path ~/.claude/skills/<name> \
+  --model <当前 session 的 model id> \
+  --max-iterations 5 --verbose
+```
+
+`--model` 传当前 session 真正在用的模型 ID，否则测出来的触发行为跟你日常体验对不上。
+用 Bash 的 `run_in_background` 起（别 nohup），挂 Monitor 报进度。
+它自动切 60% train / 40% held-out test，**按 test 分选最优**避免过拟合，结束返回 `best_description`。
+
+### Step 4 — 应用
+
+把 `best_description` 写回 SKILL.md，给用户看 before/after + 两组分数。**别偷偷替换**。
+
+### 已知坑
+
+- 它靠 `find_project_root()` 从 cwd 往上找 `.claude/`，然后在 `<root>/.claude/commands/` 写临时命令文件来伪造 available_skills。**在 `~` 下跑，root 就是 `/Users/lengmo`，文件会写进你真实的全局 commands 目录**——正常结束会 `unlink` 清掉，但中途 kill 会留垃圾，跑完顺手 `ls ~/.claude/commands/ | grep -- -skill-` 检查一遍。
+- 简单的一步到位 query（「读一下这个 PDF」）**不管 description 写多好都不会触发**——Claude 自己就能干的活不会去查 skill。所以 query 必须够复杂，否则测的是噪声。
+- 零第三方依赖（纯标准库 + `claude` CLI），不用装环境。
 
 ## 输入消歧
 
