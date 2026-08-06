@@ -13,7 +13,7 @@
 - [竞品对战评测anna](project_co_model_eval_arena.md) — **外号 anna**（触发词：anna/arena对战/给竞品聊天打分/跟soliloquy对战）；回放竞品聊天→15子维度盲判→BT榜。路径 `~/Desktop/loop_project/eval-arena`，施工单一真相=仓内 `docs/prd/` 五份分期 PRD
 - [Create五大创建测试战役](project_onlychat_create_test_campaign.md) — onlychat 五大创建 component test，**已彻底收官进 develop、无待办**（worktree 已删）；留下的教训：**测试也要过 gts lint 别只 vitest+tsc**
 - [crushon-admin上pre流程](project_crushon_admin_pre_deploy.md) — **全文=cmm/onlychat-World-Path/crushon-admin上pre流程.md**；速记：cherry-pick进release→onlychat仓deploy-argocd(来自=develop别选release)→PR「创建合并提交」合到pre
-- [派工显式 model=opus](feedback_delegate_impl_to_opus_subagent.md) — **跨项目**：实作/扫描/调研派子 agent 显式 model=opus 别靠继承（主会话 sonnet 继承=降档，07-10 一天数起被叫停）；独立文件并行扇出别串行，主对话只编排验收；已升制度进 model-dispatch §2；**07-16 边界扩大：浏览器走查/点验也算执行、派 visual-qa，主 agent 只做决策思考调度**
+- [派工别降档](feedback_delegate_impl_to_opus_subagent.md) — **跨项目**：子 agent 档位≥任务所需、显式写 model 别靠默认（主会话 sonnet 时显式 opus；**08-06 起主会话默认 Fable，日常派工仍显式 opus 够档且省，最高档裁决才继承**）；独立文件并行扇出别串行，主对话只编排验收；**浏览器走查/点验也算执行、派 visual-qa**；派工前先压缩输入（>50KB 逐条判断类先抽结构）
 - [要密钥前先自己翻](feedback_find_credentials_before_asking.md) — 缺凭证先穷尽 .env*/可 ssh 机器/已登录浏览器，拿不到再开口且说清"哪把key缺在哪为什么读不到"（07-11 OPENROUTER key 就在 .env.local 却让 owner 补，被无语）
 - [批量烧付费API先确认](feedback_ask_before_paid_api_batch.md) — >50 次付费调用的批量跑（LLM打分/翻译等）先报预估费用等点头；试跑小样本可直接跑
 - [No auto delete](feedback_no_auto_delete.md) — never auto-delete dev data; ask first or provide UI
@@ -97,9 +97,10 @@
 - [截断输出≠事实](feedback_truncated_output_is_not_ground_truth.md) — 要下结论的输出不许带 |head（先 --count/--stat 拿总数）；07-17 把 93 个提交看成 10 个,对 owner 喊了「线上要回退」的假警报
 - [交付物只写终态](feedback_deliverable_is_final_state_not_process.md) — 复核过程/自我更正/版本演进别写进交付文档；「结论没验证」是终态要留，「我先前算错了」是过程要删
 - [PRD不写过程叙事](feedback_prd_clean_no_process_narrative.md) — 拍板结果直接写成正文，拷问实录/翻案痕迹/评审注记全清；留痕去QA台账或decisions.md
-- [auto-clicker 每日自动抓](project_auto_clicker_daily.md) — 07-22 起 launchd 13:30 自动跑，plan-next.mjs 自动挑卡+43轮/张；别在跑的时候编辑 run-daily.sh
+- [auto-clicker 抓取跑法](project_auto_clicker_daily.md) — launchd 自动任务已删、**纯手动起**（08-06 核实）；`--headless` 已恢复可用；选 ID 段先查 runtime/state.json 别烧老卡；别在跑的时候编辑 run-daily.sh
 - [pages发布走social-proxy](reference_pages_publish_via_social_proxy.md) — 原pages MCP已死；publish_page/share_page 走 socail-agent.com messages 通道(curl别用urllib)，wei=徐唯原
 - [公开就是公开](feedback_public_means_public.md) — soliloquy 公开面不按成人分级过滤是 owner 拍板；审查报成 bug 别照修、别再问第二遍
 - [跑迁移前查禁跑名单](feedback_check_forbidden_before_batch_migration.md) — 只验技术前置不够；07-27 误跑了被 owner 判死的迁移，装了个每天自动扣点的 cron
 - [commit描述用户影响先行](feedback_commit_desc_user_impact_first.md) — onlychat 老板反馈：改动说明先写用户影响再写实现（首例 50ccf75976）
 - [别自己起 dev app](feedback_no_auto_start_dev_app.md) — 桌面 app 起 dev 抢窗口焦点；验证只做静态(tsc/build/纯逻辑抠出来跑)，要真点的列「待 owner 点」交回去
+- [销账即回勾](feedback_ledger_close_on_done.md) — 报「已合main/已上线」的同一轮关账（BACKLOG勾掉/记忆假待办删掉/人工闸清单销掉），账本单向高估欠债是 08-04 体检病灶；**人工闸单一真相=`~/Desktop/archives/self/人工闸.md`**，只有本人能做的活（真机/真钱/授权/标注）都追加进去，rhythm-guard hook 每周提醒

@@ -1,7 +1,7 @@
 # 模型调度守则（model-dispatch）
 
-> 读者：未来每个 session 的主模型（Sonnet / Opus / Haiku）。
-> 事实表核对日期：**2026-07-06**（Fable 5 立法 session 当日对照 harness 实况核对）。
+> 读者：未来每个 session 的主模型（Fable / Opus / Sonnet / Haiku）。
+> 事实表核对日期：**2026-08-06**（Claude 5 家族发布后复核：Opus 5 上线、主会话默认已 pin Fable 5。原立法 2026-07-06）。
 > 凡本文引用的型号别名 / agent 类型 / 工具参数：如与你当下 harness 不符，**以你现查为准**，修正后更新上面的日期（改法权限见 `harness-maintenance.md`）。
 
 ## §0 派工下限——这些活别派，主对话直接干
@@ -40,13 +40,13 @@ Agent 工具 `model` 参数只认这四个别名（完整 ID 供写文档引用�
 |---|---|---|---|
 | `haiku` | claude-haiku-4-5-20251001 | 最便宜最快 | 机械活：批量套已解出的模式、格式转换、简单提取、大批文件同一改法 |
 | `sonnet` | claude-sonnet-5 | 主力 | 日常实作 / 搜索 / 读取 / 写码 / 绝大多数子 agent 活 |
-| `opus` | claude-opus-4-8 | 难活 | 复杂架构判断、难 bug、跨模块推理、高风险综合、当裁判/评审 |
-| `fable` | claude-fable-5 | 一次性最高判断 | 立法窗口期专用，日常调度不要依赖它可用 |
+| `opus` | claude-opus-5 | 难活 | 复杂架构判断、难 bug、跨模块推理、高风险综合、当裁判/评审 |
+| `fable` | claude-fable-5 | 最高判断档 | 2026-08-06 起为本机默认主会话模型（settings pin `claude-fable-5[1m]`）；派工一般不用它——opus 够档且省，最高档裁决/对抗验证才值得继承主档 |
 
 **effort 事实（2026-07-06 核对，别写反）**：
 - **Agent 工具没有 `effort` 参数**，只有 `model`。在 Agent 调用里传 effort 会失败。
 - effort（`low`/`medium`/`high`/`xhigh`/`max`）只有两个落点：Workflow 脚本里 `agent()` 的 opts，和 `.claude/agents/*.md` frontmatter。
-- **派工时显式写 `model`（按下表选），别靠省略继承**。继承只在主会话档位 ≥ 任务所需档时才可接受；实测反复翻车：主会话是 sonnet，派调研/实作的子 agent 沿用 sonnet，用户中途叫停换 opus。**档位拿不准时往上取 opus，别往下省。**[2026-07-10 一日多起沿用主模型被叫停 + onlychat 测试战役三次纠偏]
+- **派工时显式写 `model`（按下表选），别靠省略继承**。原则 = 子 agent 档位 ≥ 任务所需：主会话是 sonnet 时省略继承 = 降档，实测反复翻车 [2026-07-10 一日多起沿用主模型被叫停 + onlychat 测试战役三次纠偏]；主会话是 Fable（2026-08-06 起的默认）时继承不降档，但日常派工仍显式 `opus`——够档且省，别把最高档烧在搬运上。**档位拿不准时往上取，别往下省。**[2026-08-06 前提更新：主会话默认从 sonnet 换成 Fable 5]
 
 任务型态 → 选型速查：
 

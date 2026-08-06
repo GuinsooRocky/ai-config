@@ -5,6 +5,7 @@ metadata:
   node_type: memory
   type: feedback
   originSessionId: e1a98655-f407-4a08-98df-2abae18cf430
+  modified: 2026-08-06T12:54:16.380Z
 ---
 
 2026-07-10 onlychat create component test 战役中用户连续三次纠偏：① 我派 sonnet 扫 edit 路由被打断改 opus；② 我主对话亲写测试文件被打断，"用子agent opus 写就行"；③ 我派单个 agent 串行写 4 个测试文件，被问"不可以开3个子agent一起吗"——互不踩文件的独立产出就该并行扇出，共享写点（如清单勾选）收回主对话消冲突。
@@ -23,3 +24,5 @@ metadata:
 - 需要全文的场合（写代码、改逻辑、审 diff）照旧给全，别为省 token 让它盲改
 - 一个粗判据：**输入 > 50KB 且任务是「逐条判断」** = 该压缩了
 同日实测对照：审查那批 25 个 agent 是值的（挖出 82 条真缺陷、两条 P0 赶在迁移固化前修掉）；**贵得没道理的恰恰是这种「读长文档做标注」的活**。
+
+**2026-08-06 前提更新：** 主会话默认模型已切 Fable 5（/model 拍板，settings.json pin `claude-fable-5[1m]`），「继承=降档」不再必然成立。规则本体不变——**子 agent 档位 ≥ 任务所需，显式写 model 别靠默认**：主会话是 sonnet 时照旧显式 opus；主会话是 Fable/Opus 时日常派工仍显式 `opus`（够档且省，别把最高档烧在搬运上），最终对抗验证/多答案裁决才值得继承主档。model-dispatch.md §2 已同步此前提。
