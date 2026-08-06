@@ -25,7 +25,9 @@ printf '%s' "$payload" | grep -q '#rtk' && force_rtk=1
 
 # 3. 大输出 + 摘要安全的命令白名单(其余一律裸跑)
 #    依赖安装 / 构建 / 测试 / 进程列表 / docker 日志 / lint —— 这些输出大且很少需要逐行精读
-SAVINGS='(npm|pnpm|yarn|bun|pip3?|brew|cargo) +(install|ci|add|update|upgrade)|(npm|pnpm|yarn|bun) +(run +)?(build|test)|(next|vite|webpack|turbo) +build|\b(tsc|eslint|vitest|jest|playwright|mocha)\b|\bps +[a-zA-Z-]|docker(-compose)? +logs'
+# 2026-08-03 把 ps 从省名单删了：ps 全是"进程在不在"的机器判断，rtk 摘要有实测假阴性
+# （07-02 案底 + 08-03 复现：同命令网关路径数出 2-3 个进程、#raw 是 8 个），且实际用法都带管道，裸跑输出本来就小。
+SAVINGS='(npm|pnpm|yarn|bun|pip3?|brew|cargo) +(install|ci|add|update|upgrade)|(npm|pnpm|yarn|bun) +(run +)?(build|test)|(next|vite|webpack|turbo) +build|\b(tsc|eslint|vitest|jest|playwright|mocha)\b|docker(-compose)? +logs'
 
 if [ "$force_rtk" = 1 ] || printf '%s' "$payload" | grep -Eq "$SAVINGS"; then
   # 把原始 payload 交给 rtk,让它自己产出改写 JSON(它没有对应过滤器时会返回空 = 裸跑)

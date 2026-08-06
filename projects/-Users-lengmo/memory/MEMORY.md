@@ -1,13 +1,15 @@
 - [Fable立法四件套](project_fable_legislation.md) — 四份制度文件已落 `~/.claude`（model-dispatch / judgment-rubrics / delegation-templates / harness-maintenance），CLAUDE.md 路由指针已贴、制度已激活
-- [pageforge世界卡测试跑进度](project_pageforge_worldcard_testbed_run.md) — **07-02 已叫停、待续跑**；单一真相=agg/V0.0.6/链路水平评估-2026.07.02.md（待结账清单在文末）；续跑归 session c75b6e56；过程全文已落档 archive/
+- [pageforge世界卡测试跑进度](project_pageforge_worldcard_testbed_run.md) — **07-02 已叫停、待续跑**；**08-03 现场封存进 agg/V0.0.6/worldcard-run-20260706/，worktree 已回收 → 续跑先还原**；单一真相=agg/V0.0.6/链路水平评估-2026.07.02.md（待结账六条结的是机制的账不是 onlychat 的）
 - [soliloquy调研群组](project_soliloquy_review_panel.md) — **14 席**评审团花名册（7 专业席 + 7 用户席）+ 跑法；触发词「裁判调研组 / soliloquy 调研群组 / 评审团上场」；焊死 soliloquy 语境，别的项目另建
 - [出海项目](project_chuhai_oem_seo.md) — 标的=海外 AI 陪伴网站，**站型已拍=soliloquy web 端即站**；方案单一真相=`~/Desktop/archives/seo/07.07-SEO-GEO方案-v2.md`（seo-planner skill 已接地该知识库）；原 OEM 尽调站方向已让位、弃留待拍
+- [T158图谱记忆验证收官](project_soliloquy_t158_memory_verdict.md) — 图谱不立项；基线68/160；结论/工单/回归跑法全在 eval-arena/data/soliloquy-t158/，工单三 bug 待 owner 拍修不修
 - [独白(soliloquy)项目](project_soliloquy.md) — 个人 Tauri+React19/Rsbuild+Supabase 桌面 AI 陪伴客户端，路径 `~/Desktop/loop_project/soliloquy`；已 pivot 成 UGC 角色卡市场（对标 crushon）。**进度别信记忆、去仓里的 `docs/prd/{BACKLOG,DONE,REDLINES}.md` 现读**
 - [soliloquy跑批线机制修复](project_soliloquy_harness_loops.md) — loop/graph 两条 codex 自主跑批线的机制；07-27 减法收官，**机制唯一真相=main（分支自拉）**；⚠ B26 stash 与 loop worktree 半途现场保留勿动
 - [drama-agent项目](project_drama_agent.md) — 短故事→视频 prompt 制作包 SPA；白天/晚上两条线已分家，**要 SEO+收费的是 `my-code/` 那份，认路径别认仓名**；付费墙代码已进 main 但**一行没部署**。单一真相=项目内 `docs/2026-07-17-付费墙与SEO-交接.md`，开工先读它和记忆文件
+- [拍板有管辖面](feedback_rulings_have_scope.md) — 引拍板砍功能前先核它管哪个端/哪层闸（时机闸≠展示禁令）+ 做一致性检查；07-30 官网详情页 persona/相册两连翻案
 - [别判「不可行」](feedback_dont_declare_infeasible.md) — 不让我拍板≠让我少做事，而是别盲目替他判死刑；子agent的否定结论转述前必须自己核（07-17 一天判错四次「不能做」）
 - [别把别的项目惯例搬过来](feedback_dont_import_other_project_conventions.md) — 干 A 项目只认 A 自己文档写的；文档没写就说没写，别拿 B 项目的模版/人名填空再标「推断」（07-27 crushon-admin 上线把 onlychat 模版+林珉搬过来被顶）
-- [onlychat动态场景卡调研](project_onlychat_dynamic_scene_card_research.md) — 老板派的活（形态/落地/性能/gojelly 四问），在 onlychat 主仓做；性能测法已想透写在文件里；**开工前要向 owner 要一条 jimeng 原始视频**
+- [onlychat动态场景卡调研](project_onlychat_dynamic_scene_card_research.md) — 老板派的活（形态/落地/性能/gojelly 四问）；**③性能已完结**，结论在 World-Path/AI短剧-合集.html「性能线上实测」tab，测试床已回收；其余三问仍在调研
 - [竞品对战评测anna](project_co_model_eval_arena.md) — **外号 anna**（触发词：anna/arena对战/给竞品聊天打分/跟soliloquy对战）；回放竞品聊天→15子维度盲判→BT榜。路径 `~/Desktop/loop_project/eval-arena`，施工单一真相=仓内 `docs/prd/` 五份分期 PRD
 - [Create五大创建测试战役](project_onlychat_create_test_campaign.md) — onlychat 五大创建 component test，**已彻底收官进 develop、无待办**（worktree 已删）；留下的教训：**测试也要过 gts lint 别只 vitest+tsc**
 - [crushon-admin上pre流程](project_crushon_admin_pre_deploy.md) — **全文=cmm/onlychat-World-Path/crushon-admin上pre流程.md**；速记：cherry-pick进release→onlychat仓deploy-argocd(来自=develop别选release)→PR「创建合并提交」合到pre
@@ -15,7 +17,7 @@
 - [要密钥前先自己翻](feedback_find_credentials_before_asking.md) — 缺凭证先穷尽 .env*/可 ssh 机器/已登录浏览器，拿不到再开口且说清"哪把key缺在哪为什么读不到"（07-11 OPENROUTER key 就在 .env.local 却让 owner 补，被无语）
 - [批量烧付费API先确认](feedback_ask_before_paid_api_batch.md) — >50 次付费调用的批量跑（LLM打分/翻译等）先报预估费用等点头；试跑小样本可直接跑
 - [No auto delete](feedback_no_auto_delete.md) — never auto-delete dev data; ask first or provide UI
-- [修bug别超报告场景](feedback_fix_within_reported_scope.md) — 报的是A别顺手把guard/拦截推广到B/C；多覆盖那条路常是下一个bug（discover+tag：报"异步flag翻排序"却把"手动点tag也弹"一起改，17天后成新bug）
+- [改动别超被要求的边界](feedback_fix_within_reported_scope.md) — 报的是A别把guard推广到B/C（discover+tag，17天后成新bug）；**反向也算**：新机制在某场景不触发≠该改那个场景的既有决定（08-04 世界卡拿QUALITY_LIST去质疑停摆熔断被顶）
 - [前端兜底边界:空态vs白页面](feedback_frontend_empty_vs_blank.md) — 空数据=合法展示态(展示空别改用户选择回避)；白页面/崩溃/渲染断裂才前端兜。空是结果别替，白页面是故障要替
 - [对称操作先diff分支副作用](feedback_runtime_bug_dont_loop_static.md) — 开/关 add/remove 类bug第一步并排比两分支副作用找不对称(持久化不对称是高频根因)；"看着该工作却复现"=熔断别绕圈，拿运行时真相/要1判别事实/直接改一版（世界卡NSFW开关栽过：开落了服务端、关没落，用户"你好慢"）
 - [口语化≠注水](feedback_colloquial_padding_is_ai_smell.md) — 去AI味别把源文章干净句拿大白话稀释；奶味填充("专门记东西的地方")本身就是AI味，贴源文章register
@@ -26,17 +28,19 @@
 - [聊产品链路停在体验高度](feedback_product_chat_stay_at_flow_altitude.md) — 用户要聊产品链路时问题只停在"用户看到啥/怎么找到/去哪/卡哪"；实现(flag/脚本/后端/RLS/是否最优)自己扛自己查别抛回去(原话"我不关心实现只说链路不对")；产品要求认领成自己的活
 - [分享=精准×共情](feedback_tech_sharing_precise_plus_empathy.md) — 技术分享每句话既要给得起定义(精准)，又要焊到听众亲历过的真实瞬间(共情=听得懂+他也经历过)；缺哪头补哪头
 - [UI 图标用 SVG 不用 emoji](feedback_ui_svg_icons_not_emoji.md) — 导航/按钮/chrome 一律线性 SVG，emoji 丑爆（soliloquy 全局导航栽过，"又放上来了"别复现）
+- [对外文档过陌生读者测试](feedback_outward_doc_stranger_reader_test.md) — 私有代号/人名视角必杀，团队可及事实合法；被纠正先想通 why 再主动扫全文同类
 - [文字反馈=品味](feedback_writing_taste_umbrella.md) — 专业/深浅/别土/别情绪/别文绉绉/别报菜名 底层都是"品味"这一把标尺；改字先过品味关，别逐条勾规则
 - [结构化内容给表格](feedback_table_for_structured_content.md) — "N项×理由/属性"这类内容直接给 markdown 表格，别埋进散文让用户自己重拆
 - [清理走废纸篓](feedback_cleanup_use_trash_not_rm.md) — 帮删文件一律 mv 到 ~/.Trash，绝不 rm（即使已批准）；可逆
 - [Branch naming](feedback_branch_naming.md) — `lengmo_YYYYMMDD_<type>[_<slug>]`; base=develop/main; never push to main/master/release/develop
 - [Git dual identity](user_git_identity.md) — gitea=zhanghao (work), github=GuinsooRocky (personal); cross-platform handle=lengmo; includeIf auto-switch in ~/Desktop/cmm/
-- [Commit policy](feedback_commit_policy.md) — 工作仓不明说不提交；**个人项目(my-code/*、GuinsooRocky/*)提交无所谓可自行判断**；push 始终不主动
+- [Commit policy](feedback_commit_policy.md) — 工作仓不明说不提交；**个人项目(my-code/*、GuinsooRocky/*)提交无所谓可自行判断**；push 默认不主动，**DK 与 soliloquy 已放开**（soliloquy 只有真钱/不可逆迁移/对外曝光才停）
 - [dk 直接 push](feedback_dk_commit_push_freely.md) — DK 项目(原 chat-cc-bot)验证过直接 commit+push 不必每次问（仅限本项目，工作仓仍 push 不主动）
 - [DK 后端部署铁律](project_dk_sidecar_deploy.md) — 改后端只能整体 build_app.sh 重建，绝不 in-place 换 sidecar；**全文已迁 dk/CLAUDE.md（2026-07-06 新建）**
+- [claude 沙箱是两层闸](reference_claude_sandbox_two_layers.md) — settings.sandbox 只包 Bash 子进程，claude 自己的 Read/Grep 读得穿 denyRead；要配 permissions.deny 第二层（`//` 绝对路径写法）；规则写错静默忽略→必须跑探针验
 - [Rebase over merge](feedback_rebase_over_merge.md) — use `git rebase` not `git merge` for branch sync; keeps git graph linear
-- [rtk 管道损坏](feedback_rtk_pipeline_corruption.md) — 智能网关缓解了主线，**但 07-02 仍有 ps 假阴性反例**——长输出/机器判断结论一律落盘复核，别只看管道摘要
-- [rtk 智能网关](reference_rtk_smart_gateway.md) — 2026-06-26 起 rtk 不再无脑全改写；`~/.claude/hooks/rtk-smart.sh` 路由：精度命令(git/grep/cat…)默认裸跑、install/build/test/ps/eslint 走 rtk；`#rtk`强制省 `#raw`强制裸；精度命令不用再 proxy 绕路
+- [rtk 管道损坏](feedback_rtk_pipeline_corruption.md) — ps 假阴性 08-03 已随白名单收口；长输出/机器判断结论仍要落盘复核（碎片注入那半没根治），别只看管道摘要
+- [rtk 智能网关](reference_rtk_smart_gateway.md) — 2026-06-26 起 rtk 不再无脑全改写；`~/.claude/hooks/rtk-smart.sh` 路由：精度命令(git/grep/cat/**ps**…)默认裸跑、install/build/test/eslint 走 rtk（**ps 08-03 移出省名单**：存活判断有实测假阴性）；`#rtk`强制省 `#raw`强制裸
 - [cmm-pr 提速铁律](feedback_cmm_pr_rebase_hooks_off.md) — rebase 全程关钩子(core.hooksPath=/dev/null) + 时间熔断(≥2 失败/幽灵内容就 abort+问)；别磨 14min
 - [Skill design pattern](feedback_skill_design_pattern.md) — CLAUDE.md 做索引；SKILL.md < 500 行；ref 按需加载；description 用具体触发词
 - [Skill 自审](feedback_skill_dogfood_metacheck.md) — 新建/大改 skill 后必须立即跑 meta-check-skill 自审（≥85 才算交付）
@@ -50,6 +54,7 @@
 - [onlychat 共用组件环境区分](project_onlychat_shared_component_env_split.md) — 改共用组件顾两轴：PC/mobile + dark/light，改完两套都点一遍；**数值细节已迁 World-Path/04 §十五**
 - [真实需求落档](feedback_real_requirement_archive.md) — 触发词"落档"→ 在 ~/Desktop/cmm/agg/真实需求落档/ 新建 `MM.DD-<需求名>.md`；不同于学习笔记（→ ~/Desktop/archives/技术总结/）
 - [agg 只读](feedback_agg_readonly.md) — agg/ 只接受 evolution/落档记录，不反向同步 worktree 的 agent/skill 改动
+- [工作仓素材只从 cmm 取](feedback_work_repo_assets_from_cmm_only.md) — 给 cmm 工作仓造测试图/fixtures 绝不去 loop_project/archives 等个人目录翻；找不到就自己合成或问 owner（08-05 被当场发火）
 - [前端生码工作流](project_codegen_workflow.md) — pageforge（Loom 已弃用）：旧版≤005 → 新版 006+ CLM 主线；权威=agg/V0.0.6/README；⭐100分判据+「tsc过≠需求完成」铁律在条目内；**战报已落档 archive/**
 - [生码灵感 inbox](project_pageforge_inspiration_inbox.md) — 灵感文章先进 agg/V0.0.6/参考与灵感.md（规则在该文件头部）；⚠ 文内 README §锚点有漂移待校
 - [小红书博主身份](user_xiaohongshu_blogger.md) — 300 粉技术博主，2026-05 重启；3 条线：AI 编码/项目/生活
@@ -65,7 +70,7 @@
 - [写注释的边界](feedback_writing_comments_rules.md) — 简易逻辑/UI 样式/Figma 节点号不加；PRD 章节号可留；只为非直觉 why 才加
 - [注释不是 ground truth](feedback_comments_not_ground_truth.md) — 代码注释可能过时/脑补/抄错章节号，当 hint 用；PRD/Figma 引用必须翻原文核对；**反向也成立：写工单/审计的「病灶」段必须 grep 出来，别读 PRD 推**（07-21 一天栽两次假待办）
 - [mobile 改动别捅 PC](feedback_mobile_fix_dont_touch_pc.md) — 视口专属 UI 改动用 sm: 门控限定该视口，PC 保原样别为"简单"统一改；用户视外溢为回归
-- [daily-recap 反馈方式](feedback_daily_recap_feedback_loop.md) — "今日总结反馈 xxx"消化进 skill；"清掉反馈"删流水账；不做 promote 命令
+- [每日复盘已废弃](feedback_daily_recap_retired.md) — 08-06 整套 daily-recap 删净；要的是月度「工作模式体检」那种，别再提议重建日报
 - [小活别开后台workflow](feedback_inline_over_background_workflow.md) — 查事实/读文件/跑命令直接 inline；background workflow 只给真并行大活（会空跑卡死，2026-05-29 空转51min）
 - [按名发射workflow先核配置块](feedback_workflow_check_config_before_fire.md) — 脚本目标常写死在 const 配置块、args 不自动覆盖；07-29 pr-audit 残留 mk 配置烧 139万 token 审错仓；pr-audit 已加 args 保险丝，其他 workflow 未必有
 - [后台任务要 harness 句柄](feedback_background_task_needs_harness_handle.md) — 长跑任务用 Bash 的 run_in_background 起，别 nohup & 甩出去（认 PID 1 当爹→跑完永不通知 session；07-20 查明「近10次跑loop不反馈」就是这行的锅）
@@ -90,6 +95,7 @@
 - [生成 prompt 的质量标准](feedback_prompt_generation_quality_bar.md) — 用户常让我生成 prompt 要质量稳定高；按固定 rubric（角色+硬规则/焊真实上下文/输出契约/内建优先级/可逆护栏/填空位）过一遍，别临场发挥
 - [--contains 查不出 cherry-pick](feedback_git_contains_misses_cherrypick.md) — 判断改动在不在某分支禁用 git branch --contains（cp 换 hash），按内容/message/文件历史查；07-17 banner 据此对 owner 报过假警报
 - [截断输出≠事实](feedback_truncated_output_is_not_ground_truth.md) — 要下结论的输出不许带 |head（先 --count/--stat 拿总数）；07-17 把 93 个提交看成 10 个,对 owner 喊了「线上要回退」的假警报
+- [交付物只写终态](feedback_deliverable_is_final_state_not_process.md) — 复核过程/自我更正/版本演进别写进交付文档；「结论没验证」是终态要留，「我先前算错了」是过程要删
 - [PRD不写过程叙事](feedback_prd_clean_no_process_narrative.md) — 拍板结果直接写成正文，拷问实录/翻案痕迹/评审注记全清；留痕去QA台账或decisions.md
 - [auto-clicker 每日自动抓](project_auto_clicker_daily.md) — 07-22 起 launchd 13:30 自动跑，plan-next.mjs 自动挑卡+43轮/张；别在跑的时候编辑 run-daily.sh
 - [pages发布走social-proxy](reference_pages_publish_via_social_proxy.md) — 原pages MCP已死；publish_page/share_page 走 socail-agent.com messages 通道(curl别用urllib)，wei=徐唯原

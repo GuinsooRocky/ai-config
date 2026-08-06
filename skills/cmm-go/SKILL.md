@@ -38,7 +38,7 @@ description: OnlyChat 开工编排——报项目昵称即落到正确 worktree 
 - **worktree**：第 1 步的路径
 - **分支**：probe `== branch ==` 段（永远实时，不写进表）
 - **需求一句话**：读表
-- **上次干到哪**：probe `== commits ==` 段第一行（daily-recap 可补）
+- **上次干到哪**：probe `== commits ==` 段第一行
 - **watchdog**：probe `== port3000 ==` + `== watchdog ==` 段，按第 3 步判定
 - **漂移告警**：probe `== drift ==` 段。`no` / `new (no prev)` 不展示；`YES (...)` → 标 ⚠ 问"换活了吗"
 - **可拉缓存菜单**：读表，有指针标 ●、低档(埋点/i18n)标 ○、坑给 memory 条目名

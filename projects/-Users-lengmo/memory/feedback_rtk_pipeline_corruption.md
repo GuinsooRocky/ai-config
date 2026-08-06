@@ -5,10 +5,12 @@ metadata:
   node_type: memory
   type: feedback
   originSessionId: ceab74e4-7fa6-4edd-b8ed-19dcc9fa01a3
-  modified: 2026-07-30T06:47:32.107Z
+  modified: 2026-08-03T09:27:06.727Z
 ---
 
 **⚠ 2026-06-26 更新**：已装智能网关 [[reference_rtk_smart_gateway]]——精度命令(含 curl/grep/cat/管道首命令)默认裸跑不再过 rtk，本条描述的污染大部分已被缓解。下面是旧钩子（无脑全改写）时代的踩坑记录，仅当走 `#rtk` 强制或命中 savings 白名单时仍适用。
+
+**✅ 2026-08-03 收口：`ps` 已从 SAVINGS 白名单删除**（rtk-smart.sh + RTK.md 已同步）。当日实测复现：同一条 `ps aux | grep -E "loop.sh|codex" | wc -l` 网关路径数出 2-3、`#raw` 两次都是 8——假阴性仍活着，且近 30 天 195 次 ps 调用几乎全是进程存活判断、只有 17 次带 #raw。ps 用法都带管道，裸跑输出本来就小，删掉近乎零代价。下面 07-02 案例①的病根就此拔除；案例②（碎片注入）仍要靠"长输出落盘复核"。
 
 **⚠⚠ 2026-07-02 反例：智能网关"已缓解"太乐观，同日两个 session 各中一次**：① `ps aux | grep claude` 走 rtk（ps 在 savings 白名单）被摘要成**零结果**——查无进程的假阴性，差点误判并发 session 已死；`/bin/ps` 绝对路径立刻全出来。② 另一 session 的长输出（grep/Read 尾部）被注入 `count /<invoke>`、`next` 等碎片——**这些碎片长得像工具调用语法，混进上下文后诱发该 session 连锁 malformed 工具调用 + 自我强化**（坏样例污染 next-token 分布），最终连"虚报完成"都与此同根。教训升级：**长输出/机器判断用的输出，一律落盘 + Read 回读，不信管道里看到的**；"查无 X"结论必须绝对路径复核一次才算数。
 

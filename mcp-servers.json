@@ -7,29 +7,6 @@
     "type": "http",
     "url": "http://127.0.0.1:3845/mcp"
   },
-  "lark": {
-    "type": "stdio",
-    "command": "npx",
-    "args": [
-      "-y",
-      "-p",
-      "@larksuiteoapi/lark-mcp",
-      "lark-mcp",
-      "mcp",
-      "--app-id",
-      "cli_a9648e974eb89ceb",
-      "--app-secret",
-      "${LARK_APP_SECRET}",
-      "--language",
-      "zh",
-      "--token-mode",
-      "auto",
-      "--oauth",
-      "--tools",
-      "preset.default"
-    ],
-    "env": {}
-  },
   "codex": {
     "type": "stdio",
     "command": "codex",

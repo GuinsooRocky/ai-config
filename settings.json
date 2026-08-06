@@ -357,7 +357,7 @@
     ],
     "defaultMode": "auto"
   },
-  "model": "claude-fable-5[1m]",
+  "model": "opus[1m]",
   "hooks": {
     "PreToolUse": [
       {
@@ -438,17 +438,6 @@
           }
         ]
       }
-    ],
-    "SessionStart": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/lengmo/.claude/automation/recap-gate.sh"
-          }
-        ]
-      }
     ]
   },
   "statusLine": {
@@ -468,7 +457,7 @@
       }
     }
   },
-  "effortLevel": "high",
+  "effortLevel": "xhigh",
   "voice": {
     "enabled": true,
     "mode": "hold"

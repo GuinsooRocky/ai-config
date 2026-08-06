@@ -44,6 +44,7 @@
 ## 模型调度与判断（制度文件，2026-07-06 Fable 立法）
 
 - 派子 agent / 选 model / 验收升降级 → 先读 `~/.claude/model-dispatch.md`
+- 某个动作会往主对话灌 >200 行"只需要结论"的内容（读大文件/扫日志/长命令输出）→ 别自己干，派子 agent 只收结论（细则 model-dispatch §0/§1）
 - 拿不准"算不算完成 / 该不该问用户 / 该不该换路" → 查 `~/.claude/judgment-rubrics.md`
 - 拿不准"某说法/某竞品/某数据是真的吗、该不该先查" → `judgment-rubrics.md` §6（警报词：我记得/应该/一般来说 = 该查的信号）
 - 派工 prompt 直接套 `~/.claude/delegation-templates.md` 的模板（T1 搜索 / T2 实作 / T3 重构 / T4 研究 / T5 审查）

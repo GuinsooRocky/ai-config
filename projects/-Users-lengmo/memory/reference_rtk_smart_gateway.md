@@ -14,7 +14,7 @@ metadata:
 
 **网关路由**（默认 RAW 保真，只省真正大的）：
 - 精度命令 `git/grep/cat/jq/awk/sed/find/diff` 及一切杂项 → **裸跑**（输出完整忠实）
-- 大输出白名单 `*(npm/pnpm/yarn/bun/pip/brew/cargo) install|build|test`、`ps`、`docker logs`、`eslint`、`tsc`、`vitest/jest/playwright` → **rtk 摘要省 token**
+- 大输出白名单 `*(npm/pnpm/yarn/bun/pip/brew/cargo) install|build|test`、`docker logs`、`eslint`、`tsc`、`vitest/jest/playwright` → **rtk 摘要省 token**（`ps` 2026-08-03 移出：存活判断走摘要有实测假阴性 2-3 vs 8，见 [[feedback_rtk_pipeline_corruption]]）
 - 手动开关（写命令尾部，是 shell 注释无副作用）：`<cmd> #rtk` 强制省 / `<cmd> #raw` 强制裸（#raw 优先级最高）
 - 改"哪些自动省" = 改脚本里的 `SAVINGS` 正则
 

@@ -14,13 +14,6 @@
         "-lc",
         "exec node \"$HOME/Desktop/my-code/lich/mcp/lich-tasks.mjs\""
       ]
-    },
-    "lark": {
-      "command": "bash",
-      "args": [
-        "-lc",
-        "exec bash \"$HOME/.local/share/ai-continuity/run-lark-mcp.sh\""
-      ]
     }
   }
 }

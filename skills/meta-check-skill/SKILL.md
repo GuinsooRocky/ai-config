@@ -1,6 +1,6 @@
 ---
 name: meta-check-skill
-description: Skill 质量审计（对齐 2026-04 官方 frontmatter 15 字段表）— 用四步法（加载词典 → 解析 frontmatter+body → 逐项打分 → 生成报告）检测某个 SKILL.md 的质量，按 5 维度满分 100 评分并给修复优先级；另含进阶的 description 触发率优化循环（真跑 claude -p 测该不该触发，按 held-out 分选最优）。触发词："检测 skill"、"审 skill"、"skill 水平"、"skill audit"、"skill 评审"、"skill 打分"、"meta check skill"、"这个 skill 为什么叫不动"、"优化 description 触发率"、"测一下触发准不准"。输入支持：skill 目录名（如 `daily-recap`）、SKILL.md 绝对路径、或 `--all` 同时扫 `~/.claude/skills/` 和当前 cwd 的 `.claude/skills/`。不用于：写一个新 skill（归 write-a-skill）、从对话记录挖 skill 候选（归 meta-skill-mining）。
+description: Skill 质量审计（对齐 2026-04 官方 frontmatter 15 字段表）— 用四步法（加载词典 → 解析 frontmatter+body → 逐项打分 → 生成报告）检测某个 SKILL.md 的质量，按 5 维度满分 100 评分并给修复优先级；另含进阶的 description 触发率优化循环（真跑 claude -p 测该不该触发，按 held-out 分选最优）。触发词："检测 skill"、"审 skill"、"skill 水平"、"skill audit"、"skill 评审"、"skill 打分"、"meta check skill"、"这个 skill 为什么叫不动"、"优化 description 触发率"、"测一下触发准不准"。输入支持：skill 目录名（如 `cmm-go`）、SKILL.md 绝对路径、或 `--all` 同时扫 `~/.claude/skills/` 和当前 cwd 的 `.claude/skills/`。不用于：写一个新 skill（归 write-a-skill）、从对话记录挖 skill 候选（归 meta-skill-mining）。
 ---
 
 # Meta-Check Skill
@@ -39,7 +39,7 @@ python3 "${CLAUDE_SKILL_DIR}/ref/audit.py" <name|path|--all>
 # ${CLAUDE_SKILL_DIR} 未设置时退回绝对路径：python3 ~/.claude/skills/meta-check-skill/ref/audit.py
 ```
 
-- `<name>`：skill 目录名（如 `daily-recap`）→ 先查 `~/.claude/skills/<name>/SKILL.md`，找不到再查 cwd 的 `.claude/skills/<name>/SKILL.md`
+- `<name>`：skill 目录名（如 `cmm-go`）→ 先查 `~/.claude/skills/<name>/SKILL.md`，找不到再查 cwd 的 `.claude/skills/<name>/SKILL.md`
 - `<path>`：直接给 SKILL.md 的绝对路径（项目内 skill / plugin skill 都行）
 - `--all`：同时扫 `~/.claude/skills/*/SKILL.md` 和当前 cwd 的 `.claude/skills/*/SKILL.md`
 

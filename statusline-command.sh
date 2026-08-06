@@ -10,14 +10,17 @@ if [[ -z "$JQ" ]]; then
   exit 0
 fi
 
-IFS=$'\t' read -r model model_id cwd transcript cost dur_ms < <(
+IFS=$'\t' read -r model model_id cwd transcript cost dur_ms q5 q5reset q7 < <(
   printf '%s' "$input" | "$JQ" -r '[
     .model.display_name // "?",
-    .model.id // "",
-    .workspace.current_dir // .cwd // "",
-    .transcript_path // "",
+    ((.model.id // "") | if . == "" then "-" else . end),
+    ((.workspace.current_dir // .cwd // "") | if . == "" then "-" else . end),
+    ((.transcript_path // "") | if . == "" then "-" else . end),
     ((.cost.total_cost_usd // 0) | tostring),
-    ((.cost.total_duration_ms // 0) | tostring)
+    ((.cost.total_duration_ms // 0) | tostring),
+    ((.rate_limits.five_hour.used_percentage // -1) | floor | tostring),
+    ((.rate_limits.five_hour.resets_at // 0) | tostring),
+    ((.rate_limits.seven_day.used_percentage // -1) | floor | tostring)
   ] | @tsv'
 )
 
@@ -60,8 +63,23 @@ if awk -v c="$cost" 'BEGIN{exit !(c > 0)}'; then
   cost_seg="${SEP}${C_DIM}$(awk -v c="$cost" 'BEGIN{printf "💰 $%.2f", c}')${R}"
 fi
 
+# 配额余量：5h 滚动窗 + 7d 周窗（rate_limits 由 CC 原生喂进 stdin；老版本没有该字段则整段不显示）
+quota_seg=""
+if [[ "$q5" =~ ^[0-9]+$ ]] && (( q5 >= 0 )); then
+  c5=$C_OK; (( q5 >= 60 )) && c5=$C_WARN; (( q5 >= 85 )) && c5=$C_BAD
+  reset_txt=""
+  if [[ "$q5reset" =~ ^[0-9]+$ ]] && (( q5reset > 0 )); then
+    reset_txt="→$(date -r "$q5reset" +%H:%M 2>/dev/null)"
+  fi
+  quota_seg="${SEP}${c5}⚡ 5h ${q5}%${reset_txt}${R}"
+  if [[ "$q7" =~ ^[0-9]+$ ]] && (( q7 >= 0 )); then
+    c7=$C_OK; (( q7 >= 60 )) && c7=$C_WARN; (( q7 >= 85 )) && c7=$C_BAD
+    quota_seg="${quota_seg}${C_DIM}·${R}${c7}7d ${q7}%${R}"
+  fi
+fi
+
 dur_ms=${dur_ms%%.*}
 mins=$(( dur_ms / 60000 ))
 if (( mins >= 60 )); then t="$((mins / 60))h$((mins % 60))m"; else t="${mins}m"; fi
 
-printf '%s\n' "${C_MODEL}🤖 ${model}${R}${SEP}${C_DIR}📁 ${dir}${R}${git_seg}${ctx_seg}${cost_seg}${SEP}${C_DIM}⏱ ${t}${R}"
+printf '%s\n' "${C_MODEL}🤖 ${model}${R}${SEP}${C_DIR}📁 ${dir}${R}${git_seg}${ctx_seg}${quota_seg}${cost_seg}${SEP}${C_DIM}⏱ ${t}${R}"
