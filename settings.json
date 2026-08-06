@@ -166,15 +166,6 @@
             "command": "python3 /Users/lengmo/.claude/hooks/mk-learn-prompt.py"
           }
         ]
-      },
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/lengmo/.claude/hooks/rhythm-guard.sh"
-          }
-        ]
       }
     ],
     "SubagentStop": [

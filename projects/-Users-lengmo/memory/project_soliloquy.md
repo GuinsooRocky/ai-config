@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: b9eb6b3a-39fa-4b21-97d6-c08b50f0e514
-  modified: 2026-08-06T12:54:04.632Z
+  modified: 2026-08-06T13:04:37.356Z
 ---
 
 「独白」= **soliloquy**，路径 `~/Desktop/loop_project/soliloquy`（个人项目，非工作仓；已从 `~/Desktop/my-code/` 迁走，勿用旧路径）。
@@ -49,7 +49,7 @@ Tauri + React 19 + **Rsbuild**（已替 Vite）+ pnpm；后端自有 **Supabase*
 
 ## 当前待办
 
-**不在这里记待办**——进度一律现读 `docs/prd/BACKLOG.md`（2026-08-06 决定：07-30 在此记的 3 条待办到 08-04 体检时已 2 条为假、1 条被 T157–T159 各自立号取代，记忆记进度必漂）。只有本人能做的闸另见 `~/Desktop/archives/self/人工闸.md`。
+**不在这里记待办**——进度一律现读 `docs/prd/BACKLOG.md`（2026-08-06 决定：07-30 在此记的 3 条待办到 08-04 体检时已 2 条为假、1 条被 T157–T159 各自立号取代，记忆记进度必漂）。
 
 ## 已作废的旧口径（别再照着办）
 
