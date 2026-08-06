@@ -103,4 +103,3 @@
 - [跑迁移前查禁跑名单](feedback_check_forbidden_before_batch_migration.md) — 只验技术前置不够；07-27 误跑了被 owner 判死的迁移，装了个每天自动扣点的 cron
 - [commit描述用户影响先行](feedback_commit_desc_user_impact_first.md) — onlychat 老板反馈：改动说明先写用户影响再写实现（首例 50ccf75976）
 - [别自己起 dev app](feedback_no_auto_start_dev_app.md) — 桌面 app 起 dev 抢窗口焦点；验证只做静态(tsc/build/纯逻辑抠出来跑)，要真点的列「待 owner 点」交回去
-- [销账即回勾](feedback_ledger_close_on_done.md) — 报「已合main/已上线」的同一轮在**该项目自己的台账**里关账（BACKLOG勾掉/记忆假待办删掉），账本单向高估欠债是 08-04 体检病灶；**绝不另建跨项目集中清单**——一切以项目维度走，08-06 建「人工闸清单」+周提醒hook被顶回整套拆除
