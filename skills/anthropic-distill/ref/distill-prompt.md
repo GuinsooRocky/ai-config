@@ -5,8 +5,16 @@
 
 ## 第一步：读全文
 
-直接 `curl -sL <url>` 拿 HTML 自己剥正文（实测 WebFetch 对 anthropic.com 常只回摘要壳或
-以版权为由拒回全文，别在它身上浪费往返）。英文站，不要走 sf-reader。
+直接 curl 拿 HTML 自己剥正文。**claude.com/blog 有静默串文坑**：裸 URL 会命中 CDN
+边缘缓存，200 返回**另一篇不相干文章**的 HTML，不报错。两条都做：
+1. 加破缓存参数 + 浏览器 UA：
+   `curl -sL -H "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/131.0 Safari/537.36" "<url>?cb=1"`
+2. 抓回来后核对 **`og:url` 含目标 slug 且 `<title>`/h1 与目标语义一致**，全过才能动笔；
+   核不过=拿到错页，换新 cb 值（加 `-H "Cache-Control: no-cache"`）重抓到过为止。
+   ⚠ 别用 `data-wf-item-slug` 当判据——相关文章卡片里也有它，实测假阳。
+   ⚠ fetch、核对、剥正文要在**同一次 bash 调用**里完成——实测落盘文件跨调用会被
+   并发兄弟 agent 的同名文件覆盖；临时文件一律用自己的 slug 命名。
+（WebFetch 对这两个站常只回摘要壳或拒回全文，别在它身上浪费往返。英文站，不要走 sf-reader。）
 必须拿到真正文再动笔；拿不到就在最终回复里如实报「<slug> 抓取失败」，
 **绝对不要凭标题脑补内容**——一张脑补的卡片混进卡片库比漏一张危害大得多。
 
