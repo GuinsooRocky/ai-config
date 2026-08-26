@@ -13,5 +13,5 @@ metadata:
 
 **How to apply**：
 - 抓 N 条 → 在**一个** Bash 里 `for` 循环串行跑，不要 fan-out 成 N 个并发 agent。
-- 全文不在 stdout（只打印预览头）——在 `unified_inbox.json`（默认落 cwd，`INBOX_FILE` 可改）；按内容字数核验真正文，别只看 exit code（见 [[feedback_verify_capture_not_status]]）。
+- 全文不在 stdout（只打印预览头）——在 `unified_inbox.json`（默认落 cwd，`INBOX_FILE` 可改）；按内容字数核验真正文，别只看 exit code（见 [[feedback_truncated_output_is_not_ground_truth]]）。
 - 这类小批抓取本就该 inline 串行，不该开 background workflow（见 [[feedback_inline_over_background_workflow]]）。

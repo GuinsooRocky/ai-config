@@ -26,3 +26,5 @@ metadata:
 同日实测对照：审查那批 25 个 agent 是值的（挖出 82 条真缺陷、两条 P0 赶在迁移固化前修掉）；**贵得没道理的恰恰是这种「读长文档做标注」的活**。
 
 **2026-08-06 前提更新：** 主会话默认模型已切 Fable 5（/model 拍板，settings.json pin `claude-fable-5[1m]`），「继承=降档」不再必然成立。规则本体不变——**子 agent 档位 ≥ 任务所需，显式写 model 别靠默认**：主会话是 sonnet 时照旧显式 opus；主会话是 Fable/Opus 时日常派工仍显式 `opus`（够档且省，别把最高档烧在搬运上），最终对抗验证/多答案裁决才值得继承主档。model-dispatch.md §2 已同步此前提。
+
+**验收子 agent 测试产出（2026-07-11 create-test 战役）**：主对话勾选清单前用 per-file JSON reporter 逐文件核用例数，别只看总绿；并且 agent 别 mv 自己的产出文件（第八波 mv 丢过文件）。

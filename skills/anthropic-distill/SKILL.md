@@ -1,6 +1,6 @@
 ---
 name: anthropic-distill
-description: 增量蒸馏 anthropic.com 官方文章（news/engineering/research）成固定 schema 卡片，跨篇合出「主线/口径变化/张力」，再逐条对照 soliloquy 判定已对齐·相悖·空白机会。触发词："蒸馏 anthropic"、"anthropic 蒸馏"、"anthropic 最近发了什么"、"跑一下情报蒸馏"、"anthropic 主线"、"更新主线"、"跟 anthropic 方向对齐"、"soliloquy 方向对照"、"anthropic-distill"。不用于：一次性抓某几篇给定 URL 做要点分析（归 analyzer）、单次外部信息转项目改进建议（归 project-suggest）、开放议题深挖（归 deep-research）、近 30 天全网动态盘点（归 last30days）。
+description: 增量蒸馏 anthropic.com 官方文章（news/engineering/research）成固定 schema 卡片，跨篇合出「主线/口径变化/张力」，再逐条对照 soliloquy 判定已对齐·相悖·空白机会。触发词："蒸馏 anthropic"、"anthropic 蒸馏"、"anthropic 最近发了什么"、"跑一下情报蒸馏"、"anthropic 主线"、"更新主线"、"跟 anthropic 方向对齐"、"soliloquy 方向对照"、"anthropic-distill"。不用于：一次性抓某几篇给定 URL 做要点分析（归 analyzer）、单次外部信息转项目改进建议（归 project-suggest）、开放议题深挖（归 deep-research）、近 30 天全网动态盘点（归 firecrawl 搜索 / deep-research）。
 ---
 
 # Anthropic 蒸馏

@@ -1,6 +1,6 @@
 ---
 name: analyzer
-description: 抓取 + 分析 + 多源调研 5 个平台的 URL 内容：微信公众号（mp.weixin.qq.com）、小红书（xiaohongshu.com/xhslink.com）、X/Twitter（x.com、twitter.com）、YouTube（youtube.com、youtu.be）、B 站（bilibili.com、b23.tv）。这 5 个平台强制走 `sf-reader-all`，禁止直接 WebFetch（会拿到风控页）。单篇模式触发词："抓下"、"抓一下"、"抓取"、"读一下"、"看看这个"、"这篇讲了啥"、"分析这篇"、"要点"、"analyze"、"/analyze"。多源调研模式（≥2 个 URL，或单篇但明说深挖）触发词："调研这几篇"、"看看关联"、"对照分析"、"找反方"、"追引用"，细则见 references/research-mode.md。通用网页/RSS/arxiv PDF 可作调研模式输入但单独丢过来不触发；开放议题研究归 deep-research，给定来源集合的学习归本 skill。
+description: 抓取 + 分析 + 多源调研 5 个平台的 URL 内容：微信公众号（mp.weixin.qq.com）、小红书（xiaohongshu.com/xhslink.com）、X/Twitter（x.com、twitter.com）、YouTube（youtube.com、youtu.be）、B 站（bilibili.com、b23.tv）。这 5 个平台强制走 `sf-reader-all`，禁止直接 WebFetch（会拿到风控页）。单篇模式触发词："抓下"、"抓一下"、"抓取"、"读一下"、"看看这个"、"这篇讲了啥"、"分析这篇"、"要点"、"analyze"、"/analyze"。多源调研模式（≥2 个 URL，或单篇但明说深挖）触发词："调研这几篇"、"看看关联"、"对照分析"、"找反方"、"追引用"，细则见 references/research-mode.md。通用网页/RSS/arxiv PDF 可作调研模式输入但单独丢过来不触发；开放议题研究归 deep-research，给定来源集合的学习归本 skill。视频/播客需要字幕或 Whisper 转写的先走 video（转写完自动回到本 skill 分析）。
 ---
 
 # Content Analyzer Skill

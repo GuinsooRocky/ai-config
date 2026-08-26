@@ -1,6 +1,6 @@
 ---
 name: feedback-fix-within-reported-scope
-description: 改动别超出被要求的边界 — 报的是 A 别把 guard 推广到 B/C；反向也算：新机制在某场景不触发，不等于该去改那个场景的既有决定
+description: 边界：改动与引用都不许外推——报 A 别把 guard 推到 B/C；引拍板砍功能先核管辖面（时机闸≠展示禁令）；判「文档打架」先核两句的对象是不是同一个
 metadata:
   node_type: memory
   type: feedback
@@ -20,4 +20,9 @@ metadata:
 - 覆盖面要如实交代（防虚报收益），但「所以该改那边」是另一个需求，不能由本次改动带出来。
 - "顺手把 B/C 一起覆盖了"是危险信号不是周到 —— 多覆盖那条路你没验证过，常成下一个 bug。
 - 想扩范围时显式拆出来："报告只有 A，我打算同时防 B，要不要？"让用户拍，别静默扩。
-- 同源：CLAUDE.md Karpathy "Surgical Changes"；相关 [[feedback_runtime_bug_dont_loop_static]]、[[feedback-comments-not-ground-truth]]、[[feedback-frontend-empty-vs-blank]]
+
+**引用拍板/红线也不许外推（07-30 官网详情页两连翻案）**：① 把 App 详情页的 D5「persona 收口」外推到官网 SEO 页，建议撤 persona（等于剪掉 SEO 页唯一正文）；② 把「web 开放索引前须种子换图」这条**收录时机闸**错当**展示禁令**建议砍相册——而页面 hero 本来就是同源 crushon 图，砍相册根本不自洽。owner 原话「你最愚蠢的决定」。引拍板砍功能前过两关：① 那条拍板当时的语境是哪个端/哪层闸；② 一致性检查——现状是否已在做同类的事（hero 已是 crushon 图 ⇒ 口径显然不是禁展示）。过不了就别拿它当依据。
+
+**判「文档打架」先核对象（08-25 付费图手册）**：把 PRD 与评审会纪要的六处并列写成「PRD 自身四处打架」列成待决项，owner 一句「思考思考就能找到正解」点破——六处一条都不冲突：评审会那句管**已过审**的图、PRD 那句管**未过审**的图；「隐藏不释放额度」动的是已用（付费图）、「隐藏后额度下降」动的是总额（免费图）；另两处 `[N]` 是可配占位符，数字不同只是各举示例值。判定「打架」前必答：这两句各自的**对象**和**账**是不是同一个？数字是不是带方括号？
+
+- 同源：CLAUDE.md Karpathy "Surgical Changes"；相关 [[feedback_runtime_bug_dont_loop_static]]、[[feedback_comments_not_ground_truth]]、[[feedback_frontend_empty_vs_blank]]、[[feedback_dont_declare_infeasible]]

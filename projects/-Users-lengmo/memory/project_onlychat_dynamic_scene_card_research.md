@@ -10,7 +10,7 @@ metadata:
 
 老板派的调研：**onlychat 动态场景卡需求调研**，四个子任务 = 四个问题：①短片/短剧（做成什么形态）②沿旧文档延伸落地细节（怎么落地）③性能（跑不跑得动）④结合 gojelly（竞品站哪）。
 
-**状态**：2026-07-13 只做了方案设计（用户明确「不看文档、只思考」），**约定 2026-07-14 开工**。落地位置=**onlychat 主仓**（非 worktree；注意分支仍守 [[feedback_branch_naming]]，别直接提交 main）。
+**状态**：2026-07-13 只做了方案设计（用户明确「不看文档、只思考」），**约定 2026-07-14 开工**。落地位置=**onlychat 主仓**（非 worktree；注意分支仍守 [[feedback_commit_policy]]，别直接提交 main）。
 
 **建议顺序**：④gojelly 走查 + ①竞品盘点先做（便宜快、校准方向）→ ③性能生成侧实测拿真数字 → ②落地细节最后做（方向没收敛前落细节是白落）。
 
@@ -33,4 +33,4 @@ metadata:
 
 **一条 jimeng 出的原始视频**（越接近真实场景卡内容越好）；短片/短剧两种形态若都要测则各给一条；并说明原始规格（分辨率/时长/体积/有无声音）。变体由我从它派生。
 
-相关：[[project_onlychat]]、[[feedback_branch_naming]]、[[feedback_project_intel_stays_in_project_docs]]（真正开工后接口/实测数据落项目文档，别堆全局 memory）
+相关：[[project_onlychat]]、[[feedback_commit_policy]]、[[feedback_project_intel_stays_in_project_docs]]（真正开工后接口/实测数据落项目文档，别堆全局 memory）

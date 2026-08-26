@@ -47,7 +47,7 @@ drama-agent：把短故事/多轮对话编译成 AI 视频工具（目标 Seedan
 
 ## 老坑（仍有效）
 
-- **仓库政策**：个人仓，可直推 main、commit 自行判断（[[feedback_personal_repo_handling]]）
+- **仓库政策**：个人仓，可直推 main、commit 自行判断（[[feedback_commit_policy]]）
 - `App.tsx` 的 ENV_KEY **必须 DEV 门控**，否则 Vite 把 .env.local 的 key 内联进 dist（验收抓过 P0）
 - OpenRouter key 在 git 历史里泄露过，owner 拍板不轮换（"带就带了"）
 - 2026-07-16 mixboard 三件套已入库（commit 4a06d7a）：retry.ts / worker 代理藏 key / evals（`npm run eval`）/ .claude 规则

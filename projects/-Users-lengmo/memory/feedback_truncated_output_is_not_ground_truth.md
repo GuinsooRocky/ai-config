@@ -1,20 +1,31 @@
 ---
 name: feedback_truncated_output_is_not_ground_truth
-description: 拿 | head 截断的输出当全量事实下结论 —— 要么去掉截断，要么先 --count 拿总数
-metadata: 
+description: 结论前先证明输出是完整的——| head 截断、状态码 200、来源清单静默丢 三个同病案例；报告要给覆盖率 X/N
+metadata:
   node_type: memory
   type: feedback
   originSessionId: f2f56a2d-9fa8-4b35-961a-fc457b37287c
+  modified: 2026-08-26T07:16:52.660Z
 ---
 
-**任何要拿来下结论的命令输出，不能带 `| head` / `| tail` / `-5` 之类的截断。** 截断只用于「瞄一眼长什么样」；一旦这个输出要变成判断依据，先拿总数（`--count` / `wc -l`），或者干脆全量落盘再读。
+**同一个病的三个形态：拿不完整的输出下确定性结论。** 下结论前必答"这个数字/列表是完整的吗，我怎么知道"。
 
-```bash
-git rev-list --count A..B        # 先要总数，再决定要不要看明细
-git log --oneline A..B | wc -l
-git diff --stat A B              # 文件级规模，一眼看出量级对不对
-```
+## 形态一：截断输出当全量
 
-**Why**：2026-07-17 onlychat banner 发版，`git log v6.27.0..adfd435b77 | head` 吐了 10 条，我就当成「hotfix.0 = v6.27.0 + 10 个小修」，据此向 owner 喊「你的包丢了 7 个提交、线上可能回退」。实际 `git rev-list --count` = **93 个**。是 `| head` 截的，不是真的只有 10 个。同一天早些时候还用 `git branch --contains` 对 owner 报过另一个假警报（见 [[feedback_git_contains_misses_cherrypick]]）——两次同一个毛病：**拿一个查不全的输出下确定性结论**。owner 最后说「你打你的tag 管他们做什么」，是我把发版流程搅进了自己造的迷雾里。
+要拿来下结论的命令输出，不能带 `| head` / `| tail` / `-5` 截断——截断只用于瞄一眼长什么样。一旦要变成判断依据，先拿总数（`git rev-list --count` / `wc -l` / `git diff --stat`），或全量落盘再读。
 
-**How to apply**：警报级结论（「线上要回退」「丢了改动」「夹带了别人的东西」）的门槛要比日常高一档——下结论前问自己「这个数字/列表是完整的吗，我怎么知道」。量级校验最省事：`git diff --stat` 一跑，625 files / 97k lines 立刻说明「这不是 10 个小修」，比逐条读 log 快得多也难骗。同源原则见 [[feedback_verify_capture_not_status]]、[[feedback_rtk_pipeline_corruption]]（管道摘要不可信，落盘复核）。
+**案例（2026-07-17 onlychat banner 发版）**：`git log v6.27.0..adfd435b77 | head` 吐 10 条就当"只有 10 个小修"，向 owner 喊「你的包丢了 7 个提交、线上可能回退」——实际 `--count` = **93 个**。同日还用 `git branch --contains` 报过另一个假警报（[[feedback_git_contains_misses_cherrypick]]）。警报级结论（「线上要回退」「丢了改动」）门槛要比日常高一档；量级校验最省事：`git diff --stat` 一跑，625 files/97k lines 立刻说明"这不是 10 个小修"。
+
+## 形态二：状态码 200 当拿到真内容
+
+批量下载/归档/抓取后，不凭 HTTP 200 或工具 "ok" 状态声称完成——抽样或全量校验抓回来的是真内容，不是登录墙/空壳/占位页。
+
+**案例**：蒸馏 10 本小册，`archive` 工具全报 "ok" 就说"全量正文已归档"，实际大量付费章是登录墙，用户连续追问才暴露。收尾前跑内容特征检测（正文长度、登录墙关键词），给"真正文/墙/偏薄"计数——宁可说"556/622"也不说"全量"。
+
+## 形态三：来源清单静默丢
+
+用户一次给多个来源（URL、本地目录、文件）时：先把全部 N 个显式列成清单编号，逐个处理，最后报"X/N 已纳入 + 哪些没纳入及原因"。**本地目录和 URL 一样是来源**，目录要 ls 出信号文件。
+
+**案例（2026-05-30 pageforge 调研）**：用户给 15 URL + 2 本地目录，转录进 workflow 只配了 12 个 URL，两个目录一篇没读就说"调研完了"，被连追三问才暴露。转录进 workflow 后回头比对"配置条数 == 用户给的条数"；交付时明说覆盖率，跳过的写理由。
+
+同源：[[reference_rtk_smart_gateway]]（管道摘要不可信，长输出落盘复核）。

@@ -1,6 +1,6 @@
 ---
 name: agentboard-privacy-patch
-description: "公司用量统计 peekaboo-ab(agentboard) 已打 v3 脱敏 patch — 非 cmm 会话 title/path/label 上报为 \"personal\"；v3 新增：中途 cd 进 cmm 的会话自动升级为工作会话上报 + force_report_sessions 手动兜底；privacy-rules.json 可整条屏蔽指定 session；更新后需重打"
+description: "公司用量统计 peekaboo-ab(agentboard) 已打 v5 脱敏 patch（2026-08-26 实测 check 输出：脱敏+屏蔽+多工作路径识别在位） — 非 cmm 会话 title/path/label 上报为 \"personal\"；v3 新增：中途 cd 进 cmm 的会话自动升级为工作会话上报 + force_report_sessions 手动兜底；privacy-rules.json 可整条屏蔽指定 session；更新后需重打"
 metadata: 
   node_type: memory
   type: reference
@@ -9,7 +9,7 @@ metadata:
 
 公司用量统计工具 peekaboo-ab（`~/.agentboard/`，Stop hook + launchd `cc.agentboard.sync` 每 60s sync）扫全部 `~/.claude/projects/` + `~/.codex/sessions` 上报到 `https://peekaboo-ab.work/api/checkin`。**不传对话内容**，但传会话标题(title)、完整 cwd(project_path)、project_label、token/时长/活跃窗口。
 
-2026-07-03 已打 **v3 patch**（v2 基础上加两条，沙箱 9/9 + 真实 transcript 端到端验证）：
+2026-07-03 打 v3；**2026-08-26 实测已是 v5（新增多工作路径识别）**，下述 v3 细节仍有效，v4/v5 增量未逐条考证：
 
 - **patch 脚本**：`node ~/.agentboard/privacy-patch.mjs apply|check`（幂等，锚点校验，备份 `cli.mjs.orig-*`，原子写入；检测到旧版会提示先恢复备份再打）。**v2→v3 升级须先 `cp ~/.agentboard/cli.mjs.orig-<真原版日期> cli.mjs` 恢复原版再 apply**（真原版=最早那份 orig，2026-07-02）
 - **脱敏**：project_path 在 `~/Desktop/cmm` 下 = 工作会话原样上报；其余会话 title/project_path/project_label → `"personal"`；**用量数字（token/时长/消息数）一律不动——token 计不计数只取决于 drop 与否，跟脱敏无关**
@@ -18,3 +18,13 @@ metadata:
 - **更新会覆盖**：`npx peekaboo-ab setup` 或自升级会重写 cli.mjs → patch 丢失，重跑 apply（顺序：先 privacy-patch.mjs apply 再 upload-count-patch.mjs apply）；用 check 可随时验证
 - **⚠️ setup 的 backfill 防不住**：重跑 setup 时 backfill 由 npx 官方包（未打 patch）执行，会把全量历史（含真实 title/path）重传一遍。**别随便重跑 setup**；2026-05 首次 setup 的历史数据本来就已在服务器上，patch 只管之后的增量；服务器上已有记录无法删除（只有 checkin/backfill 两个上行接口）
 - **2026-07-03 追加 upload-count-patch(v1)**：`node ~/.agentboard/upload-count-patch.mjs apply|check`。修的是本地 sync.log 的计数 bug——原代码里 `postCheckin()` 命中隐私屏蔽会提前 return（真实网络请求确实没发），但调用方 `syncClaude/syncCodex/syncCursor` 不看返回值、无条件 `uploadedSessions += 1`，导致日志把"屏蔽掉的"也算成"上传了"，容易被误读成"非 cmm 会话还是上报了"。修完后 postCheckin 返回 "ok"/"dropped"/"no-config"，日志区分 `uploaded X, dropped(privacy) Y`。**这只是本地日志措辞修正，不是隐私漏洞修复**——实测当时日志显示 `uploaded 0, dropped(privacy) 2`，证明非 cmm 会话本来就没被真实上传，drop_all_personal 参数([[agentboard-privacy-patch]] 里那个"true=非cmm会话全不上报"的开关)一直在正确生效
+
+## 触发词：「把当前会话放入上报白名单」（及"这个 session 别上报"类变体）
+
+= 让当前会话对 peekaboo-ab 整条免上报。⚠ 用户口中的"白名单"是**保护名单**（不上报），落的配置是 `drop_sessions`（屏蔽名单），别反着理解成"允许上报"。
+
+1. 定位当前 session uuid：scratchpad 路径里的 uuid 段，或按内容指纹 grep `~/.claude/projects/-Users-lengmo/*.jsonl`（[[feedback_session_id_by_content_not_mtime]]，别用 mtime）
+2. uuid 追加进 `~/.agentboard/privacy-rules.json` 的 `drop_sessions`（去重）；运行时读取即时生效，不用重打 patch
+3. 顺手 `node ~/.agentboard/privacy-patch.mjs check`——patch 不在位时名单没人读；不在位就 apply
+4. 如实提醒：该会话此前已上报的快照留在服务器，drop 只管之后
+
