@@ -1,9 +1,9 @@
 ---
 name: Commit policy
-description: 提交/推送/发版/分支命名 全政策——仓×动作一张表；工作仓不明说不提交，个人仓可自行判断，DK 与 soliloquy 已放开 push
+description: 提交/推送/发版/分支命名 全政策——仓×动作一张表；工作仓不明说不提交，个人仓可自行判断，DK 与 soliloquy 已放开 push；onlychat develop 小改动可直推
 type: feedback
 originSessionId: 62222e4b-fd3d-4b5d-9f20-c6b5f75148fb
-modified: 2026-08-26T07:14:58.420Z
+modified: 2026-09-03T11:20:00.000Z
 ---
 
 # 提交与发版政策（仓 × 动作）
@@ -32,7 +32,12 @@ modified: 2026-08-26T07:14:58.420Z
 格式 `lengmo_YYYYMMDD_<type>[_<slug>]`——前缀固定 `lengmo`（跨平台花名，不是 git username：github=GuinsooRocky、gitea=zhanghao）；type 五选一 `dev/fix/feat/refactor/chore`；slug 可选小写英文 `-` 连接。例：`lengmo_20260414_fix_login-modal`。同日重名先换 slug，再不行加 `_2`。
 
 - 基分支：gitea 从 `develop` 拉；github 个人仓从 `main`；项目默认分支不同则按 `HEAD`
-- **main/master/release/develop 永不直接 push，必须走 PR**（公司有 pre-push hook 会触发远程通知）
+- **main/master/release 永不直接 push，必须走 PR**（公司有 pre-push hook 会触发远程通知）
+- **onlychat 的 `develop` 例外：小改动可 rebase 到 develop 后直推，不必开 PR**（2026-09-03 owner 拍板，
+  推翻此前「develop 也永不直推」）。理由：走 PR 每推一次触发一轮 chat-pr.yml，owner 得手动点取消；
+  同组其他人（傅小杰 / yechang）的提交在 develop 上也是线性无 merge commit。
+  ⚠️ 「小改动」= 单 commit、已跑过相关测试；大改动 / 跨域 / 想要 review 仍走 PR。
+  ⚠️ 直推前必须先 rebase 到 `origin/develop`（落后就会被 non-fast-forward 拒），绝不 `--force`
 - 例外：个人仓（唯一维护者、无团队/CI/review）可直接在 main 上改，不必开 feature 分支——feature 分支在那只是仪式（2026-05-12 表态「personal 直接 push main 心智成本最低」）
 - 建分支前先确认在对应基分支上，不是就先 `git checkout develop && git pull`
 

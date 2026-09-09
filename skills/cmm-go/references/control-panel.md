@@ -14,6 +14,7 @@ worktree   <目录名>                          ✓
 watchdog   <见 watchdog.md 判定（基于 3000 实际 cwd，不是 watchdog 进程参数）：
             ● 已运行(本session跳过) / ● 已自动启动(首次开工自起) / ⚠ 3000 实际跑 <X>>
 <可选>     （watchdog 参数=<Y>，跟 3000 实际不符；dev 挂会重启回 <Y>）
+群         <见下 §群同步指示灯；条目无 `群:` 则整行不出>
 <可选>     ⚠ 这个 worktree 现在在 <live branch>，
            上次见到的是 <last-seen branch>——换活了吗？
 
@@ -35,6 +36,30 @@ watchdog   <见 watchdog.md 判定（基于 3000 实际 cwd，不是 watchdog �
   [3] onlychat                 develop
   ...
 ```
+
+## 群同步指示灯（只读，不替用户起同步）
+
+**为什么有这一格**：social-proxy 的群消息是「同步进 DB 才读得到」，`get_history` 不会现去飞书拉。
+一个群掉出同步队列时，「没同步」和「群里真没人说」**返回的都是空** —— 会让人一起推断错。
+2026-08-27 就栽过一次：付费图那个群没进队列，当天消息读不到，差点当成「群里没人回」。
+（同类立法见 memory: `feedback_alarm_needs_a_reader` —— 别装哑铃。）
+
+**怎么判**：条目有 `群:` 时，跑一次
+`execute_tool(name="list_sync_tasks", args={"platform":"feishu","status":"queued","limit":20})`
+（queued 才是 cron 每分钟真在轮询的；paused 的是历史群，不会更新）。
+拿 `thread_name` 跟条目的群名比：
+
+| 情况 | 面板显示 |
+|---|---|
+| 命中 queued | `群         ● <群名> · 同步中（<updated_at>）` |
+| 没命中 | `群         ⚠ <群名> · 不在同步队列 —— 现在拉到的可能不是最新，起吗？` |
+| 命中但 `history_done: false` | `群         ◐ <群名> · 历史回填中（已 <progress_synced> 条），老消息可能还没到` |
+
+**边界**：
+- 只报状态，**不自动 `start_sync_task`** —— 起同步是写动作，等用户点头（面板的规矩是出完就停）
+- 用户说「起吧 / 同步」→ `start_sync_task({task_id})`，起完说一句「cron 每分钟 tick，等一轮再读」
+- 这一格失败（MCP 没连 / 超时）→ 整行降级成 `群  ○ 状态未知`，**不要卡住面板**
+- 私聊（`chat_type: dm`）同理，用同一格
 
 ## 漂移检测（分支变了就报警，不默默给过期信息）
 

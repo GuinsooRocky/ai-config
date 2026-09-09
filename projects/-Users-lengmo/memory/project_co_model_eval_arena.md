@@ -20,7 +20,7 @@ metadata:
 
 ## 评测侧要点
 
-- **07-28 分期 PRD 已落仓**：`docs/prd/` 五份 = 施工单一真相，开工先读 00 总纲。核心里程碑=期3 记忆三组对比 run（记忆开/关/全上下文）跑通后「记忆改版好坏」第一次可回答；期1 收口前任何榜单数字不当结论。期3 开工闸门（owner 侧）：soliloquy 迁移真库跑完、full-chain adapter 按 arena 契约实现、crushon 语料授权/脱敏
+- **07-28 分期 PRD 已落仓**：`docs/prd/` = 施工单一真相，开工先读 `00-总纲-评测体系分期.md`；已长到 10 份（00 总纲 / 01-04 期1-期4 / 05 Lab 统一维护平台 / 06 群聊质量回归 / 07 流式首字速度与质量回归 / 08 多语言最短回复 / 09 新解锁的图收进相册），**份数以 `ls` 为准**。核心里程碑=期3 记忆三组对比 run（记忆开/关/全上下文）跑通后「记忆改版好坏」第一次可回答；期1 收口前任何榜单数字不当结论。期3 开工闸门（owner 侧）：soliloquy 迁移真库跑完、full-chain adapter 按 arena 契约实现、crushon 语料授权/脱敏
 - 双用途：裸模型 + 竞品/装置混赛；api_config.yaml 一条目=一参赛者
 - soliloquy 接入 shim 在 soliloquy 仓 `scripts/eval-arena-shim/`——⚠ prompt-only、长期记忆恒空，现在的 memory 分数测的是底模不是记忆系统，期3 换 full-chain adapter 才算数
 - ⚠ judge：OpenRouter key 调 anthropic/openai 全 403 只通 DeepSeek；定版=三个异族中等模型投票（PoLL），不是换 key 用单强 judge

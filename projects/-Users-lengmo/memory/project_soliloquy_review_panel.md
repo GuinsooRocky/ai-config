@@ -1,11 +1,11 @@
 ---
 name: project-soliloquy-review-panel
-description: soliloquy 项目专属的 11 席评审团阵容（裁判调研组）——触发词命中时按此花名册开多视角评审；席位可持续丰富
+description: soliloquy 项目专属的 14 席评审团阵容（裁判调研组）——触发词命中时按此花名册开多视角评审；席位可持续丰富
 metadata: 
   node_type: memory
   type: project
   originSessionId: b949d1e1-48c5-441e-b40e-fa989a7aa5af
-  modified: 2026-07-30T06:47:38.922Z
+  modified: 2026-08-08T09:12:47.665Z
 ---
 
 # soliloquy 调研群组（裁判调研组）
@@ -39,10 +39,14 @@ metadata:
 
 - 每席一个子 agent **显式 model=opus** 并行（[[feedback-delegate-impl-to-opus-subagent]]），全文读 PRD + 相关调研底稿；技术席另读对应代码。
 - 用户席互相隔离（看不见彼此结论）——独立撞车的合流意见是最强信号。
-- 子 agent 的载重否定结论（「这不行/是幻觉」级）主会话必须逐条对代码核实后才采信（[[feedback-dont-declare-infeasible]]）。
+- 子 agent 的载重否定结论（「这不行/是幻觉」级）主会话必须逐条对代码核实后才采信（[[feedback_dont_declare_infeasible]]）。
 - 产出分层：红线级（不修翻车）/ 问题级（按席位分组）/ 点赞合流（别在后续改动里误砍的东西）。
 - 处置分流:工程硬伤直接修进 PRD（修正案节，与正文冲突以修正案为准）；产品分歧进 `loop/decisions.md` 拍板箱，每条带推荐。
 
 ## 丰富方式
 
-owner 说加席位就在花名册追加（席位名 + 一句话视角判据），本文件是唯一真相；首跑范例=docs/prd/research/2026-07-17-群聊-11视角评审.md。
+owner 说加席位就在花名册追加（席位名 + 一句话视角判据）。**本文件是这套花名册的唯一承载**——全库（skills / agents / commands / 项目仓）没有第二处写着它，删了就没了。首跑范例=soliloquy 仓 `docs/prd/research/2026-07-17-群聊-11视角评审.md`（仍在）。
+
+## 历次出场
+- 2026-07-17 群聊 PRD 评审（首跑，11 席）——范例报告在仓里，见上。
+- 2026-08-08 产品链路与技术实现全景评审（14 席全员 + 合成，Workflow 并行跑法首次验证）：载重否定 7/8 主会话核实全成立。**报告目录 `~/Desktop/loop_project/soliloquy-14席评审-2026-08-08/` 已不存在**，本次只剩下面这两条跑法结论可用——REDLINES 拍板项护栏焊进每席 prompt 后 #15 零复发；BACKLOG 已知问题声明「别刷数量」有效。

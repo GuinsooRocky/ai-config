@@ -50,6 +50,19 @@
 - 文档非标准 markdown 标题（飞书有时返回纯文本带数字）→ 退化到"按行扫数字开头"，告知用户切片可能不准
 - `skip` 状态下用户后面又说"看 PRD" → 不算违反，重新走解析（说明换主意了），但别问范围那道题（直接拉 all 或 features.md 默认；若两者皆空才再问一次）
 
+## 飞书群（读 / 发）
+
+用户说「群」「发群里」「看群消息」「群里说了啥」时，**不追问是哪个群**，按序解析：
+
+1. features.md 该项目条目的 `群:`（非 `<待填>`）
+2. 文件头的 `默认群:`
+3. 都空 → `execute_tool(name="find_thread_by_name", args={"name":"<项目名/feature 名>"})` 现搜候选，列给用户选一次，**选定后写回该条目的 `群:`**（下次免问；若用户说"以后都用这个"则写文件头 `默认群:`）
+
+拿到群名后走 social-proxy（messages 动作）：
+- 读消息 → `find_thread_by_name` 拿 thread_id → `get_history`
+- 发消息 → `send_message` **不带 confirm 先拿 preview 给用户过目**，用户点头后再 `confirm=true` 真发（对外发送永远先确认）
+- 表里只存群名（稳定指针）；thread_id 现查不缓存
+
 ## 转交专项 skill（本 skill 不硬做）
 - Figma 改版 UI → `onlychat-figma-revamp`
 - 埋点接线/核对 → `onlychat-tracking`
@@ -58,5 +71,5 @@
 - LAN 测试（手机扫码连本地 dev）→ 见 `lan-test.md`
 
 ## 已知限制
-- 飞书群消息：当前 social-proxy 只装了 documents profile，**没有群消息读权限**（要 messages profile）。别假装能读群，提醒用户装。
+- 飞书群消息：~~只有 documents profile 读不了群~~ **2026-08-19 起 social-proxy 已是 full profile**，群读/发走上面 §飞书群。若某 session 里 messages 动作缺失（连的是旧 profile），再提醒用户换 full 连接。
 - Figma MCP：工具集没有 whoami（spec drift），按 file token 一致 + 让用户口报账号确认。

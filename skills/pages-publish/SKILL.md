@@ -5,6 +5,8 @@ description: 把本地 HTML/Markdown 文件发布到内网 Pages 服务（pages.
 
 # pages-publish
 
+> ⚠ 2026-09-01 现状：本机 mcp 配置已无 `pages` server（`claude mcp get pages` 报 No MCP server named "pages"），下述脚本取不到 URL/token 会失败。现行发布通道 = social-proxy 的 `publish_page` / `share_page` 动作（execute_tool 调用，详见 memory: reference_pages_publish_via_social_proxy.md）。修复本 skill 的 token 来源前，发布一律走 social-proxy。
+
 内网 Pages 服务（`pages.pkbops.com`）的命令行封装。**核心价值**：直接从文件路径读取内容并通过 HTTP 上传，绕开「模型把整份 HTML 逐字转录进 `publish_page(html=...)` 工具参数」——尤其是含 base64 内嵌图片的自包含 HTML，转录既贵又易截断损坏。
 
 底层就是 `pages` MCP（HTTP / JSON-RPC，`https://pages.pkbops.com/mcp`）。脚本运行时从 `claude mcp get pages` 动态取 URL + token，不硬编码密钥。
@@ -12,7 +14,7 @@ description: 把本地 HTML/Markdown 文件发布到内网 Pages 服务（pages.
 ## 何时用这个 skill 而非 pages MCP 工具
 
 - **文件在磁盘上**（尤其自包含 HTML、带内嵌图片、体积 >10KB）→ **一律用本 skill 的脚本**，让代码读文件。
-- 只有几行、现场手写的小片段 → 直接调 `mcp__pages__publish_page` 也可以。
+- 只有几行、现场手写的小片段 → 直接调 social-proxy 的 `publish_page` 动作也可以（`mcp__pages__*` 工具已随 pages MCP 下线）。
 - 判断依据：只要你已经/将要把内容写到某个 `.html`/`.md` 文件，就走脚本。
 
 ## 用法

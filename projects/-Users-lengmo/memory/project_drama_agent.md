@@ -1,6 +1,6 @@
 ---
 name: project-drama-agent
-description: drama-agent 项目定位、两条线分家、单一真相交接单位置
+description: drama-agent 项目定位（本机只剩 my-code 那条晚上线）、单一真相交接单位置、SEO 已进 main 但一行没部署
 metadata: 
   node_type: memory
   type: project
@@ -10,16 +10,13 @@ metadata:
 
 drama-agent：把短故事/多轮对话编译成 AI 视频工具（目标 Seedance 2.0，走 WaveSpeed）prompt 制作包的纯前端 SPA（React18+TS+Vite+antd6+ajv），五步流水线 + schemas 校验 + dialects 方言。
 
-## ⚠ 2026-07-17 两条线已分家（认路径别认仓名）
+## 本机只剩一条：`~/Desktop/my-code/drama-agent`（晚上线）
 
-- **`~/Desktop/my-code/drama-agent`** = **晚上线**。**要做 SEO + 收费的是这条。** 在 `main`（07-22）。
-- `~/Desktop/cmm/drama-agent` = 白天线，不碰。在 `lengmo_20260720_feat_prompt-chain`（07-24 已推）。
+**要做 SEO + 收费的就是这条**，在 `main`（本地只有 main，无其它本地/远端分支）。
 
-理由（owner 原话）：cmm 那边是工作时候的事，晚上这条要赚钱、不想让白天知道。两边共用历史但从此各走各的。
+07-17 曾分家出的白天线 `~/Desktop/cmm/drama-agent` **本机已不存在**（工作目录下找不到该目录）；它当时挂在 `lengmo_20260720_feat_prompt-chain`，远端 `GuinsooRocky/drama-agent` 上是否还留着这支未核实。两条线曾从 `cc8ebc7` 分叉、当时合并有 11 个文件冲突——**真要捡回白天线得当成一次正经 merge 排期，别当"同步一下"**。
 
-⚠ **2026-07-27 核实：「cmm 那份已断 origin 纯离线」的旧口径已作废。** 两份 remote 同指
-`GuinsooRocky/drama-agent`，只是各在各的分支上。两条线从 `cc8ebc7` 分叉，**合并会有 11 个文件冲突**——
-真要并线得当成一次正经 merge 排期，别当"同步一下"。
+分家理由（owner 原话）：cmm 那边是工作时候的事，晚上这条要赚钱、不想让白天知道。
 
 ## 单一真相 = 项目内交接单
 
@@ -27,19 +24,19 @@ drama-agent：把短故事/多轮对话编译成 AI 视频工具（目标 Seedan
 
 里面有：owner 已拍板清单 / 价格实测（NOWPayments 下限 ≈$10，$0.8/$6.6 都收不了，07-18 重定）/ 付费墙全链路代码现状 / 上线硬前置顺序 / SEO「抄 soliloquy 自己」的完整方案 / 证据卫生教训 / 假警报存档。
 
-## 付费墙进度（2026-07-22 更新，`docs/2026-07-17-付费墙与SEO-交接.md` 仍是单一真相）
+## 付费墙 + SEO 进度（`docs/2026-07-17-付费墙与SEO-交接.md` 仍是单一真相）
 
-**代码已全部提交进 `main`**：价格定 `PRICE_USD=12` / 20 次 + 匿名额度码 + D1；tsc 净、eval 199 全过。
+**代码已全部提交进 `main`**：付费墙——价格定 `PRICE_USD=12` / 20 次 + 匿名额度码 + D1；tsc 净、eval 199 全过。SEO——落地页与访问上报也已进 main（`647a4d6 feat: add SEO landing page and visit reporting`），所以「SEO 要做但一点没动」的旧口径作废。
 
 **但一行都没部署。** 线上 workers.dev 还是 07-16 的老壳：
-- `wrangler.jsonc` 三个占位符没填（`PUBLIC_ORIGIN` / KV id / D1 id）
+- `wrangler.jsonc` 占位符仍在（`wrangler.jsonc:33` 的 `"PUBLIC_ORIGIN": "https://REPLACE_WITH_REAL_DOMAIN"`，KV id / D1 id 同）
 - 三把 secret 全空
 
 **两个未解缺口（开工前先看）**：
 1. 市场已拍板英文，但**输出语言仍写死中文**（`dialects/seedance.md:121`，即 Seedance 措辞手册）+ UI 也还是中文。
 2. **付费链路从没在真浏览器点过**——只有 tsc 和 eval 的绿，没有一次端到端人工验证。
 
-**已拍板（别再问）**：市场=**英文** · 蒙层=**全蒙一字不给** · 收款走 soliloquy 那套 NOWPayments · **SEO 要做**（他否的是内容农场不是 SEO）· 提现/费率/模型选型=owner 的域别管。
+**已拍板（别再问）**：市场=**英文** · 蒙层=**全蒙一字不给** · 收款走 soliloquy 那套 NOWPayments · **SEO 要做**（他否的是内容农场不是 SEO，落地页已进 main）· 提现/费率/模型选型=owner 的域别管。
 
 ## 术语约定（07-21）
 

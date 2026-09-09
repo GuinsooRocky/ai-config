@@ -1,6 +1,6 @@
 ---
 name: grill-me
-description: Interview the user relentlessly about a plan or design until reaching shared understanding, resolving each branch of the decision tree. Use when user wants to stress-test a plan, get grilled on their design, or mentions "grill me"、"拷问我"、"挑战这个方案"、"把这个计划问透". 无 PRD 的方案拷问用本 skill；有 PRD 对照逐点拷问用 /grill-with-prd；从 0 把模糊想法聊成设计用 brainstorm.
+description: 拷问一个已成形的计划/设计——先把支持与反对两边都推到最强，再顺决策树一次一问追到共识。触发词："grill me"、"拷问我"、"挑战这个方案"、"把这个计划问透"、"帮我找漏洞"、`/grill-me`。不用于：有 PRD 可逐点对照（归 `/grill-with-prd`）、想法还没成形要从 0 聊成设计（归 `brainstorm`）、审 PRD 文档本身的矛盾与缺口（归 `onlychat-prd-reflection`）。
 ---
 
 # Grill Me — 方案拷问（无 PRD 版）
@@ -16,20 +16,65 @@ description: Interview the user relentlessly about a plan or design until reachi
 - 想法还没成形、要从 0 理清 → `brainstorm`
 - 审 PRD 文档本身（矛盾/缺文案）→ `onlychat-prd-reflection`
 
-## 执行
+## Step 1 — 开问之前，先把两边都推到最强
+
+**绝不**一上来就顺着方案往下问。先自己花一轮做这件事：把**支持这个方案的最强理由**和**反对它的最强理由**分别补完整、推到最难反驳的程度——包括用户自己没说出口的最好论据，也**必须**替他补上。两边都不许靠歪曲对方取胜。
+
+这一步**不问用户**，自己做。做完只报三样：
+
+1. 支持侧的最强版本
+2. 反对侧的最强版本
+3. 两边真正的分歧点 + 最可能改变结论的那一两个变量
+
+追问**必须**从那个分歧点开始，别从表面疑点开始。不先强化反方，后面每一问都会顺着用户已有的立场走，拷问就变成了捧场。
+
+## Step 2 — 顺决策树拷问
 
 Interview me relentlessly about every aspect of this plan until we reach a shared understanding. Walk down each branch of the design tree, resolving dependencies between decisions one-by-one.
 
 规则：
-1. **一次只问一个问题**，等回答再问下一个
+
+1. **一次必须只问一个问题**，等回答再问下一个
 2. **每问附带你的推荐答案**——用户可以直接回"按推荐"
-3. 问题能靠翻代码库回答的，自己去翻，别浪费用户回合
+3. 问题能靠翻代码库回答的，自己去翻，**别**浪费用户回合
 4. 顺决策树走：先问影响后续分支的根决策，再进细节
 5. 用户说"先跳过"的问题记入未决项，别缠着不放
 
-## 收尾输出
+## Step 3 — 收尾输出
 
 到达共识后输出：
+
 - **决议清单**：每条 = 问题 → 拍板结果（一行一条）
 - **未决项**：跳过的问题单列
-- 不写代码、不出实现方案——那是批准之后的事
+- **绝不**写代码、**绝不**出实现方案——那是批准之后的事
+
+## 示例输出
+
+Step 1 报回来长这样（节选，方案＝「给评测加一层缓存」）：
+
+```
+支持侧最强版：重复回放同一批对话占了 70% 调用，缓存后单轮成本从 X 降到 Y，
+且判分是纯函数、天然可缓存——这比任何 prompt 优化的收益都大。
+反对侧最强版：缓存命中意味着你在拿旧模型版本的判分冒充新版本的判分，
+榜单会静默失真；而成本问题用抽样就能解决，不必引入一个会说谎的中间层。
+真正的分歧：你要的是「省钱」还是「同一批样本可复现」——这俩需要的机制不一样。
+关键变量：判分结果是否随模型版本漂移。若漂移，缓存必须带版本键，成本收益减半。
+
+第一问：这层缓存的第一目的是省钱，还是让同一批样本每次跑出一样的分？
+（我的推荐：可复现——省钱用抽样更直接。）
+```
+
+## 反模式
+
+1. **跳过 Step 1 直接开问** —— 没强化反方，追问会顺着用户立场走，变成捧场
+2. **一口气甩多个问题** —— 规则 1 是硬的，一次一问
+3. **拿能自己翻代码查到的事去问用户** —— 浪费回合
+4. **拷问完顺手把方案实现了** —— 本 skill 只到共识为止
+
+## 自检
+
+写完/大改后**必须**立即跑一次，≥85 才算交付：
+
+```bash
+python3 ~/.claude/skills/meta-check-skill/ref/audit.py grill-me
+```

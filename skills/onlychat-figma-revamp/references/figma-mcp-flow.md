@@ -3,9 +3,9 @@
 ## 三个工具必须并行调
 
 ```
-mcp__figma-desktop__get_design_context(nodeId)
-mcp__figma-desktop__get_variable_defs(nodeId)
-mcp__figma-desktop__get_screenshot(nodeId)
+mcp__figma__get_design_context(nodeId)
+mcp__figma__get_variable_defs(nodeId)
+mcp__figma__get_screenshot(nodeId)
 ```
 
 用 Agent tool 并行发 3 个调用块，不要串行。

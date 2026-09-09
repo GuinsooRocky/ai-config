@@ -42,9 +42,9 @@ description: OnlyChat 项目 Figma UI 改版专用流程 — 严格照 MCP 返�
 
 并行调三个 MCP 工具（同一个 nodeId）：
 ```
-mcp__figma-desktop__get_design_context(nodeId)
-mcp__figma-desktop__get_variable_defs(nodeId)
-mcp__figma-desktop__get_screenshot(nodeId)
+mcp__figma__get_design_context(nodeId)
+mcp__figma__get_variable_defs(nodeId)
+mcp__figma__get_screenshot(nodeId)
 ```
 
 **读取规则**：

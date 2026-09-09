@@ -7,7 +7,7 @@ description: OnlyChat 项目 PRD 反讲文档生成 — 把 PRD 不完美的地�
 
 仅用于 onlychat 项目。反讲是 **PRD 的反向调试器**——把 PRD 矛盾 / 漏洞 / 反直觉摆桌上**现在解决**，不在代码里发现。PRD 改了重跑这个 skill 出新版本即可。
 
-本 skill **自包含**：HTML 模板、风格规范、自检清单全在本文，不依赖任何 references 文件。
+本 skill **自包含**：风格规范、自检清单全在本文，HTML 底稿在同目录 `assets/handbook-template.html`，不依赖任何外部 skill。
 
 ## 何时使用
 
@@ -35,7 +35,7 @@ description: OnlyChat 项目 PRD 反讲文档生成 — 把 PRD 不完美的地�
 
 ## 风格红线
 
-- ✅ 手边有一份已确认过的反讲 HTML 就拿来当风格锚点；没有就照本文 §核心原则 + §HTML 生成规范 走
+- ✅ 手边有一份已确认过的反讲 HTML 就拿来当风格锚点；没有就照本文 §核心原则 + §HTML 生成规范 走（版式一律用 `assets/handbook-template.html`，别另起炉灶）
 - ✅ 第一人称、敢下判断："这块 PRD 没写清，我倾向 A，因为……"
 - ❌ 别打官腔："本文档旨在..." / "建议产品同学进一步明确..." 都不行
 - ❌ 别看到 PRD 矛盾不说，自己脑补一个版本写进去 —— 矛盾要进 ⚠️ warn block + 待决策表
@@ -62,7 +62,7 @@ description: OnlyChat 项目 PRD 反讲文档生成 — 把 PRD 不完美的地�
 
 1. **拉 PRD** → 见 §PRD 获取
 2. **提章节目录** — 从 PRD 提出 §X.X 骨架，决定反讲 h2 / h3 顺序
-3. **起 HTML 骨架** — 按 §HTML 生成规范**直接写**一个自带 CSS（暗/亮双模）的单文件 HTML 作为起点（不再 cp 任何模板文件）
+3. **起 HTML 骨架** — `cp` 本 skill 的 `assets/handbook-template.html` 当底稿（左侧粘性目录 + 进度条 + 暗亮双模已配好），不要手写版式；细则见 §HTML 生成规范
 4. **按 PRD 顺序填内容** — 每节一个 h2 带 `<span class="badge badge-prd">§X.X</span>`；弹窗用 `<span class="modal-tag">弹窗 N</span>`
 5. **同步开待决策列表** — 读 PRD 时遇到矛盾 / 缺文案 / 反直觉直接塞 Q1 / Q2 ...，每条**必须**带 PRD 出处（§X.X 或行号）
 6. **挑刺自检** — 见 §自检清单
@@ -92,30 +92,38 @@ description: OnlyChat 项目 PRD 反讲文档生成 — 把 PRD 不完美的地�
 
 | 类名 | 用途 |
 |---|---|
-| `.badge.badge-prd` | 章节徽章，显示 §X.X，跳回 PRD 用 |
+| `.badge-prd` | 章节徽章，显示 §X.X，跳回 PRD 用（底稿里就叫这个，别写成 `badge badge-prd`） |
 | `.modal-tag` | 弹窗 N 唯一编号标记 |
 | `.warn` | PRD 矛盾 / 风险的 ⚠️ 警示块 |
 | `.qrow` | 文末 P0 待决策卡片（含 PRD 出处） |
 | `.big-card` | 整页一句话的大字强调卡（克制用，全帖 1~2 张） |
 | `.plat-pc` / `.plat-mobile` | 🖥️ / 📱 平台差异内联标 |
 
-**精简 CSS 骨架（起点，按需扩展，别再外链文件）**：
+**底稿：`assets/handbook-template.html`（cp 一份改，别再手写版式）**
 
-```html
-<style>
-:root{--bg:#fff;--fg:#1a1a1a;--card:#f6f7f9;--accent:#3b6cff;--warn:#b4690e}
-@media(prefers-color-scheme:dark){:root{--bg:#15171c;--fg:#e6e6e6;--card:#1e2128;--accent:#6c8cff;--warn:#e0a85a}}
-[data-theme="dark"]{--bg:#15171c;--fg:#e6e6e6;--card:#1e2128;--accent:#6c8cff;--warn:#e0a85a}
-[data-theme="light"]{--bg:#fff;--fg:#1a1a1a;--card:#f6f7f9;--accent:#3b6cff;--warn:#b4690e}
-body{background:var(--bg);color:var(--fg);font:15px/1.7 -apple-system,system-ui,sans-serif;max-width:860px;margin:0 auto;padding:32px}
-.badge-prd{display:inline-block;font-size:12px;padding:2px 8px;border-radius:6px;background:var(--accent);color:#fff;margin-left:8px}
-.modal-tag{display:inline-block;font-size:12px;padding:2px 8px;border-radius:6px;border:1px solid var(--accent);color:var(--accent)}
-.warn{background:color-mix(in srgb,var(--warn) 15%,transparent);border-left:3px solid var(--warn);padding:12px 16px;border-radius:6px;margin:12px 0}
-.qrow{background:var(--card);border-radius:10px;padding:16px;margin:12px 0;border-left:3px solid var(--accent)}
-.big-card{background:var(--card);border-radius:14px;padding:40px;text-align:center;font-size:24px;font-weight:700;margin:24px 0}
-</style>
-<button onclick="document.documentElement.dataset.theme=document.documentElement.dataset.theme==='dark'?'light':'dark'">🌓 切换</button>
-```
+反讲动辄十几节 + 十几个 Q，PM 在会上要来回跳 —— 单栏无目录的页面撑不住。底稿是学习手册式：
+
+- 顶端标题栏 + **左侧 190px 粘性目录** + 正文最大宽 1120px + 顶部阅读进度条
+- 900px 以下自动收起目录转单栏；`@media print` 已配好（去目录/进度条/切换钮，warn 与 qrow 不跨页断）
+- 暗 / 亮双模：跟随系统 + 右上角手动切换按钮
+
+> 底稿来自 codex 侧 `~/.codex/skills/longform-html/assets/learning-handbook-template.html`，
+> 已在本 skill 的 assets 下**落成独立副本**并补了暗色 token（原稿是 light-only，与自检第 12 条冲突）
+> 与反讲专属组件。**用本地这份，不要跨 skill 目录引用**，本 skill 仍是自包含的。
+
+**除上表的必备类外，底稿还带这些通用组件**（够用就别自造）：
+
+| 类名 | 用途 |
+|---|---|
+| `.matrix` | 对照表（表头深绿反白），凡是「N 项 × 属性」一律用它，别写成散文 |
+| `.card` / `.cards` | 单卡 / 双列卡片组 |
+| `.note` | 蓝色信息块（**中性说明**，与 `.warn` 分工：warn 只给 PRD 矛盾） |
+| `.steps` | 带序号圆点的施工步骤流 |
+| `.diagram` | 深色等宽块，画链路 / 流程 ASCII 图 |
+| `.scope` | 绿色范围声明块（只反讲部分章节时，开头必放） |
+| `.section-kicker` | h2 上方的小号橙字眉标 |
+
+**用法**：cp 底稿 → 换 `{{TITLE}}` → `<nav>` 里逐节补 `<a href="#s-3-1">§3.1 …</a>`（**每项必须指向真实 section 的 id**）→ `<main>` 里每节一个 `<section id="s-X-X">`。
 
 ## 自检清单
 
@@ -133,6 +141,8 @@ body{background:var(--bg);color:var(--fg);font:15px/1.7 -apple-system,system-ui,
 10. 待决策每条都带 PRD 出处？P0 用 `.qrow`、P1 用 ul？
 11. 飞书大文档分页翻全了，没有把没读到的章节误判成「缺」？
 12. 只产出 `.html`，没留中间 `.md`？暗/亮双模都正常？
+13. 左侧目录每一项都指向真实存在的 `section` id，点了真能跳？没有孤儿锚点 / 漏掉的节？
+14. 「N 项 × 属性」的内容都进了 `.matrix` 表，没有摊成散文让读者自己重拆？
 
 ## 输出
 
@@ -143,12 +153,20 @@ body{background:var(--bg);color:var(--fg);font:15px/1.7 -apple-system,system-ui,
 ## 示例输出（结构骨架）
 
 ```html
-<h2>用户注册 <span class="badge badge-prd">§3.1</span></h2>
-<p>我的理解：注册要走邮箱 + 手机双验证……</p>
-<div class="warn">⚠️ PRD §3.1 说"必填手机"，但 §3.4 流程图里手机是可跳过的 —— 打架，见 Q2。</div>
-<p>弹窗 <span class="modal-tag">弹窗 1</span>：验证码错误 toast……</p>
+<!-- nav 里：<a href="#s-3-1">§3.1 用户注册</a> -->
+<section id="s-3-1">
+  <h2>用户注册 <span class="badge-prd">§3.1</span></h2>
+  <p>我的理解：注册要走邮箱 + 手机双验证……</p>
+  <table class="matrix"><tr><th>字段</th><th>必填</th></tr>…</table>
+  <div class="warn">⚠️ PRD §3.1 说"必填手机"，但 §3.4 流程图里手机是可跳过的 —— 打架，见 Q2。</div>
+  <p>弹窗 <span class="modal-tag">弹窗 1</span>：验证码错误 toast……</p>
+</section>
 ...
-<div class="qrow"><b>Q2</b>（PRD §3.1 vs §3.4）手机号到底必填还是可跳过？我倾向必填，因风控。</div>
+<section id="s-q">
+  <h2>待决策</h2>
+  <div class="qrow"><span class="qid">Q2</span> <span class="src">（PRD §3.1 vs §3.4）</span><br>
+  手机号到底必填还是可跳过？我倾向必填，因风控。</div>
+</section>
 ```
 
 ## 跟其他 skill 的关系

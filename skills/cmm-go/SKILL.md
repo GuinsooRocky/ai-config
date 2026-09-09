@@ -40,6 +40,8 @@ description: OnlyChat 开工编排——报项目昵称即落到正确 worktree 
 - **需求一句话**：读表
 - **上次干到哪**：probe `== commits ==` 段第一行
 - **watchdog**：probe `== port3000 ==` + `== watchdog ==` 段，按第 3 步判定
+- **群**：条目有 `群:` 才出这行。跑一次 `list_sync_tasks({platform:"feishu",status:"queued"})`，
+  群名命中 → `● 同步中`；没命中 → `⚠ 不在同步队列，拉到的可能不是最新`。**只报不起**，判定与降级见 `references/control-panel.md` §群同步指示灯
 - **漂移告警**：probe `== drift ==` 段。`no` / `new (no prev)` 不展示；`YES (...)` → 标 ⚠ 问"换活了吗"
 - **可拉缓存菜单**：读表，有指针标 ●、低档(埋点/i18n)标 ○、坑给 memory 条目名
 
@@ -51,6 +53,8 @@ description: OnlyChat 开工编排——报项目昵称即落到正确 worktree 
 
 ### 4. 按需拉资产
 面板出完就停，等用户点菜。用户说"看 PRD / 看设计 / 看后端文档"时，按 `references/assets.md` 现拉。**飞书是真相源，顺指针实时取，不缓存正文。**
+
+用户说「**群 / 发群里 / 看群消息**」→ 不追问哪个群，按 `assets.md` §飞书群 解析：条目 `群:` → 文件头 `默认群:` → 现搜候选问一次并写回。发消息永远先 preview 再 confirm。
 
 PRD 特殊：拉之前先确定**范围**（避免 50000 字塞爆）。解析顺序——
 1. 本 session 暂存（第 1 步从口令吃下来的）
@@ -78,6 +82,7 @@ worktree   onlychat-world-book                    ✓
 需求       世界卡（World Book）编辑器 UI
 上次干到   37954c4 fix: NotesSearchBar z-index
 watchdog   ● 已自动启动（首次开工自起）
+群         ● 世界卡 - 6.30.0 - 首页动画设计 · 同步中（20:25）
 
 可拉缓存
   PRD     ○ 表里没指针，现搜飞书

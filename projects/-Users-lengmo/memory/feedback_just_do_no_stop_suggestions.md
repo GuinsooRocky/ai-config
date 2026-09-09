@@ -9,18 +9,13 @@ metadata:
 
 ## 带 1 个推荐方向走，不在抽象里让用户选
 
-需要决策时**带 1 个推荐方向往前走**，不要列"方案 A vs 方案 B 让你选"。用户要在产物里反馈，不在文字里被 grill。
-
-**例外（仍要确认）**：
-- 破坏性 git 操作 / 删数据 / 改远程 main / 动机器配置
-- 架构级方向分叉（成本太大值得问一句）
-- 实现型任务的方案对齐（见 [[feedback-task-execution-cadence]] 第 1 段）
+> 本节已提级 `~/.claude/CLAUDE.md` 写码行为守则（「有多种理解时带 1 个推荐直接走，只有不可逆的分叉才停下问」），「该不该问」的细则在 `~/.claude/judgment-rubrics.md`。这里只留原始口径一句：**用户要在产物里反馈，不在文字里被 grill**；实现型任务的方案对齐是那条之外的例外（见 [[feedback_task_execution_cadence]] 第 1 段）。
 
 ## 让你"做个 loop/自动化"时别堆前置闸把人卡住
 
 用户叫"开个 loop / 把这批做完"时，**别用一串 gate-check + AskUserQuestion 菜单把他拦在门口**——他要的是吞吐，不是被反复确认。正确姿势：把 sane default 焊进去（取数口径照已有对称模式、设计岔口当场拍合理值）直接跑（workflow/ultracode），真有岔口在执行中 inline 抛出，而不是开跑前列三道选择题。安全(只改本仓不碰镜像/禁写桩/测试当 back-pressure)悄悄兜住就行，别拿出来当门槛念。
 
-用户原话（被我用 loop-forge 前置闸 + 选择题挡住后）："做个loop 这么难？那就开个ultracode"。这跟 [[feedback-task-execution-cadence]] 的"按改动规模分级"不冲突——分级是给我自己定深浅，不是拿去问用户。
+用户原话（被我用 loop-forge 前置闸 + 选择题挡住后）："做个loop 这么难？那就开个ultracode"。这跟 [[feedback_task_execution_cadence]] 的"按改动规模分级"不冲突——分级是给我自己定深浅，不是拿去问用户。也跟 [[feedback_loop_needs_backpressure_first]] 不冲突：那条要的是「上 loop 前得有可机械判定的 back-pressure」，闸该自己焊进去悄悄兜住，**闸 ≠ 摆给用户的菜单**。
 
 ## 别主动建议停下 / 收尾
 

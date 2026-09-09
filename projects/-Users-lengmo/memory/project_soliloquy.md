@@ -29,15 +29,21 @@ metadata:
 | 待办池 | `docs/prd/BACKLOG.md`（编号发放：下一个可用见文件头） |
 | 已完成归档 | `docs/prd/DONE.md` |
 | **红线单一真相** | `docs/prd/REDLINES.md` ← 别在别处抄红线，会漂 |
-| 拍板箱 | `loop/decisions.md`（append-only，已 1500+ 行——**引用它只用标题搜，别记行号**） |
-| 人工闸（要人眼/真机的） | `loop/manual-verify.md` |
-| 设计文档 | `docs/prd/designs/` |
+| 产品定位 | `docs/prd/PRODUCT.md` |
+| 试过并否掉的路 | `docs/prd/TRIED-AND-FAILED.md` ← 提"要不要试 X"前先查，别重开死案 |
+| 世界卡章程 | `docs/prd/WORLDCARD-CHARTER.md` |
+| 设计文档 / 点子池 | `docs/prd/designs/`（已完成的进 `designs/done/`）、`docs/prd/ideas/` |
+| **现行版本账（owner 选择）** | `delivery/versions/0.1.0/decisions.md` |
+| **现行版本账（真机/真账号/hosted/production 人工验证）** | `delivery/versions/0.1.0/manual-verification.md` |
+| 历史拍板箱 | `loop/decisions.md`（append-only，已 1500+ 行——**引用它只用标题搜，别记行号**） |
+| 历史人工闸 | `loop/manual-verify.md` |
 
+⚠ **`loop/*` 与 `delivery/versions/0.1.0/*` 两套并存、容易读错**：BACKLOG.md 文件头已把「owner 选择」「人工验证」指向 `delivery/versions/0.1.0/`，那是现行的；`loop/` 那两份当历史账读。
 ⚠ 旧口径作废：`loop/fix_plan.md` 和「BACKLOG 簇⑨」那套编号**已随 07-27 机制重构消失**，别再找。
 
 ## 技术栈
 
-Tauri + React 19 + **Rsbuild**（已替 Vite）+ pnpm；后端自有 **Supabase**（RLS 全表开 + OTP 邮箱登录，按 user_id 隔离）；repo 契约层 `src/lib/repo/`（contract.ts 接口 + supabase.ts 唯一实现 + index.ts 指向）。
+Tauri + React 19 + **Rsbuild**（已替 Vite）+ pnpm；后端自有 **Supabase**（RLS 全表开 + OTP 邮箱登录，按 user_id 隔离）。**已 monorepo 化**：repo 契约层不在 `src/lib/repo/` 了——接口在 `shared/data/contract.ts`，实现与测试在 `apps/desktop/src/lib/repo/`；桌面端 `apps/desktop`、网页端 `apps/web`、跨端共用 `shared/`。
 
 **改后端数据**：迁移走 `pnpm tsx scripts/run-migration.ts <file>`（用 `.env.setup` 的库 owner 直连）；验证/造数据可用 anon key（`.env.local`）跑临时脚本。
 

@@ -41,7 +41,7 @@ Agent 工具 `model` 参数只认这四个别名（完整 ID 供写文档引用�
 | `haiku` | claude-haiku-4-5-20251001 | 最便宜最快 | 机械活：批量套已解出的模式、格式转换、简单提取、大批文件同一改法 |
 | `sonnet` | claude-sonnet-5 | 主力 | 日常实作 / 搜索 / 读取 / 写码 / 绝大多数子 agent 活 |
 | `opus` | claude-opus-5 | 难活 | 复杂架构判断、难 bug、跨模块推理、高风险综合、当裁判/评审 |
-| `fable` | claude-fable-5 | 最高判断档 | 2026-08-06 起为本机默认主会话模型（settings pin `claude-fable-5[1m]`）；派工一般不用它——opus 够档且省，最高档裁决/对抗验证才值得继承主档 |
+| `fable` | claude-fable-5-1 | 最高判断档 | 2026-08-06 起为本机默认主会话模型（settings pin `claude-fable-5-1[1m]`，2026-09-09 起随 Fable 5.1 更新）；派工一般不用它——opus 够档且省，最高档裁决/对抗验证才值得继承主档 |
 
 **effort 事实（2026-07-06 核对，别写反）**：
 - **Agent 工具没有 `effort` 参数**，只有 `model`。在 Agent 调用里传 effort 会失败。

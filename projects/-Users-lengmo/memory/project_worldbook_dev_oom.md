@@ -1,13 +1,15 @@
 ---
 name: project_worldbook_dev_oom
-description: world-book dev OOM 的设计原理 + 关键教训（脚本操作细节见 cmm-go skill 的 references/watchdog.md）
+description: onlychat dev watchdog 的设计原理 + 三条通用监控教训（footprint 别用 ps rss / kill_port 连 3001 / ${var} 定界）；脚本细节见 cmm-go skill 的 references/watchdog.md
 metadata: 
   node_type: memory
   type: project
   originSessionId: 3b3ea1c7-ced1-4474-84aa-d82100f7fb7c
 ---
 
-`onlychat-world-book` worktree 的 `pnpm dev`（`next dev`, Next 13.5.11, package.json 内联 `--max-old-space-size=6144`）有内存泄漏，需要 watchdog 自愈。**操作细节（启停命令、状态文件、pgrep 检测）见 cmm-go skill 的 `references/watchdog.md`**；本 memory 只记**为什么这么设计 + 踩过的非直觉坑**。
+**本条的标的 worktree `onlychat-world-book` 已回收**（onlychat 现存 worktree 为 onlychat / onlychat-jank-rate / onlychat-msg-length / onlychat-paid-image，无 world-book 分支）。**留着是因为下面那套东西跨 worktree 通用**：onlychat `pnpm dev`（`next dev`, package.json 内联 `--max-old-space-size=6144`）的内存泄漏机制，以及写任何监控脚本都会栽的三条坑。watchdog 现在服务的是通用 onlychat dev（见 [[feedback_diagnose_dont_kill]] 的 `/tmp/onlychat-dev-3000.json`）。
+
+**操作细节（启停命令、状态文件、pgrep 检测）见 cmm-go skill 的 `references/watchdog.md`**（仍在）；本 memory 只记**为什么这么设计 + 踩过的非直觉坑**。
 
 ## 为什么需要 watchdog（OOM 触发机制）
 
@@ -28,4 +30,4 @@ metadata:
 - dev worker 会涨到 4-6G，24G 机器同时开多 Claude session + Chrome/Figma/Lark/VSCode 会撑爆内存吃 swap → 发烫；**降温靠关并发，不是调 watchdog**
 - 抗 OOM 的替代手段：`pnpm devx`（32GB heap）能撑久但在 24G 机器上会 swap，**不推荐**
 
-相关：[[feedback_worldcard_worktree]] [[project_onlychat]]。
+相关：[[project_onlychat]] [[feedback_diagnose_dont_kill]]。
