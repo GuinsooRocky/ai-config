@@ -16,4 +16,4 @@ metadata:
 - 并发仓里提交前先看 `git diff --cached --name-only`，不是只看自己 add 了什么
 - 只想提交自己那几个文件：`git commit -- <path>...`（pathspec 形式，绕过索引其余部分），或先 `git stash push --staged` 挪走别人的
 - 扫进去了怎么复原：`git rm --cached <file>` 撤回 + **原样重新 stage**（别人的 status 要完全复位，磁盘零改动）
-- 相关：[[feedback_verify_subagent_patch_against_worktree]]（闸别在混着别的会话改动的主目录跑）
+- 相关：[[feedback_delegate_impl_to_opus_subagent]]（闸别在混着别的会话改动的主目录跑）

@@ -11,7 +11,7 @@ metadata:
 **Why**：2026-08-22 soliloquy 连着两次。①迁移撞号闸早就存在且对真仓是绿的，
 但豁免是按 version 整组放行，往历史撞号组里再塞一个新文件照样绿——洞是靠补两条
 「旧闸会放行」的用例才暴露的；而且 `migrate:check` 当时从没进过 CI，等于有检查没有闸
-（**已接线**：`.github/workflows/ci.yml:243` 现在有 `run: pnpm migrate:check`，migrations 变更时触发）。
+（**已接线**：`.github/workflows/ci.yml` 里有 `run: pnpm migrate:check`（按内容搜，别记行号），migrations 变更时触发）。
 ②备份新鲜度检查四个分支（新鲜 / 过期 / 无备份 / manifest 损坏）逐个实跑，owner 明确说
 「四个失败分支都实测了这点尤其认可」。
 

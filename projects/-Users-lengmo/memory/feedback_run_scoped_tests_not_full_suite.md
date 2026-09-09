@@ -19,4 +19,4 @@ metadata:
 - **2026-08-19 复发（`--changed` 假增量）**：写了 `vitest run --changed` 就当作已经是增量了，实跑回来 11893 passed——`--changed` 会扇出成整库（改到被广泛 import 的文件 / base 选错都会），还照原样报给 owner。由此补出 CLAUDE.md 的「干跑先看清单 + 四位数熔断」两条。
 - **2026-07-11 测试代码漏过 lint**：onlychat create-test 战役全程只跑 vitest+tsc，pre-commit 的 gts ESLint 一次拦下 38 个非自动修复 error——测试文件也是代码，也要过仓库 lint，别只看测试绿。（已提级为 CLAUDE.md「测试代码也是代码」那条）
 
-参见 [[feedback_no_pending_verification_lists]]、[[project_soliloquy]]。
+参见 [[feedback_just_do_no_stop_suggestions]]、[[project_soliloquy]]。

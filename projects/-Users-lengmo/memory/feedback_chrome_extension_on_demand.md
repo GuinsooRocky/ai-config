@@ -1,6 +1,6 @@
 ---
 name: chrome-extension-on-demand
-description: Chrome 扩展集成默认关闭，只在用户明确要求浏览器操作时才用，绝不主动调用
+description: 浏览器工具按需开（claudeInChromeDefaultEnabled=false，要用 claude --chrome）、不主动调、不动用户窗口尺寸；要运行时证据先自己复现；截图不是渲染真相
 metadata: 
   node_type: memory
   type: feedback
@@ -19,3 +19,5 @@ metadata:
 **⚠ 「要运行时证据」时别追问用户，先自己复现（2026-08-19 栽过）**：多 tab bug 查到「需要看那条请求返回什么」时，我列了两个分支让用户去开 Network 面板看——用户回「你可以自己开两个 chrome 再本地 3000 自己复现啊」。本地 dev 在跑 + 浏览器工具能用 = **自己去复现**，这是查因不是「顺手验证」，不在本条禁止范围内。判据：我正准备向用户要一条只有跑一遍才能得到的事实（响应体 / 错误码 / 是不是真卡住）→ 先探浏览器工具，能跑就自己跑。
 
 **浏览器截图不是渲染真相（2026-08-08）**：懒加载图片常已 `complete && naturalWidth>0`，截图里却仍是灰块——抓帧没等到合成。别拿截图当「图裂了」的证据，要判就查 DOM（`naturalWidth`/`complete` 计数）或直接 HEAD 图片 URL；曾为此追了五六轮假警报。
+
+**⚠ 别动用户的窗口尺寸（2026-08-26 栽过，合并自 feedback_dont_resize_browser_window）**：走查时不要调 `resize_window`，也不要弄成全屏——用户正用着那个窗口。付费图走查我为了「标准 1440×960 视口」顺手 resize 了一次，用户当场说「你能别动浏览器全屏吗」。走查要的是看渲染对不对，不是像素级基准。视口太小导致 `zoom` 报「Region exceeds viewport boundaries」→ 先 `screenshot` 看真实尺寸再框区域；确实要验 PC/mobile 断点 → 先说一句「要改窗口宽度到 X，可以吗」再动。

@@ -1,6 +1,6 @@
 ---
 name: feedback-delegate-impl-to-opus-subagent
-description: 派工三条独有增量：>50KB 逐条判断类先压缩输入、浏览器走查/点验也算执行要派 visual-qa、子 agent 测试产出用 per-file JSON reporter 验收（选 model 的口径在 model-dispatch §2）
+description: 派工三件事：>50KB 逐条判断类先压缩输入、浏览器走查/点验也算执行派 visual-qa、收产出逐文件核（补丁 diff 回它的树 + 测试用 per-file JSON reporter；git apply --3way 会静默吞 hunk 且退码 0）——选 model 口径在 model-dispatch §2
 metadata: 
   node_type: memory
   type: feedback
@@ -22,4 +22,13 @@ metadata:
 
 **② 浏览器走查/点验也算执行（2026-07-16 边界扩大）**：主 agent 亲自跑浏览器截图走查（HTML 交付验收）被叫停——「这件事要拿子agent来做啊 主agent 只用来做 决策 思考 调度」。执行类不止写码/扫描：**浏览器走查、点验、跑验证一律派子 agent（走查归 visual-qa），主对话只列 checklist + 收报告裁决**。
 
-**③ 验收子 agent 的测试产出（2026-07-11 create-test 战役）**：主对话勾选清单前用 per-file JSON reporter 逐文件核用例数，别只看总绿；并且 agent 别 mv 自己的产出文件（第八波 mv 丢过文件）。
+**③ 收产出必须逐文件核（2026-07-11 create-test 战役 + 2026-08-07 补丁吞 hunk，合并自 feedback_verify_subagent_patch_against_worktree）**：
+- 测试产出：主对话勾选清单前用 per-file JSON reporter 逐文件核用例数，别只看总绿；agent 别 mv 自己的产出文件（第八波 mv 丢过文件）。
+- worktree 补丁：`git apply --3way` **会静默丢掉整个 hunk**——只要我在同一文件邻近行也改过（哪怕是注释）。它打印 `Falling back to direct application...` 就走了，退码 0。2026-08-07 soliloquy 搬聊天页，agent 修的一条登记指向就这么没了，子 agent 报告写「已修」、补丁也「应用成功」，两边都没撒谎，东西就是没进来。收完逐文件比回去：
+  ```bash
+  WT=<agent worktree>
+  for f in $(git -C "$WT" diff --cached -M --name-only); do
+    [ -f "$f" ] && [ -f "$WT/$f" ] && { diff -q "$f" "$WT/$f" >/dev/null || echo "≠ $f"; }
+  done
+  ```
+- 连带：闸别在主目录跑。主目录常混着别的会话的未提交改动，会掩盖真红（同一提交混合树全绿、干净树红）。落主线前在 `git worktree add --detach <sha>` 的干净树上跑一遍。相关 [[feedback_truncated_output_is_not_ground_truth]]。
