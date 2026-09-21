@@ -34,4 +34,4 @@ metadata:
 
 **Why**：用户多次点名（2026-05-20 NoteEditor.pc Figma 14983:208113；2026-05-27 WorldCard Figma 35641:385267；2026-06-10 `// no_permission = "No permission"（PM 已拍板）"这种文案都不要"；"这种垃圾注释就算了"；改逻辑后老注释变错例多次）。Figma 节点 id / 简易逻辑 / 决策溯源的注释会在代码演进或决策变动时烂掉；PRD 章节号相对稳定可留。
 
-相关：[[feedback-comments-not-ground-truth]]（这条管"读"——别信注释当事实）
+相关：[[feedback_not_ground_truth]]（这条管"读"——别信注释当事实）

@@ -20,3 +20,5 @@ codex 启动报 `database is locked (code: 5)`（`~/.codex/state_5.sqlite` / `lo
 **解法**：`kill -CONT` **单独用没用**——它一读 tty 就吃 SIGTTIN 再次自停。要么去 `ps -o tty` 指出的那个终端 `fg` 后正常退出，要么 `kill -CONT <pid> && kill -TERM <pid>`。
 
 **顺带的清理**：codex 自己按约 10 天保留期删日志行，但 SQLite 删行不还盘。08-09 实测 `logs_2.sqlite` 1741 MB 里 **63% 是 freelist 空洞**，`PRAGMA wal_checkpoint(TRUNCATE); VACUUM;` 回收 1.18 GB 到 559 MB，**零行丢失**（整库 integrity ok）。要独占锁，所以必须先解上面的锁。`sessions/`(791M)、`plugins/`(350M) 是另外的大头，真删才能瘦，动它们照 [[feedback_cleanup_use_trash_not_rm]] 走废纸篓。
+
+**2026-09-10 复跑**：logs_2 又涨回 831M / 48% 空洞，VACUUM → 348M（这是**周期性活**，数字每次不同，别记数字记动作）。这次的大头已经不是日志库而是 **`sessions/` 涨到 11G**（08-09 时才 791M，1230 个 rollout jsonl，单个最大 419M）——按**保留最近 14 天**切，08/01–08/27 进废纸篓，`~/.codex` 15G → 6.7G。注意 `thread_history_1.sqlite`(1.7G) 是 0% 空洞的真数据，VACUUM 对它无效；1002/1230 个 rollout 已投影进该库，但**删了 jsonl 还能不能 `codex resume` 未验**。

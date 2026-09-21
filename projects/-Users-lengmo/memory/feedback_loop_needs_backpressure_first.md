@@ -19,4 +19,4 @@ Huntley 还有一条——Ralph 只适合**绿地项目**,不碰庞大已有库(
 
 **裁决二——"生成一个 loop"= 交付产物,不是我代劳:** 给 loop 骨架(fix_plan/check/PROMPT)+ 驱动 prompt,别跳过 loop 自己手动把活干了、别搭一堆没要的验证基建。报进度只报"清单第几条改了",**绝不报工具内部测试条数**(如"212 测试绿"——跟用户任务无关的内部数字,纯噪音)。
 
-相关:[[feedback_just_do_no_stop_suggestions]] §2——**闸 ≠ 摆给用户的菜单**:back-pressure 该自己焊进去悄悄兜住,别做成开跑前的 gate-check + 选择题(用户原话"做个loop 这么难?那就开个ultracode"就是被这么挡住的)。另 [[project_codegen_workflow]]。
+相关:[[feedback_owner_decision_interaction]] §2——**闸 ≠ 摆给用户的菜单**:back-pressure 该自己焊进去悄悄兜住,别做成开跑前的 gate-check + 选择题(用户原话"做个loop 这么难?那就开个ultracode"就是被这么挡住的)。另 [[project_codegen_workflow]]。

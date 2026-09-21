@@ -27,4 +27,4 @@ metadata:
 - 跨进程边界时查白名单（`env=`、`runtime_env=` 这类字典），别假设变量会传下去
 - 判断「真的走代理了吗」用 `lsof -nP -p <pid> -i` 看 socket 打到哪，
   不看「跑得快了」——快慢会骗人
-- 相关：[[feedback_gates_must_fail_on_purpose]]、[[feedback_truncated_output_is_not_ground_truth]]
+- 相关：[[feedback_gates_must_fail_on_purpose]]、[[feedback_not_ground_truth]]

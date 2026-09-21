@@ -16,4 +16,4 @@ metadata:
 - 查一个事实、读几个文件、跑一条命令 → 直接 WebSearch / Read / Bash inline，自己控、看得见、随时停。
 - 即使 ultracode "默认用 workflow"，小的单步查询仍走 inline——别为省事把小活塞进会挂死的后台。
 
-相关：[[feedback_just_do_no_stop_suggestions]]
+相关：[[feedback_owner_decision_interaction]]

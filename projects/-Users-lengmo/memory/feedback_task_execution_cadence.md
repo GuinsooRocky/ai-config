@@ -42,4 +42,4 @@ metadata:
 
 **Why**：fe-workflow 原版要求每 step 确认，2026-05-15 用户覆盖为全自动跑、中途只看总结；"先出方案"来自用户原话。2026-06-12 用户质问"改个 icon 到底花了多少时间多少 token"——小活的调研/验证 overhead 一半是浪费（矢量逆向、重复 grep、全量 tsc），故加分级档。配合 CLAUDE.md Karpathy "Think Before Coding"，但 LLM 默认会过度验证 — 这条做力度闸。
 
-相关：[[project_onlychat]]、[[feedback_worldcard_worktree]]、[[feedback_just_do_no_stop_suggestions]]
+相关：[[project_onlychat]]、[[feedback_worldcard_worktree]]、[[feedback_owner_decision_interaction]]

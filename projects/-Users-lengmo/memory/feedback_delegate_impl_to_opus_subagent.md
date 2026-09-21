@@ -1,11 +1,11 @@
 ---
 name: feedback-delegate-impl-to-opus-subagent
-description: 派工三件事：>50KB 逐条判断类先压缩输入、浏览器走查/点验也算执行派 visual-qa、收产出逐文件核（补丁 diff 回它的树 + 测试用 per-file JSON reporter；git apply --3way 会静默吞 hunk 且退码 0）——选 model 口径在 model-dispatch §2
+description: 派工六件事：>50KB 逐条判断类先压缩输入、只读的浏览器走查派 visual-qa、收产出逐文件核（补丁 diff 回它的树 + 测试用 per-file JSON reporter；git apply --3way 会静默吞 hunk 且退码 0）、跨仓派工别用 isolation:worktree、两 agent 各做契约一侧必须跨仓喂真实字节、改线上配置的点验主会话自己用 chrome 做（visual-qa 不认转述授权）——选 model 口径在 model-dispatch §2
 metadata: 
   node_type: memory
   type: feedback
   originSessionId: e1a98655-f407-4a08-98df-2abae18cf430
-  modified: 2026-08-06T12:54:16.380Z
+  modified: 2026-09-12T17:53:13.183Z
 ---
 
 > 选型口径（显式写 `model` 别靠继承、档位 ≥ 任务所需、拿不准往上取、2026-08-06 主会话默认换 Fable 后仍显式 `opus`）以及「独立派工放同一条消息并行发」已全量落 `~/.claude/model-dispatch.md` §2/§7，本文件只留那边没有的三条。
@@ -31,4 +31,12 @@ metadata:
     [ -f "$f" ] && [ -f "$WT/$f" ] && { diff -q "$f" "$WT/$f" >/dev/null || echo "≠ $f"; }
   done
   ```
-- 连带：闸别在主目录跑。主目录常混着别的会话的未提交改动，会掩盖真红（同一提交混合树全绿、干净树红）。落主线前在 `git worktree add --detach <sha>` 的干净树上跑一遍。相关 [[feedback_truncated_output_is_not_ground_truth]]。
+- 连带：闸别在主目录跑。主目录常混着别的会话的未提交改动，会掩盖真红（同一提交混合树全绿、干净树红）。落主线前在 `git worktree add --detach <sha>` 的干净树上跑一遍。相关 [[feedback_not_ground_truth]]。
+
+**④ 跨仓派工别用 `isolation: worktree`（2026-09-11）**：Agent 工具的 worktree 隔离**只会建在当前主工作目录那个仓**，而且隔离闸会拒绝 agent 对任何别的仓做 git 操作（连只读 `git log` 都拒）。T252 同时派 soliloquy + eval-arena 两个仓，eval-arena 那个 agent 分到的是 soliloquy 的 worktree，`apps/admin` 根本不存在，零改动交回、白烧 228s/106k token。第二个仓的做法：**自己先 `git worktree add -b <branch> /private/tmp/<repo>-<task> main`、装好 node_modules（`pnpm install --frozen-lockfile --offline`）、把绝对路径和分支名写进 prompt、不带 isolation 派**。未提交的 PRD 在 worktree 里没有，让 agent 用主 checkout 的绝对路径只读。
+
+**⑤ 两个 agent 各做契约一侧时，验收必须喂真实字节（2026-09-11）**：T252 产品侧 + 后台侧各按同一份 PRD 附录 A 写、各写各的严格解析器和测试固定装置、各自全绿，但把产品真实回执喂进后台解析器，三条主路径全部判废（null 字段、revision 0）——功能从迁移跑完那刻起自锁死，任何一侧的测试都测不出来。派工书里要写死：**交付前用 `tsx` 跨仓 import 两侧模块、把一侧的真实产出喂另一侧的解析器跑一遍，输出附报告**；集成会话再自己跑一次。bug-hunter 这次就是靠这一招抓到 3 条 P0。
+
+**⑥ 改线上配置的浏览器点验，主会话自己做（2026-09-11）**：visual-qa 子 agent 不认转述的授权，哪怕逐字引用 owner 原话也不点「确认」这类改生产的按钮，派两次都停在弹层前、白跑约 20 分钟。第②条「浏览器走查派 visual-qa」只适用于只读走查和截图；**owner 在主对话里直接授权了会改线上的点验，就由主会话自己用 claude-in-chrome 做**，同时用接口挂监视器盯线上状态、准备好接口兜底回退。
+
+**⑦ 施工批次的标准节奏：plan 模式出计划 → 派实作 → 主会话只检查（2026-09-13 owner 原话「plan模式 让子agent做 你来检查」）**：EnterPlanMode 里先派 Explore 侦察落点与在途改动、再派 Plan agent 写逐文件规格与可机械判定的验收，遇到会撞既有拍板的（那次是「8 篇冻结」）用 AskUserQuestion 一题一问带推荐，ExitPlanMode 批了才派实作。实作用 `isolation: worktree`（单仓好用：自动建在 `.claude/worktrees/agent-<id>`，`pnpm install --frozen-lockfile --offline` 就能跑闸），各在自己分支提交不 push；主会话收货时**自己在它的 worktree 里重跑显式测试 + tsc + grep 构建产物**，再 `merge --ff-only` 第一支、`cherry-pick` 第二支保线性，用完 `git worktree remove --force` + `branch -D`。发布走 Bash `run_in_background` + Monitor 盯阶段，失败先读日志找因（那次先是短 sha 被当非法参数、再是 docker 构建 30 分钟硬超时被网络吃掉），别盲目重试。

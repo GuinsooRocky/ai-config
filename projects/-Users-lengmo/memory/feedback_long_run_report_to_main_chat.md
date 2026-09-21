@@ -23,4 +23,4 @@ metadata:
 
 **不适用：已有专职守护脚本的进程**（⚠ 已复发三次，起 dev 时把这条当硬闸：**手一碰 dev-watchdog.sh 就禁止再想 Monitor**，别等挂完才想起例外）。本条只管「我自己起的、没人管的」长跑任务。若该进程已有 owner 脚本在守（典型：`~/.local/bin/dev-watchdog.sh` 托管 :3000 dev server —— 自带内存阈值重启、HTTP 探活、崩溃拉起，状态写 `/tmp/onlychat-dev-<port>.json`），**别再外挂 Monitor**：要状态就读它的状态文件。2026-07-28 在 onlychat 挂了一次，三轮全是我 grep 关键词写错的误报（`tail` 多文件表头 `==> …watchdog… <==` 命中关键词、node_modules 里 node-fetch 的 `encoding` 老警告命中 `Module not found`），用户直接顶「监控这些事情交给脚本不好吗」。判据：动手前先问**这进程有没有 owner**，有就别重复造轮子。**2026-08-06 复发**：世界卡动效 session 里对 :3000 dev server 连挂 8 轮 Monitor（每次 OOM 重启就再挂一个），被顶「是有脚本的不需要session监听」——dev server 永远适用本例外，OOM 重启后只重启进程、不挂监听。**2026-08-14 三度复发**：onlychat 主仓起 dev 时又挂了一轮，还因为脚本重复吐同一行日志停掉重挂了一次（噪音全是我自己造的），被顶「不要一直做监听的活 我有脚本的」。
 
-相关：[[feedback_inline_over_background_workflow]]（该不该开后台：小活直接 inline）、[[feedback_just_do_no_stop_suggestions]]（带一个推荐直接走，别列 A/B）
+相关：[[feedback_inline_over_background_workflow]]（该不该开后台：小活直接 inline）、[[feedback_owner_decision_interaction]]（带一个推荐直接走，别列 A/B）

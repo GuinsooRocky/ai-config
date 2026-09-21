@@ -15,5 +15,5 @@ metadata:
 **How to apply**：
 - 可见性/被切/落位这类**视觉判定**，第一手证据是 `computer` 截图，不是坐标运算。
 - 坐标只用来定位点击目标；一旦要下「露没露全」的结论，先截图。
-- 同族教训 [[feedback_truncated_output_is_not_ground_truth]]（按内容特征校验、别信中间量）、modal 死类「拿页面真实编译 CSS 当裁判」。
+- 同族教训 [[feedback_not_ground_truth]]（按内容特征校验、别信中间量）、modal 死类「拿页面真实编译 CSS 当裁判」。
 - 部署已确认（build hash 对得上）时，别用自己的测量去推翻「已部署」，先截图核。

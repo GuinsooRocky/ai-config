@@ -12,4 +12,4 @@ Figma 对齐任务里别把项目已定案的口径再列成「待拍」。2026-
 
 **Why:** 待拍清单每一条都在消耗 owner 注意力；已有 rule 答过的问题再问 = 没读 rule。同一 Figma section 里 ID 相近的多个 frame 默认是状态枚举，不是方案备选。
 
-**How to apply:** 列待拍前先 grep 项目 `.claude/rules/` 与 CLAUDE.md 有没有现成口径；命中就按口径直接做并在报告里写「按 rule X」。多个相邻 frame 先当多态实现，只有稿子明确标「方案 A/B」才算备选。关联 [[just-do-no-stop-suggestions]] [[ideas-need-no-owner-signoff]]。
+**How to apply:** 列待拍前先 grep 项目 `.claude/rules/` 与 CLAUDE.md 有没有现成口径；命中就按口径直接做并在报告里写「按 rule X」。多个相邻 frame 先当多态实现，只有稿子明确标「方案 A/B」才算备选。关联 [[feedback_owner_decision_interaction]] [[ideas-need-no-owner-signoff]]。

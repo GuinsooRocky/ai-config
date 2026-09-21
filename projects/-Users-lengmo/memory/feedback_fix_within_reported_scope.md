@@ -1,11 +1,11 @@
 ---
 name: feedback-fix-within-reported-scope
-description: 边界：改动与引用都不许外推——报 A 别把 guard 推到 B/C；引拍板砍功能先核管辖面；判「文档打架」先核对象是否同一；别人域的红不扛；分工已定后甩来的素材是文档输入不是给我的工单
+description: 边界：改动与引用都不许外推——报 A 别把 guard 推到 B/C；但 PRD 指到的同外形入口不算外推要一次改全；引拍板砍功能先核管辖面；判「文档打架」先核对象是否同一；别人域的红不扛；分工已定后甩来的素材是文档输入不是给我的工单
 metadata:
   node_type: memory
   type: feedback
   originSessionId: ac55a93d-5e97-4c28-bdc8-2879a13bec40
-  modified: 2026-08-04T12:24:14.524Z
+  modified: 2026-09-14T09:46:49.344Z
 ---
 
 修一个报告的 bug 时，改动范围严格收在"报告里出现过的现象"内。别因为"顺手一起覆盖"把 guard / 拦截 / 兜底推广到报告里没提过的相邻场景。
@@ -40,4 +40,20 @@ metadata:
   GitHub 的 PR 模板、飞书分享卡片的抬头）是**平台生成的**，不是用户写的。
   触发词命中 ≠ 用户要我干这件事 —— 触发词是拿来认意图的，意图已经明说过就以明说的为准。
 
-- 同源：CLAUDE.md Karpathy "Surgical Changes"；相关 [[feedback_runtime_bug_dont_loop_static]]、[[feedback_comments_not_ground_truth]]、[[feedback_frontend_empty_vs_blank]]、[[feedback_dont_declare_infeasible]]
+**收窄也会收过头（2026-09-11 付费图裁剪）**：把越界改动收回「只对付费图生效」时，门用了产品态 `isPaid`，
+理由是「签名地址只是付费图的实现特征，拿它当门会脱钩」。review 机器人当场打回：「免费图 + 签名地址」
+今天就存在（切免费的秒级复制窗口、09-03~09-09 落库的存量坏数据），它们撞的正是签名地址那条机制，
+门一收就退回必挂的老路——而仓里 `ImageItem` 早就写着现成判据 `isPaid || isSignedPrivateUrl(src)`。
+收窄时的门必答两问：① 这条新路解的是**哪个机制**（URL 形态 / 缓存 / 权限），不是哪个产品概念；
+② 仓里对同一类数据**已有的判据**是什么——先 grep 同文件夹的同类判断，照它的并集写，别自己发明更窄的。
+「只影响付费图」的正确落法 = 门覆盖付费图带出来的所有数据态，外人（头像 / 公开桶免费图）不传参即可。
+
+**范围按用户看到的入口划，不按代码现状划（2026-09-14 付费图编辑按钮）**：PRD「点击卡片上的编辑按钮 → toast」，
+用户报「卡片编辑按钮也要 toast」。我查到管理弹窗（Set Trigger Conditions）的 `ImageItem` 卡片上也有一模一样的编辑按钮，
+却以「现有 toast 只挂在相册卡片上」为由把它划出范围、还在报告里写「管理弹窗那边的卡片不动」。owner 截图红框指回来：「为啥第一次不就改好」。
+错在拿「修 bug 别外推」当收窄借口——**PRD 条目的管辖面 = 页面上所有长成那样的入口**，不是代码里已经实现过的那一处；
+而且需求群的 PM 结论（「首次提审不能编辑」）本来就是覆盖全部编辑入口的。
+判据：侦察时发现第二个**同外形同语义**的入口（同一颗按钮、同一句 PRD 能指到）→ 属于本需求，直接一起改；
+只有「形似但 PRD 没指到 / 语义不同」的才算外推。拿不准时在第一轮就改掉并说明，别等 owner 截图来追。
+
+- 同源：CLAUDE.md Karpathy "Surgical Changes"；相关 [[feedback_runtime_bug_dont_loop_static]]、[[feedback_not_ground_truth]]、[[feedback_frontend_empty_vs_blank]]、[[feedback_dont_declare_infeasible]]

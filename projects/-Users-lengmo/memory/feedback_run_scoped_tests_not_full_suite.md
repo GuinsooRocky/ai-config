@@ -18,5 +18,6 @@ metadata:
 - **2026-08-18 提级**：规则原住 memory（抽签召回、背景级），反复没被召回导致失效，正文写进 CLAUDE.md。
 - **2026-08-19 复发（`--changed` 假增量）**：写了 `vitest run --changed` 就当作已经是增量了，实跑回来 11893 passed——`--changed` 会扇出成整库（改到被广泛 import 的文件 / base 选错都会），还照原样报给 owner。由此补出 CLAUDE.md 的「干跑先看清单 + 四位数熔断」两条。
 - **2026-07-11 测试代码漏过 lint**：onlychat create-test 战役全程只跑 vitest+tsc，pre-commit 的 gts ESLint 一次拦下 38 个非自动修复 error——测试文件也是代码，也要过仓库 lint，别只看测试绿。（已提级为 CLAUDE.md「测试代码也是代码」那条）
+- **2026-09-11 假跑（0 文件当绿）**：soliloquy 根 `vitest.config.ts` 分 projects（node / harness-parallel / components / postgres-integration 等），`shared/engineering/**` 只归 harness-parallel。显式路径 `vitest run <file>` 没被任何 project 收集时，vitest 只打印一份 `include:` 清单、没有 `Test Files` 行——那不是通过。当时门控写成 `vitest … | tail || exit 1`，退出码取的是 tail 的，于是没跑测试就提交推送了（事后 `--project harness-parallel` 补跑 16/16 才兜住）。**判据**：输出里必须看到 `Test Files N passed` 且 N≥1；门控用 `vitest … > file; echo exit=$?`，别接管道；分 project 的仓先 `grep -n include vitest.config.*` 找归属再 `--project <name>`。
 
-参见 [[feedback_just_do_no_stop_suggestions]]、[[project_soliloquy]]。
+参见 [[feedback_owner_decision_interaction]]、[[project_soliloquy]]。

@@ -34,4 +34,4 @@ metadata:
 - 修完的效果先说「回到 X 之前的表现」再列具体；技术代价、没变的部分不写
 - 样板：Wei 08-31 那条「问题 / 背景 / 影响范围」结构；发法见 [[feedback_feishu_group_read_self_send_user]]
 
-**How to apply:** 大白话讲产品；输出前扫一遍禁用词表（尤其聊 AB/实验/看板数据的回合扫「臂」，聊架构分层的回合扫「客户端」）。遇到前置条件，动作是"写进设置说明 + 向导里替用户挡步骤"，不是当成 blocker 反复掂量。边界见 [[feedback_writing_taste_umbrella]]（大白话 ≠ 注水奶味）。相关 [[feedback_just_do_no_stop_suggestions]]。
+**How to apply:** 大白话讲产品；输出前扫一遍禁用词表（尤其聊 AB/实验/看板数据的回合扫「臂」，聊架构分层的回合扫「客户端」）。遇到前置条件，动作是"写进设置说明 + 向导里替用户挡步骤"，不是当成 blocker 反复掂量。边界见 [[feedback_writing_taste_umbrella]]（大白话 ≠ 注水奶味）。相关 [[feedback_owner_decision_interaction]]。
