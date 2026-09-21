@@ -1,11 +1,11 @@
 {
   "profile": "core",
-  "copied_skills": 31,
-  "converted_agents": 9,
-  "converted_workflows": 4,
+  "copied_skills": 32,
+  "converted_agents": 8,
+  "converted_workflows": 3,
   "converted_commands": 1,
-  "skipped_capabilities": 16,
-  "exposed_skills": 15,
-  "catalog_capabilities": 31,
-  "total_capabilities": 46
+  "skipped_capabilities": 18,
+  "exposed_skills": 10,
+  "catalog_capabilities": 35,
+  "total_capabilities": 45
 }

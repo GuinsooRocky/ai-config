@@ -1,0 +1,170 @@
+---
+name: codex
+description: 在 Claude Code 里把一件"重活"交给 codex CLI 跑——深度排查、独立复审、大改动的第二实现。覆盖任务发起与结果查询。当用户说「让 codex 看看」「找 codex 复审」「交给 codex」，或当前这轮自己卡住了、需要一个不共享上下文的第二意见时使用。
+---
+
+# 把深度任务交给 codex
+
+codex 的价值不在"更聪明"，在于**它不共享你的上下文**。你已经在某个错误
+假设上走了半小时，它是干净的。所以它最适合：复审你自己刚写的东西、
+排查你已经查过一遍没查出来的问题、对一个大改动给出独立的第二实现。
+
+不适合：琐碎改动、你自己一眼能看完的事、需要来回追问的探索。
+一次 codex 调用是一发子弹——一个明确的问题，一个结论。
+
+前置：`codex --version` 能跑通。若装在非默认位置（常见如 `~/.local/bin`），
+先把它所在目录加进 PATH。
+
+---
+
+## 1. 发起任务：默认前台阻塞
+
+```bash
+export PATH="<codex 所在目录>:$PATH"   # 已在 PATH 里就跳过
+codex exec --skip-git-repo-check -C <repo> "<prompt>" \
+  -o /tmp/codex-last.md < /dev/null 2>&1 | tail -45
+```
+
+Bash 工具设 `timeout: 600000`（600 秒，工具上限）。实测复审 200~400 秒，放得下。
+**结论直接出现在工具结果里**，不需要读文件、不需要提取器。
+
+三个参数值得逐个说：
+
+- `-o <file>` 把**最终结论**单独写一份到文件。这是 codex 官方出口，
+  不是从转录里 grep 出来的——见第 3 节，这一条能省掉一整类事故。
+- `< /dev/null` 不给它 stdin。否则它会打印 `Reading additional input from stdin...`
+  并在某些调用方式下真的挂在那儿等。
+- `| tail -45` 因为 `codex exec` 的 stdout 是**完整会话转录**：它读过的
+  每个文件的全文、跑过的每条命令的全部输出，动辄几千行，而结论在最末尾。
+
+### prompt 怎么写
+
+这几条不是文风建议，每一条都对应过一次浪费掉的调用：
+
+- **明写"只审不改"**（如果你只要结论）。否则它会动手，而你在另一个
+  上下文里也在动手，两边打架。
+- **明写"不要 cat 整个文件，用 `grep -n` / `sed -n` 读需要的几行"**。
+  不写的话转录会膨胀几十倍，`tail -45` 就截不到结论了。
+- **明写字数上限**（600~1500 字）。不写它会长篇复述代码给你看。
+- **一次只问一个明确的问题。** 塞三个问题进去，会得到三段都不深的回答。
+- 给它**入口**：具体文件路径、复现命令、你已经排除了什么。
+  "你已经排除了什么"最值钱——它是干净上下文，不告诉它就会重走你的老路。
+
+模板：
+
+```
+只审不改。读 src/kernel/loop.js 与 test/loop.test.js。
+不要 cat 整个文件，用 grep -n / sed -n 只读需要的行。
+
+问题：<一个具体问题>
+我已经排除：<A、B>
+在 1000 字内给出：结论（能/不能上线）、根因、最小修法。
+```
+
+### 需要它动手改代码时
+
+默认沙箱是 `read-only`，它改不了。要放开：
+
+```bash
+codex exec --skip-git-repo-check -C <repo> -s workspace-write "<prompt>"
+```
+
+`workspace-write` 只放开工作区写权限，网络与工作区外仍受限。
+**不要**用 `--dangerously-bypass-approvals-and-sandbox`。
+
+放开写权限前先确认工作区是干净的（`git status`），否则它的改动和你的
+未提交改动会混在一起，事后分不开。
+
+---
+
+## 2. 长任务：后台发起 + 结果查询
+
+只在确实超过 600 秒的任务上用后台。**能前台就前台**——理由见第 3 节。
+
+**发起**（Bash 工具 `run_in_background: true`）：
+
+```bash
+export PATH="<codex 所在目录>:$PATH"   # 已在 PATH 里就跳过
+codex exec --skip-git-repo-check -C <repo> "<prompt>" \
+  -o /tmp/codex-<tag>-last.md < /dev/null > /tmp/codex-<tag>.log 2>&1
+```
+
+**查结果**：
+
+```bash
+cat /tmp/codex-<tag>-last.md          # 结论，就这一句
+tail -5 /tmp/codex-<tag>.log          # 确认跑完了（末尾有 tokens used）
+```
+
+`-o` 写的文件在**任务结束时**才出现。文件不存在 = 还在跑或崩了，
+用 `tail -20 /tmp/codex-<tag>.log` 看它卡在哪一步。
+
+**继续追问**同一个会话（不用重新喂上下文）：
+
+```bash
+codex exec resume --last "<追问>" -C <repo> < /dev/null 2>&1 | tail -30
+# 或指定 session id（每次运行的头部会打印 `session id: <uuid>`）
+codex exec resume <uuid> "<追问>" -C <repo> < /dev/null 2>&1 | tail -30
+```
+
+---
+
+## 3. 这里最容易出的事故：判定"codex 没给结论"，而它给了
+
+这不是假想，是这套流程里复发率最高的一类失误：**同一轮工作中反复判定
+"codex 没产出结论"并照推不误，而每一次它都写了。** 典型形态是结论首句就写着
+「不能直接上线」，精确点出了缺陷位置、那条假测试和修法——没读到，推了上去，
+一小时后又从线上把同一个 bug 重新发现一遍。
+
+根因：后台跑时结论落进日志文件，而日志是完整会话转录，结论在最末尾：
+
+```
+codex
+<结论正文>
+tokens used
+```
+
+用 `tail -c` / `grep '^## '` / `awk` 去捞，会落在中间的文件转储上。
+
+写一个转录提取脚本来兜底是很自然的想法，但**提取器自己极容易犯同形状的错**：
+第一版要求必须有 `tokens used` 结束标记才输出，于是"内容写全了但缺结束标记"
+的运行被判成「未完成」——**「没有结束标记」和「没有内容」是两回事**。
+
+所以：**用 `-o`，别解析转录。** 每加一层解析就多一处能静默吞掉结论的地方。
+提取脚本只在忘了加 `-o` 时事后补救用。
+
+推论，同样重要：**codex 说"不能上线"时先修再推，别当参考意见。**
+第二意见的全部价值就在你不想听的那部分。
+
+---
+
+## 4. 不要用 `codex:codex-rescue` 子 agent
+
+它常把活转成后台 codex 任务，只回一个 `task-xxxx` ID，而那个 ID 要靠
+`/codex:status`、`/codex:result` 取——那是 Claude Code 的斜杠命令，
+不是 `codex` CLI 的子命令，shell 里找不到，于是 ID 拿到手却查不了。
+
+直接用本文第 1、2 节的 `codex exec`。
+
+---
+
+## 5. 拿到结论之后
+
+- **转述给用户时带上原话的关键句**，别只写"codex 认为没问题"。
+  它的措辞强度（"建议" vs "不能上线"）本身是信息，压缩掉就丢了。
+- **它可能是错的。** 它没有你的上下文——这既是它的价值也是它的盲区。
+  结论与你已知的事实冲突时，先查是谁错了，别默认让位，也别默认坚持。
+- 有价值的结论（尤其"我原以为 X，其实 Y"）落进 `docs/log/` 或项目记忆。
+
+---
+
+## 这份 skill 怎么复制走
+
+整个 `codex/` 目录拷进目标仓库的 `.claude/skills/`，或拷进 `~/.claude/skills/`
+（后者对所有项目生效）。除了本节以外没有仓库耦合。
+
+需要按环境改的只有两处：codex 可执行文件的 PATH，以及第 5 节提到的日志落点。
+
+## Codex compatibility
+
+Preserve this workflow's intent and evidence rules. Translate Claude-specific tool names to the available Codex tools.

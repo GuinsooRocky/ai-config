@@ -24,7 +24,8 @@ which rtk             # Verify correct binary
 ## Hook-Based Usage（rtk-smart 智能网关，2026-06-26 起）
 
 默认**裸跑**（输出完整忠实）。只有大输出且摘要安全的命令自动走 rtk：
-install 类（npm/pnpm/yarn/bun/pip/brew/cargo）、build/test（tsc/eslint/vitest/jest/playwright/mocha）、ps、docker logs。
+install 类（npm/pnpm/yarn/bun/pip/brew/cargo）、build/test（tsc/eslint/vitest/jest/playwright/mocha）、docker logs。
+（`ps` 2026-08-03 从省名单删除：进程存活判断走摘要有实测假阴性，永远裸跑。）
 
 手动开关（写在命令尾部当注释）：
 - `<cmd> #rtk` → 强制走 rtk 摘要

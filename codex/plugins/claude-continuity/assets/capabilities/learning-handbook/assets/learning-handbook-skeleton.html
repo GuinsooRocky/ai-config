@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>{{TITLE}}</title>
+  <style>
+    :root { --ink:#22221f; --muted:#67665f; --paper:#eceae4; --card:#faf9f5; --line:#c9c6bc; --green:#34564e; --green-2:#e9efec; --orange:#a63d2f; --orange-2:#f3e9e5; --blue:#294967; --blue-2:#e9eef2; --radius:4px; --content:1120px; }
+    * { box-sizing:border-box; } html { scroll-behavior:smooth; }
+    body { margin:0; color:var(--ink); background:var(--paper); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif; font-size:18px; line-height:1.78; letter-spacing:.01em; }
+    a { color:var(--blue); text-underline-offset:3px; } a:hover { color:var(--orange); }
+    header { padding:22px 0 18px; background:var(--paper); border-bottom:1px solid var(--line); }
+    .hero,.layout { width:100%; display:grid; grid-template-columns:190px minmax(0,1fr); gap:32px; padding:0 32px 0 20px; }
+    .hero > div { grid-column:2; width:min(var(--content),100%); justify-self:center; }
+    h1 { margin:0; font-family:ui-serif,"Songti SC","STSong",serif; font-size:clamp(28px,calc(2.4vw + 2px),36px); line-height:1.2; letter-spacing:-.02em; font-weight:800; }
+    .sub { margin:10px 0 0; color:var(--muted); font-size:16px; }
+    nav { position:sticky; top:28px; align-self:start; max-height:calc(100vh - 56px); padding:36px 0; overflow:auto; font-size:15px; }
+    nav strong { display:block; margin-bottom:12px; color:var(--muted); font-size:14px; letter-spacing:.12em; }
+    nav a { display:flex; justify-content:space-between; gap:8px; padding:5px 0 5px 12px; color:#53615d; border-left:1px solid var(--line); text-decoration:none; }
+    nav a:hover { color:var(--ink); border-color:var(--orange); }
+    main { width:min(var(--content),100%); justify-self:center; padding:52px 0 120px; }
+    section { margin-bottom:82px; scroll-margin-top:24px; }
+    h2 { margin:0 0 20px; font-family:ui-serif,"Songti SC","STSong",serif; font-size:clamp(28px,calc(2.4vw + 2px),36px); line-height:1.25; letter-spacing:-.025em; }
+    h3 { margin:42px 0 12px; font-size:22px; line-height:1.4; } p { margin:12px 0; } ul,ol { padding-left:1.35em; } li { margin:6px 0; }
+    .section-kicker { margin-bottom:10px; color:var(--orange); font-size:14px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
+    .diagram { margin:28px 0; padding:24px; overflow-x:auto; color:#dfe9e5; background:#1f2927; font:16px/1.7 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace; white-space:pre; border-radius:var(--radius); }
+    .tablewrap { overflow-x:auto; margin:22px 0; }
+    .matrix { width:100%; border-collapse:collapse; background:var(--card); box-shadow:0 0 0 1px var(--line); }
+    .matrix th,.matrix td { padding:11px 13px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; font-size:15.5px; } .matrix th { color:#fff; background:var(--green); font-weight:700; } .matrix tr:last-child td { border-bottom:0; }
+    .matrix td.blank { background:#fff; min-width:110px; } .matrix input.cell { width:100%; border:0; border-bottom:1px dashed var(--line); background:transparent; font:inherit; padding:2px 0; }
+    .matrix tr.hot td { background:var(--orange-2); font-weight:700; }
+    .note { margin:26px 0; padding:18px 20px; background:var(--blue-2); border-left:4px solid var(--blue); font-weight:650; }
+    code { padding:2px 6px; background:#ebe6db; border-radius:5px; font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace; font-size:.92em; }
+    pre.code { margin:20px 0; padding:18px 20px; overflow-x:auto; background:#1f2927; color:#dfe9e5; font:14.5px/1.6 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace; border-radius:var(--radius); } pre.code code { padding:0; background:transparent; color:inherit; font-size:inherit; }
+    /* 学习块：块是内容顺序，不是卡片。只有练习（.try / .do）有一条细左线，其余全是正文 */
+    .block { margin:22px 0; }
+    .block .tag { display:flex; align-items:center; gap:8px; margin:0 0 8px; font-size:13px; font-weight:800; letter-spacing:.12em; color:var(--muted); }
+    .block .tag svg { width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; flex:none; }
+    .block > :last-child { margin-bottom:0; }
+    .try, .do { padding:4px 0 4px 18px; border-left:3px solid var(--line); }
+    .do h3 { margin-top:4px; }
+    .borrow { margin:14px 0; font-size:15px; color:var(--muted); }
+    .borrow b { color:var(--ink); }
+    details { margin:12px 0 0; } summary { cursor:pointer; font-weight:700; color:var(--blue); user-select:none; } summary:hover { color:var(--orange); }
+    details .reveal { margin-top:8px; padding:12px 14px; background:#fff; border:1px solid var(--line); border-radius:var(--radius); }
+    details .reveal > :first-child { margin-top:0; } details .reveal > :last-child { margin-bottom:0; }
+    .ex { margin:14px 0; }
+    @media (max-width:900px) { .hero,.layout { display:block; width:min(760px,calc(100% - 32px)); padding:0; margin:0 auto; } .hero > div { width:100%; } nav { display:none; } main { width:100%; padding-top:48px; } }
+    @media (max-width:620px) { header { padding:18px 0 15px; } h1 { font-size:28px; } .block { padding:16px; } }
+    @media print { body { background:#fff; } nav { display:none; } .layout { display:block; width:100%; } header,main { padding:24px; } section { break-inside:auto; margin-bottom:54px; } a { color:var(--ink); } details { display:block; } details summary { display:none; } }
+  </style>
+</head>
+<body>
+  <header><div class="hero"><div><h1>{{TITLE}}</h1><p class="sub">{{SUBTITLE}}</p></div></div></header>
+  <div class="layout">
+    <nav aria-label="目录"><strong>阅读地图</strong>
+      <!-- <a href="#c0"><span>00 · X 是什么</span></a> 每章一条，href 指向真实 section id；done/total 由脚本填 -->
+    </nav>
+    <main>
+      <!-- 第 0 章：第一屏 = 主题词字面定义（.block.define）+ 贯穿例（表 + 图）；目标—检验表折叠在章末 -->
+      <!-- 每章：第一屏 .block.define（本章要用的词全给定义），再固定八块，示例： -->
+      <section id="c1">
+        <div class="section-kicker">01 · 章名 = 学完能做的事</div>
+        <h2>标题</h2>
+
+        <div class="block define"><div class="tag"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>定义</div>
+          <p>本章要用的词，大白话、一屏内、字面拆开、配一个读者天天在用的例子。第 0 章这里放全书主题词本身的定义。</p></div>
+
+        <div class="block scene"><div class="tag"><svg viewBox="0 0 24 24"><path d="M12 22c5-4 8-8 8-12a8 8 0 1 0-16 0c0 4 3 8 8 12z"/><circle cx="12" cy="10" r="3"/></svg>情境</div>
+          <p>贯穿例上出一件事，3–5 行，先有痛再有概念。</p></div>
+
+        <div class="block try"><div class="tag"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>先试试</div>
+          <p>拿刚给的定义动手：猜 / 算 / 写。</p>
+          <details><summary>对照</summary><div class="reveal"><p>参考。</p></div></details></div>
+
+        <h3>概念小标题（术语最后给）</h3>
+        <p>从「你刚才做的结果」讲起。</p>
+        <div class="borrow"><b>这招从哪借的</b> · 来源 / 工具名放这里，不当章名。</div>
+
+        <h3>演示</h3>
+        <div class="tablewrap"><table class="matrix"><tr><th>列</th><th>列</th></tr><tr><td>带全部中间步骤</td><td>…</td></tr></table></div>
+
+        <div class="block do"><div class="tag"><svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>自己动手</div>
+          <div class="ex"><p><b>(a)</b> 改参数看结果。</p><details><summary>对照</summary><div class="reveal"><p>…</p></div></details><label class="done"><input type="checkbox" data-key="c1-a">做完了</label></div>
+          <div class="ex"><p><b>(b)</b> 把它弄坏。</p><details><summary>对照</summary><div class="reveal"><p>…</p></div></details><label class="done"><input type="checkbox" data-key="c1-b">做完了</label></div></div>
+
+        <div class="block trap"><div class="tag"><svg viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>这里会错</div>
+          <p><b>错的说法。</b>为什么错；对的判据。</p></div>
+
+        <div class="block back"><div class="tag"><svg viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg>回头题</div>
+          <p>用前面章的东西解本章场景。</p>
+          <details><summary>对照</summary><div class="reveal"><p>…</p></div></details></div>
+
+        <div class="block spec"><div class="tag"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8"/><path d="M8 17h8"/></svg>本章给规格加了什么</div>
+          <ul><li><b>字段</b>——说明（借自 X）</li></ul></div>
+      </section>
+      <!-- 末章：搭 + 破（玩具实现 + ≥5 个破坏实验 + 我的规格 vs 参考规格） -->
+      <!-- 附录：历史当故事 / 术语 / 来源与延伸 / 冷测（隔三天再做） -->
+    </main>
+  </div>
+</body>
+</html>

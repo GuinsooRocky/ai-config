@@ -5,7 +5,7 @@
     python3 audit.py <name|path|--all>
 
 输入:
-    <name>  skill 目录名（如 `cmm-go`）→ 自动拼 ~/.claude/skills/<name>/SKILL.md
+    <name>  skill 目录名（如 `write-a-skill`）→ 自动拼 ~/.claude/skills/<name>/SKILL.md
     <path>  直接给 SKILL.md 的绝对路径
     --all   扫 ~/.claude/skills/*/SKILL.md + 当前 cwd 的 .claude/skills/*/SKILL.md
 

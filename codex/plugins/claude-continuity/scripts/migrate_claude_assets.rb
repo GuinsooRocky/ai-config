@@ -107,6 +107,12 @@ Dir.glob(File.join(CLAUDE_DIR, "skills", "*")).sort.each do |source|
     next
   end
 
+  unless File.file?(File.join(File.realpath(source), "SKILL.md"))
+    warn("Skipping skill directory without SKILL.md: #{source}")
+    skipped_capabilities += 1
+    next
+  end
+
   if blocked_source?(source)
     skipped_capabilities += 1
     next
