@@ -93,8 +93,38 @@
     ],
     "defaultMode": "auto"
   },
-  "model": "opus[1m]",
+  "model": "claude-fable-5-1[1m]",
   "hooks": {
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/lengmo/.config/iterm2/cc-status"
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/lengmo/.config/iterm2/cc-status"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/lengmo/.config/iterm2/cc-status"
+          }
+        ]
+      }
+    ],
     "PreToolUse": [
       {
         "matcher": "Bash",
@@ -102,6 +132,34 @@
           {
             "type": "command",
             "command": "/Users/lengmo/.claude/hooks/rtk-smart.sh"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/lengmo/.config/iterm2/cc-status"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/lengmo/.config/iterm2/cc-status"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/lengmo/.config/iterm2/cc-status"
           }
         ]
       }
@@ -133,9 +191,54 @@
             "command": "python3 /Users/lengmo/.claude/hooks/mk-learn-stop.py"
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/lengmo/.config/iterm2/cc-status"
+          }
+        ]
+      }
+    ],
+    "StopFailure": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/lengmo/.config/iterm2/cc-status"
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/lengmo/.claude/hooks/subagent-stop-notify.sh"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/lengmo/.config/iterm2/cc-status"
+          }
+        ]
       }
     ],
     "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 /Users/lengmo/.claude/hooks/ab-drop-hook.py"
+          }
+        ]
+      },
       {
         "matcher": "",
         "hooks": [
@@ -162,15 +265,12 @@
             "command": "python3 /Users/lengmo/.claude/hooks/mk-learn-prompt.py"
           }
         ]
-      }
-    ],
-    "SubagentStop": [
+      },
       {
-        "matcher": ".*",
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/lengmo/.claude/hooks/subagent-stop-notify.sh"
+            "command": "/Users/lengmo/.config/iterm2/cc-status"
           }
         ]
       }
@@ -182,32 +282,32 @@
     "refreshInterval": 5
   },
   "enabledPlugins": {
-    "pm-product-strategy@pm-skills": true,
-    "pm-go-to-market@pm-skills": true
+    "pm-go-to-market@pm-skills": false,
+    "pm-product-strategy@pm-skills": false
   },
   "extraKnownMarketplaces": {
-    "pm-skills": {
-      "source": {
-        "source": "github",
-        "repo": "phuryn/pm-skills"
-      }
-    },
     "claude-community": {
       "source": {
         "source": "github",
         "repo": "anthropics/claude-plugins-community"
       }
+    },
+    "pm-skills": {
+      "source": {
+        "source": "github",
+        "repo": "phuryn/pm-skills"
+      }
     }
   },
   "effortLevel": "high",
   "modelSettings": {
-    "claude-opus-5": {
-      "effortLevel": "xhigh"
-    },
     "claude-fable-5": {
       "effortLevel": "xhigh"
     },
     "claude-fable-5-1": {
+      "effortLevel": "xhigh"
+    },
+    "claude-opus-5": {
       "effortLevel": "xhigh"
     }
   },

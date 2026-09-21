@@ -71,6 +71,14 @@ OUTPUT_SECTION = [
 
 # ==== Parsing ====
 
+SPEC_LEAK = {
+    '章节号引用': r'§\s*\d',
+    '档位符号': r'[🟢🟡🔴🔵⚪]',
+    '数值阈值': r'(?:≥|≤|>=|<=|>|<)\s*\d',
+    '内部步骤名': r'(?:Step|Phase|步骤)\s*\d',
+}
+
+
 def parse_skill(path: Path):
     text = path.read_text(encoding='utf-8', errors='replace')
     lines = text.splitlines()
@@ -123,12 +131,15 @@ def score_frontmatter(parsed):
     if desc:
         pts += 3
         L = len(desc)
-        if 80 <= L <= 1000:
-            pts += 3
-        elif L < 80:
+        if L < 80:
             issues.append(f"description 过短 ({L} 字) → 扩到 ≥80 字，加触发词和具体文件/概念")
+        elif L <= 320:
+            pts += 3
+        elif L <= 600:
+            pts += 2
+            issues.append(f"description 偏长 ({L} 字) → 压到 ≤320 字。它每轮都占 context，且 skill 一多会被 listing 截断，看到的字反而更少")
         else:
-            issues.append(f"description 偏长 ({L} 字) → 建议精简到 ≤1000 字（剩余空间留给 `when_to_use`）")
+            issues.append(f"description 过长 ({L} 字) → 压到 ≤320 字。超长 description 会互相挤占、被截断，模型更难选对 skill")
         if combined_len > DESC_COMBINED_CAP:
             issues.append(f"description+when_to_use 合计 {combined_len} 字 > 官方 1536 字上限 → 会被 skill listing 截断")
         if count_matches(desc + ' ' + when, TRIGGER_SECTION):
@@ -139,6 +150,12 @@ def score_frontmatter(parsed):
             pts += 3
         else:
             issues.append("description 无具体锚点 → 用反引号标出关键文件/触发词")
+        leaks = [n for n, pat in SPEC_LEAK.items() if re.search(pat, desc)]
+        if leaks:
+            pts -= 1
+            issues.append(
+                f"description 里混了运行时规格（{'、'.join(leaks)}）→ 搬进 body。"
+                "选不选这个 skill 不需要知道它内部怎么分档/什么阈值/哪些子步骤")
     else:
         issues.append("缺 `description` 字段 → 这是 skill 自动触发的唯一依据")
 
@@ -185,6 +202,20 @@ def score_triggering(parsed):
         issues.append("description 一个加引号的触发词都没有 → 加 3-5 个变体")
 
     # 负面边界只看 desc + when_to_use（自动触发的判断依据），body 里的不算
+    if len(unique_variants) >= 6:
+        vs = sorted(unique_variants)
+
+        def _shares(a, b):
+            # 共享一段 >=3 字的连续片段 = 同一意图的同义变体
+            return any(a[i:i + 3] in b for i in range(len(a) - 2))
+
+        dup = sum(1 for a in vs if any(a != b and _shares(a, b) for b in vs))
+        if dup / len(vs) > 0.5:
+            pts -= 2
+            issues.append(
+                f"触发词冗余：{len(vs)} 个里 {dup} 个共享同一词根（同一意图的同义变体）"
+                " → 每个意图留 1-2 个最典型的，召回不会掉，省下的字给负面边界")
+
     if count_matches(desc + '\n' + when, NEGATIVE_BOUNDARY):
         pts += 4
     else:

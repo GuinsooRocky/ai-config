@@ -1,6 +1,6 @@
 ---
 name: cmm-pr
-description: 用 tea CLI 给 onlychat 系列 worktree 做 commit→push→PR 一条龙编排（默认非草稿，要草稿显式说），支持三档：快冲(low) 单次 Enter 一键梭、轻检(med，默认) 跑 code-review、重检(high) 建 PR 先报 URL 后，后台跑 pr-audit 审查(非阻塞)。commit msg 草稿必给用户审一眼，subject 强制全小写避免 commitlint 翻车。同步默认走 rebase，显式说 merge 才用 merge。commit 后 push 前自动把 target 最新代码前置 rebase 过来（干净无感 / 轻冲突当场解 / 重冲突弹菜单），让 PR 创建即 mergeable。submodule / lockfile / generated 等高敏感路径单独分组高亮。PR 建好后仍自动查 mergeable，§8 降级为竞态兜底。触发词：提pr、cmm-pr、/cmm-pr、commit并PR、提交并PR、提交代码、提交、commit、一把梭、快冲pr、轻检pr、重检pr、开 PR、解冲突rebase、rebase到target。不用于：非 onlychat 项目、agg/agg-tuning worktree、main/master/release 分支。
+description: 用 tea CLI 给 onlychat 系列 worktree 做 commit→push→PR 一条龙（三档：快冲 low / 轻检 med 默认 / 重检 high；默认走 rebase、默认非草稿）。触发词：提pr、cmm-pr、/cmm-pr、commit并PR、提交并PR、提交代码、提交、commit、一把梭、快冲pr、轻检pr、重检pr、开 PR、rebase到target。不用于：非 onlychat 项目、agg/agg-tuning worktree、main/master/release 分支。
 ---
 
 # cmm-pr · OnlyChat commit + push + PR 一条龙

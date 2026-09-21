@@ -19,7 +19,8 @@
 | name 存在 | 2 | `name: xxx` | frontmatter 里有 `name` 键 |
 | name 匹配目录 | 3 | `name` == 父目录名 | 字符串相等 |
 | description 存在 | 3 | 有 `description:` | frontmatter 里有 `description` 键 |
-| description 长度 80-1000 字 | 3 | 去空格后 80-1000 字符 | `len(desc.strip())` |
+| description 长度分档 | 3 | ≤320 字=3 · 321-600=2 · >600=0 · <80=0 | `len(desc)` |
+| description 不夹运行时规格 | -1 | 命中 `§\d` / 🟢🟡🔴 / `≥\d` / `Step \d` 任一 → 倒扣 | `SPEC_LEAK` |
 | description 有"use when"指向 | 2 | 命中 `use when\|何时使用\|触发\|适用`（含 `when_to_use` 字段） | 正则 |
 | description 有具体锚点 | 3 | 包含文件名（反引号）或 `触发词:` | `\`[^\`]+\`` 或 `触发词` |
 | 无未知字段 | 4 | 字段集合 ⊆ 白名单 | 差集 |
@@ -48,6 +49,8 @@
 **分级给分**（第二项）：
 - 变体 ≥ 3 → 满分 8
 - 变体 1-2 → 部分 4 分
+- 变体 ≥ 3 → **封顶**，第 4 个起零收益
+- 变体 ≥ 6 且过半两两共享 ≥3 字词根 → **倒扣 2 分**（同一意图的同义变体堆砌）
 - 0 → 0 分
 
 **常见扣分**：

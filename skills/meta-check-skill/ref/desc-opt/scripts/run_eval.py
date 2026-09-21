@@ -9,6 +9,7 @@ import argparse
 import json
 import os
 import select
+import re
 import subprocess
 import sys
 import time
@@ -144,12 +145,13 @@ def run_single_query(
                             delta = se.get("delta", {})
                             if delta.get("type") == "input_json_delta":
                                 accumulated_json += delta.get("partial_json", "")
-                                if clean_name in accumulated_json:
+                                if clean_name in accumulated_json or skill_name in accumulated_json:
                                     return True
 
                         elif se_type in ("content_block_stop", "message_stop"):
                             if pending_tool_name:
-                                return clean_name in accumulated_json
+                                return (clean_name in accumulated_json
+                                        or skill_name in accumulated_json)
                             if se_type == "message_stop":
                                 return False
 
@@ -161,9 +163,19 @@ def run_single_query(
                                 continue
                             tool_name = content_item.get("name", "")
                             tool_input = content_item.get("input", {})
-                            if tool_name == "Skill" and clean_name in tool_input.get("skill", ""):
+                            invoked = tool_input.get("skill", "")
+                            # clean_name 是本文件伪造的临时命令名（<skill>-skill-<hash>）。
+                            # 但被测 skill 若已装在 ~/.claude/skills/，Claude 解析到的是
+                            # **真 skill**（Skill(skill="firecrawl")），名字永远对不上 clean_name
+                            # → 所有 query 恒判未触发，正负例一起假绿。必须同时认真名。
+                            if tool_name == "Skill" and (
+                                clean_name in invoked or skill_name in invoked
+                            ):
                                 triggered = True
-                            elif tool_name == "Read" and clean_name in tool_input.get("file_path", ""):
+                            elif tool_name == "Read" and (
+                                clean_name in tool_input.get("file_path", "")
+                                or skill_name in tool_input.get("file_path", "")
+                            ):
                                 triggered = True
                             return triggered
 
@@ -262,7 +274,7 @@ def main():
     parser.add_argument("--skill-path", required=True, help="Path to skill directory")
     parser.add_argument("--description", default=None, help="Override description to test")
     parser.add_argument("--num-workers", type=int, default=10, help="Number of parallel workers")
-    parser.add_argument("--timeout", type=int, default=30, help="Timeout per query in seconds")
+    parser.add_argument("--timeout", type=int, default=180, help="Timeout per query in seconds（默认 30 太短：Opus 跑一条 claude -p 要 60~180s，会全量超时判成未触发）")
     parser.add_argument("--runs-per-query", type=int, default=3, help="Number of runs per query")
     parser.add_argument("--trigger-threshold", type=float, default=0.5, help="Trigger rate threshold")
     parser.add_argument("--model", default=None, help="Model to use for claude -p (default: user's configured model)")
@@ -283,17 +295,38 @@ def main():
     if args.verbose:
         print(f"Evaluating: {description}", file=sys.stderr)
 
-    output = run_eval(
-        eval_set=eval_set,
-        skill_name=name,
-        description=description,
-        num_workers=args.num_workers,
-        timeout=args.timeout,
-        project_root=project_root,
-        runs_per_query=args.runs_per_query,
-        trigger_threshold=args.trigger_threshold,
-        model=args.model,
-    )
+    # 触发判定认的是**真 skill**，所以被测 description 必须真的生效 ——
+    # 只塞进伪造的临时命令文件没用（模型解析到的是真 SKILL.md）。
+    # 跑之前临时换上候选 description，finally 里无条件还原。
+    skill_md = skill_path / "SKILL.md"
+    original_text = skill_md.read_text(encoding="utf-8")
+    swapped = description != original_description
+    if swapped:
+        backup = skill_md.with_suffix(".md.eval-backup")
+        backup.write_text(original_text, encoding="utf-8")
+        one_line = " ".join(description.split())
+        patched = re.sub(
+            r"^description:.*?(?=^[a-zA-Z_-]+:|^---\s*$)",
+            f"description: {one_line}\n",
+            original_text, count=1, flags=re.S | re.M)
+        skill_md.write_text(patched, encoding="utf-8")
+
+    try:
+        output = run_eval(
+            eval_set=eval_set,
+            skill_name=name,
+            description=description,
+            num_workers=args.num_workers,
+            timeout=args.timeout,
+            project_root=project_root,
+            runs_per_query=args.runs_per_query,
+            trigger_threshold=args.trigger_threshold,
+            model=args.model,
+        )
+    finally:
+        if swapped:
+            skill_md.write_text(original_text, encoding="utf-8")
+            backup.unlink(missing_ok=True)
 
     if args.verbose:
         summary = output["summary"]

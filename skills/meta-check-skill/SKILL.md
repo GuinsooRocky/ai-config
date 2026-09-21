@@ -17,8 +17,8 @@ description: Skill 质量审计（对齐 2026-04 官方 frontmatter 15 字段表
 
 | 维度 | 出处 | 检测重点 |
 |---|---|---|
-| Frontmatter 合规 | `authoring-skills` 的字段清单 | `name` 匹配目录、`description` 长度 80-400、只用官方字段 |
-| 触发词质量 | `authoring-skills` + 用户的"窄边界词+换词测试" | 显式列触发词、≥3 种表达变体、负面边界（Do NOT use for X / 归 <other-skill>） |
+| Frontmatter 合规 | `authoring-skills` 的字段清单 | `name` 匹配目录、`description` **≤320 字**（越短越好，超 320 起扣）、不夹运行时规格、只用官方字段 |
+| 触发词质量 | `authoring-skills` + 用户的"窄边界词+换词测试" | 显式列触发词、**3 种变体即满分**（多堆不加分，同词根冗余倒扣）、负面边界（Do NOT use for X / 归 <other-skill>） |
 | 结构完整 | `authoring-skills` 的 Use-When / Steps / Output / Verify | 前置触发场景、分步骤、输出硬约束、反模式段 |
 | 简洁外科 | `karpathy-guidelines` 四原则 | 行数 ≤ 500、犹豫词 ≤ 3、硬约束词 ≥ 5、不空壳抽象 |
 | 漂移与一致性 | `workflow-claude-skills-agent` 的 drift 思路 | 只用支持字段、引用路径存在、有示例/反模式 |
@@ -103,6 +103,11 @@ python3 -m scripts.run_loop \
 
 ### 已知坑
 
+- **（2026-09-16 修复）判定曾用伪造名匹配真 skill，导致恒判未触发**：harness 会在 `.claude/commands/` 塞一个 `<skill>-skill-<随机哈希>` 的临时命令，再看模型调不调它。但被测 skill 只要已装在 `~/.claude/skills/`，Claude 解析到的就是**真 skill**（`Skill(skill="firecrawl")`），名字永远对不上那个随机名 → **每条 query 恒为 `rate=0`**。此时正例全 FAIL、负例全「PASS」（因为什么都没触发），看起来像跑通了，实则测的是纯噪声。修法：同时认真 skill 名；并把候选 description **临时写进真 SKILL.md**（`finally` 无条件还原 + `.eval-backup` 兜底），否则 `--description` 覆盖根本不生效
+- **（同批修复）`--timeout` 默认 30 秒**：Opus 跑一条 `claude -p` 要 60~180s，按默认值跑会全量超时判成未触发。已改默认 180
+- **读到任何一个 `tool_use` 就 `return`**：若模型先调了别的工具（Bash 查状态等）再调 skill，会被判未触发。已知偏严，暂未改——改了得重新校准
+- **报「跑通了」之前先看正例有没有非零 `rate`**：全 0 = 秤坏了，不是 description 差
+
 - 它靠 `find_project_root()` 从 cwd 往上找 `.claude/`，然后在 `<root>/.claude/commands/` 写临时命令文件来伪造 available_skills。**在 `~` 下跑，root 就是 `/Users/lengmo`，文件会写进你真实的全局 commands 目录**——正常结束会 `unlink` 清掉，但中途 kill 会留垃圾，跑完顺手 `ls ~/.claude/commands/ | grep -- -skill-` 检查一遍。
 - 简单的一步到位 query（「读一下这个 PDF」）**不管 description 写多好都不会触发**——Claude 自己就能干的活不会去查 skill。所以 query 必须够复杂，否则测的是噪声。
 - 零第三方依赖（纯标准库 + `claude` CLI），不用装环境。
@@ -123,7 +128,9 @@ python3 -m scripts.run_loop \
 
 ## 已知坑
 
-- audit.py 对**中英混合**的触发词/硬约束词都能识别，但极短 description (< 40 字) 会因为词典命中不到全部扣分 —— 写 description 时刻意堆触发词
+- audit.py 对**中英混合**的触发词/硬约束词都能识别，但极短 description (< 40 字) 会因为词典命中不到全部扣分 —— 下限是 80 字，**不是越长越好**
+- **别堆触发词**：变体 3 个就满分，第 4 个起零收益；≥6 个且过半共享同一词根（「做成小红书 / 出小红书 / 小红书 9 图」）倒扣 2 分。省下的字写负面边界，那才是防误触发的东西
+- **别把运行时规格写进 description**：`§X.X` 章节号、🟢🟡🔴 档位、`≥0.85` 阈值、`Step 3` 步骤名一律倒扣 1 分并提示搬进 body —— 选不选这个 skill 不需要知道它内部怎么跑（2026-09-16 立规：5 个最长的 description 砍掉 1321 字，body 一个字没丢）
 - 路径存在性检查只对本地绝对路径生效（`/Users/...`、`~/...`）；相对路径、URL、占位符（`<path>`）会跳过
 - frontmatter 解析是简化版 YAML（只认 `key: value` 单行），多行字符串（`description: >`）会丢内容 → 建议 description 用单行
 - 官方白名单跟着 2026 spec 走：`name, description, when_to_use, argument-hint, arguments, disable-model-invocation, user-invocable, allowed-tools, model, effort, context, agent, hooks, paths, shell` 共 15 个；任何字段不在表里都按"非官方"扣分

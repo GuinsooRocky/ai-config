@@ -1,6 +1,6 @@
 ---
 name: cmm-drift-prd
-description: OnlyChat 项目 PRD 与代码注释 drift 三方比对（PRD vs 注释 vs 代码）。Scope 严格交集：本分支 diff ∩ 挂了 PRD anchor 的注释 ∩ anchor 指向的 PRD 章节。三档输出：🟢 自动改注释（B 类 + A 类 conf≥0.85）/ 🟡 标记不动（A 类低置信 + C 类全量）/ 🔴 PRD 自身矛盾（转 onlychat-prd-reflection）。不动代码、不动 PRD、不动测试。我只比对埋了 §X.X anchor 的注释跟没跟代码/PRD；想审 PRD 本身（矛盾/缺文案/反直觉）请走 onlychat-prd-reflection。触发词：扫一遍注释 anchor、对一下注释和 PRD、查 drift、PRD 改后查注释跟没跟、检测注释 drift、PRD drift、/cmm-drift-prd、cmm drift prd。仅 onlychat 项目；非 onlychat 项目（agg、mk、kaka 等）不触发。
+description: OnlyChat 项目：查代码注释里埋的 §X.X PRD anchor 跟没跟上代码和 PRD（三方比对，只改注释，不动代码/PRD/测试）。触发词：扫一遍注释 anchor、对一下注释和 PRD、查 drift、PRD 改后查注释跟没跟、检测注释 drift、PRD drift、/cmm-drift-prd。不用于：审 PRD 本身的矛盾/缺文案（归 onlychat-prd-reflection）、非 onlychat 项目（agg、mk、kaka 等）。
 ---
 
 # cmm-drift-prd

@@ -36,6 +36,8 @@
 
 # firecrawl 是指向 ~/.agents 的外部符号链接（官方安装器管理，新机器重装即得），不入库
 /skills/firecrawl
+# skills/synced 是 claude.ai 账号级插件（anthropic-skills）自动同步下来的，harness 自己管，不入库
+/skills/synced
 
 # 各目录内部的派生垃圾
 __pycache__/
