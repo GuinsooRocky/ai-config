@@ -1,8 +1,10 @@
 ---
 name: 改稿每次返回完整全文
 description: 修改文案/帖子/长文时每轮返回完整最新全文，不要只返回 diff 段或局部改动
-type: feedback
-originSessionId: 09949203-5846-463e-ab1f-a54d29f30e60
+metadata:
+  node_type: memory
+  type: feedback
+  originSessionId: 09949203-5846-463e-ab1f-a54d29f30e60
 ---
 修改文案、帖子、文章等长文时，每一轮修改后都返回完整的最新全文（v2/v3/v4 标号），不要只返回改动段、diff 段或省略号占位。即使只改了一两处也要整篇完整贴出。
 

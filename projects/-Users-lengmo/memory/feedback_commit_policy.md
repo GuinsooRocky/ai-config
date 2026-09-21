@@ -1,9 +1,11 @@
 ---
 name: Commit policy
 description: 提交/推送/发版/分支命名 全政策——仓×动作一张表；工作仓不明说不提交也不推，个人仓可自行判断，DK / soliloquy / sf-reader-all 已放开 push；onlychat develop 允许直推但每次要用户明说
-type: feedback
-originSessionId: 62222e4b-fd3d-4b5d-9f20-c6b5f75148fb
-modified: 2026-09-17T09:01:24.573Z
+metadata:
+  node_type: memory
+  type: feedback
+  originSessionId: 62222e4b-fd3d-4b5d-9f20-c6b5f75148fb
+  modified: 2026-09-17T09:01:24.573Z
 ---
 
 # 提交与发版政策（仓 × 动作）

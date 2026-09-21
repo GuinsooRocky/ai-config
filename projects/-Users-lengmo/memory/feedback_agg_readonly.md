@@ -1,8 +1,10 @@
 ---
 name: agg 目录只读规则
 description: agg/ 只用于记录和查看，不要把 worktree 的改动反向同步回 agg/
-type: feedback
-originSessionId: 3ab28d87-c5e3-4feb-b32e-aa067280ae34
+metadata:
+  node_type: memory
+  type: feedback
+  originSessionId: 3ab28d87-c5e3-4feb-b32e-aa067280ae34
 ---
 `~/Desktop/cmm/agg/` 是只读参考目录，只接受：
 - `agg/evolution/` 下的 evolution 记录（用户说"记录"/"落 evolution"时写）

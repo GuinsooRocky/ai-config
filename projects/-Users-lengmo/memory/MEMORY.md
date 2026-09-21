@@ -2,7 +2,7 @@
 - [pageforge世界卡测试跑进度](project_pageforge_worldcard_testbed_run.md) — 07-02 叫停待续跑；现场封存在 agg/V0.0.6/worldcard-run-20260706/，旧 spike_agg 分支配方已失效，续跑从封存目录重建基线；真相=链路水平评估-2026.07.02.md
 - [soliloquy调研群组](project_soliloquy_review_panel.md) — **14 席**评审团花名册（7 专业席 + 7 用户席）+ 跑法；触发词「裁判调研组 / soliloquy 调研群组 / 评审团上场」；焊死 soliloquy 语境，别的项目另建
 - [出海项目](project_chuhai_oem_seo.md) — 海外 AI 陪伴站=soliloquy web 端即站；现行真相=soliloquy 仓 docs/growth/SEO-GEO现行策略.md + 09-13 五路调研合成结论；原 OEM 尽调方向已让位
-- [T158图谱记忆验证收官](project_soliloquy_t158_memory_verdict.md) — 图谱不立项；基线68/160；结论/工单/回归跑法全在 eval-arena/data/soliloquy-t158/，工单三 bug 待 owner 拍修不修
+- [T158图谱记忆验证收官](project_soliloquy_t158_memory_verdict.md) — 图谱不立项；基线68/160；结论/工单/回归跑法 09-10 已迁 Linux 服务器 /home/lab/.local/share/eval-arena/soliloquy-t158（本机没了）；工单三 bug 待 owner 拍
 - [产品优先SEO让路](project_soliloquy_product_over_seo.md) — soliloquy 根路径=产品面市场(客户端/爬虫空壳,owner已认)；⚠「市场」两个所指先确认再动手
 - [独白(soliloquy)项目](project_soliloquy.md) — 个人桌面 AI 陪伴客户端（Tauri+React19+Supabase），~/Desktop/loop_project/soliloquy；已 pivot 成 UGC 角色卡市场；进度去仓里 docs/prd/ 现读别信记忆
 - [soliloquy跑批线机制修复](project_soliloquy_harness_loops.md) — loop/graph 两条 codex 自主跑批线；机制唯一真相=main；B26 现场保留勿动（stash 已固化成 refs/stash-archive/*，别去 stash list 找）；loop worktree 已回收
@@ -44,7 +44,7 @@
 - [agg 只读](feedback_agg_readonly.md) — agg/ 只接受 evolution/落档记录，不反向同步 worktree 的 agent/skill 改动
 - [工作仓素材只从 cmm 取](feedback_work_repo_assets_from_cmm_only.md) — 给 cmm 工作仓造测试图/fixtures 绝不去 loop_project/archives 等个人目录翻；找不到就自己合成或问 owner（08-05 被当场发火）
 - [前端生码工作流](project_codegen_workflow.md) — pageforge（Loom 已弃用）：旧版≤005 → 006+ CLM 主线；权威=agg/V0.0.6/README；⭐100分判据、「tsc过≠需求完成」、灵感 inbox 规则在条目内；战报已落 archive/
-- [小红书博主身份](user_xiaohongshu_blogger.md) — 技术博主（300 粉为 2026-05 快照值），2026-05 已重启、本机稿件停在 05.29；3 条线：AI 编码/项目/生活
+- [小红书博主身份](user_xiaohongshu_blogger.md) — 技术博主（300 粉为 2026-05 快照值），2026-05 已重启、本机稿件停在 05.26；3 条线：AI 编码/项目/生活
 - [改稿返回完整全文](feedback_return_full_text_on_revision.md) — 长文修改每轮贴完整最新版（v2/v3），不要只发 diff 段
 - [MK 项目](project_mk.md) — 个人语音输入工具；仓根 .claude/CLAUDE.md=ground truth，技术细节在 docs/；全局只留用户裁决（**拒绝上 LLM 判同音词别再劝**、云端准确率偏好、≤120ms、只维护当前态 doc）
 - [owner 只在后台点](feedback_owner_operates_from_admin_only.md) — 日常与验收只写后台里能点的步骤；要他跑命令的环节做成出事时的后备口子，不进清单（09-11「为啥要跑命令切，我都在后台控制」）

@@ -1,8 +1,10 @@
 ---
 name: Figma MCP strict values
 description: Figma MCP 给出具体 css/token 值时必须原样照抄，不得估算或替换等价物
-type: feedback
-originSessionId: 8ee76bda-9231-4378-8bf1-f2a6c4ddd15d
+metadata:
+  node_type: memory
+  type: feedback
+  originSessionId: 8ee76bda-9231-4378-8bf1-f2a6c4ddd15d
 ---
 用 Figma MCP 做设计还原时，**严格使用 MCP 返回的具体值**：rgba/hex/opacity/px/stops/design tokens 一个字都不改。
 

@@ -11,7 +11,7 @@ metadata:
 
 **修法**：`killall NotificationCenter`（系统秒拉起，通知记录不丢）→ donotdisturbd 立刻 0%。顺手把通知中心里「脚本编辑器」那组清掉更保险。
 
-**彻底清理（09-12 已做）**：这 100 条 presented=0、`displayed` 表为空，通知中心面板上根本看不到、UI 清不了；只能 `killall usernoted NotificationCenter` 后用 `sqlite3 -cmd ".timeout 8000"` 删 record/delivered/displayed 里该 app 的行（usernoted 秒拉起并持锁，不带 timeout 会报 database is locked），再 killall 一次让它读干净的库，最后发一条测试通知验能落库。删前整库备份在 ~/.Trash/usernoted-db-backup-20260912/。
+**彻底清理（09-12 已做）**：这 100 条 presented=0、`displayed` 表为空，通知中心面板上根本看不到、UI 清不了；只能 `killall usernoted NotificationCenter` 后用 `sqlite3 -cmd ".timeout 8000"` 删 record/delivered/displayed 里该 app 的行（usernoted 秒拉起并持锁，不带 timeout 会报 database is locked），再 killall 一次让它读干净的库，最后发一条测试通知验能落库。删前整库备份曾在 ~/.Trash/usernoted-db-backup-20260912/，废纸篓已清空、不可恢复。
 
 **预防（已落地）**：`subagent-stop-notify.sh` 加了 20 秒合并限流（状态文件 /tmp/claude-subagent-notify.state），一个并行工作流不再攒几十条。
 

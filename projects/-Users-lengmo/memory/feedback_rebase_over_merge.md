@@ -1,8 +1,10 @@
 ---
 name: Prefer rebase over merge
 description: User prefers git rebase over git merge for branch sync, to keep git graph linear
-type: feedback
-originSessionId: 1a7a3fd9-e45b-4340-926e-d5b7cb46ae29
+metadata:
+  node_type: memory
+  type: feedback
+  originSessionId: 1a7a3fd9-e45b-4340-926e-d5b7cb46ae29
 ---
 用 `git rebase origin/<base>` 而不是 `git merge origin/<base>` 来同步分支。
 

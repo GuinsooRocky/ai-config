@@ -1,8 +1,10 @@
 ---
 name: Git dual identity setup
 description: User has two git identities (work gitea + personal github) with auto-switching by directory via includeIf
-type: user
-originSessionId: d25a49e4-d6a1-4ee3-a4a6-2de91d4f55aa
+metadata:
+  node_type: memory
+  type: user
+  originSessionId: d25a49e4-d6a1-4ee3-a4a6-2de91d4f55aa
 ---
 # 用户的双 git 身份
 
@@ -30,7 +32,7 @@ originSessionId: d25a49e4-d6a1-4ee3-a4a6-2de91d4f55aa
 
 - 默认身份 = 个人 GuinsooRocky
 - `~/Desktop/cmm/` 下的仓库 → 自动切成公司 zhanghao
-- `~/Desktop/cmm/` 之外的其他位置 → 保持个人身份（包括 `~/Desktop/My-Daily-Push/` 等个人项目）
+- `~/Desktop/cmm/` 之外的其他位置 → 保持个人身份（包括 `~/Desktop/my-code/` 等个人项目）
 
 `~/.ssh/config` 按 host 路由 SSH key：
 - `github.com` → `~/.ssh/id_ed25519`

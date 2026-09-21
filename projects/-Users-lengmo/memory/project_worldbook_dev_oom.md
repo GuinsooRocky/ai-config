@@ -7,7 +7,7 @@ metadata:
   originSessionId: 3b3ea1c7-ced1-4474-84aa-d82100f7fb7c
 ---
 
-**本条的标的 worktree `onlychat-world-book` 已回收**（onlychat 现存 worktree 为 onlychat / onlychat-jank-rate / onlychat-msg-length / onlychat-paid-image，无 world-book 分支）。**留着是因为下面那套东西跨 worktree 通用**：onlychat `pnpm dev`（`next dev`, package.json 内联 `--max-old-space-size=6144`）的内存泄漏机制，以及写任何监控脚本都会栽的三条坑。watchdog 现在服务的是通用 onlychat dev（见 [[feedback_diagnose_dont_kill]] 的 `/tmp/onlychat-dev-3000.json`）。
+**本条的标的 worktree `onlychat-world-book` 已回收**（无 world-book 分支；onlychat 现存 worktree 现查 `git worktree list` 别认历史名，09-21 核只剩 onlychat / onlychat-recmodel）。**留着是因为下面那套东西跨 worktree 通用**：onlychat `pnpm dev`（`next dev`, package.json 内联 `--max-old-space-size=6144`）的内存泄漏机制，以及写任何监控脚本都会栽的三条坑。watchdog 现在服务的是通用 onlychat dev（见 [[feedback_diagnose_dont_kill]] 的 `/tmp/onlychat-dev-3000.json`）。
 
 **操作细节（启停命令、状态文件、pgrep 检测）见 cmm-go skill 的 `references/watchdog.md`**（仍在）；本 memory 只记**为什么这么设计 + 踩过的非直觉坑**。
 

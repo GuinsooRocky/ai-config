@@ -1,9 +1,11 @@
 ---
 name: Skill design pattern
 description: skill/agent 资产维护守则四节：什么值得建（判据）、怎么写（结构/触发词）、建完必自审（meta-check ≥85）、审计时分清导入vs自有（D 档多是导入；自有是 A/B 混合非全 A）
-type: feedback
-originSessionId: 290b7bd2-b4fa-4424-a3f9-1e45803de401
-modified: 2026-08-26T07:17:46.048Z
+metadata:
+  node_type: memory
+  type: feedback
+  originSessionId: 290b7bd2-b4fa-4424-a3f9-1e45803de401
+  modified: 2026-08-26T07:17:46.048Z
 ---
 
 # Skill/Agent 资产维护守则

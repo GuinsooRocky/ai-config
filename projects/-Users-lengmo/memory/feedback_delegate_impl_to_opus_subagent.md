@@ -1,11 +1,11 @@
 ---
 name: feedback-delegate-impl-to-opus-subagent
-description: 派工六件事：>50KB 逐条判断类先压缩输入、只读的浏览器走查派 visual-qa、收产出逐文件核（补丁 diff 回它的树 + 测试用 per-file JSON reporter；git apply --3way 会静默吞 hunk 且退码 0）、跨仓派工别用 isolation:worktree、两 agent 各做契约一侧必须跨仓喂真实字节、改线上配置的点验主会话自己用 chrome 做（visual-qa 不认转述授权）——选 model 口径在 model-dispatch §2
+description: 派工七件事：>50KB 逐条判断类先压缩输入、只读的浏览器走查派 visual-qa、收产出逐文件核（补丁 diff 回它的树 + 测试用 per-file JSON reporter；git apply --3way 会静默吞 hunk 且退码 0）、跨仓派工别用 isolation:worktree、两 agent 各做契约一侧必须跨仓喂真实字节、改线上配置的点验主会话自己用 chrome 做（visual-qa 不认转述授权）、批次先 plan 再派实作、主会话只检查（2026-09-13）——选 model 口径在 model-dispatch §2
 metadata: 
   node_type: memory
   type: feedback
   originSessionId: e1a98655-f407-4a08-98df-2abae18cf430
-  modified: 2026-09-12T17:53:13.183Z
+  modified: 2026-09-21T09:00:00.000Z
 ---
 
 > 选型口径（显式写 `model` 别靠继承、档位 ≥ 任务所需、拿不准往上取、2026-08-06 主会话默认换 Fable 后仍显式 `opus`）以及「独立派工放同一条消息并行发」已全量落 `~/.claude/model-dispatch.md` §2/§7，本文件只留那边没有的三条。

@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 1d89aa0b-9452-43e0-9f98-c451e8e90301
-  modified: 2026-07-30T06:40:42.525Z
+  modified: 2026-09-21T09:00:00.000Z
 ---
 
 drama-agent：把短故事/多轮对话编译成 AI 视频工具（目标 Seedance 2.0，走 WaveSpeed）prompt 制作包的纯前端 SPA（React18+TS+Vite+antd6+ajv），五步流水线 + schemas 校验 + dialects 方言。
@@ -27,6 +27,8 @@ drama-agent：把短故事/多轮对话编译成 AI 视频工具（目标 Seedan
 ## 付费墙 + SEO 进度（`docs/2026-07-17-付费墙与SEO-交接.md` 仍是单一真相）
 
 **代码已全部提交进 `main`**：付费墙——价格定 `PRICE_USD=12` / 20 次 + 匿名额度码 + D1；tsc 净、eval 199 全过。SEO——落地页与访问上报也已进 main（`647a4d6 feat: add SEO landing page and visit reporting`），所以「SEO 要做但一点没动」的旧口径作废。
+
+仓最新提交 `0151780 2026-08-03 feat: 捡回隐藏质检自动返工回环(storyboard + promptkit 两个检查点)`（09-21 核），之后无动静；本条其余事实 09-21 逐条核过仍成立（占位符仍在、本地只有 main）。
 
 **但一行都没部署。** 线上 workers.dev 还是 07-16 的老壳：
 - `wrangler.jsonc` 占位符仍在（`wrangler.jsonc:33` 的 `"PUBLIC_ORIGIN": "https://REPLACE_WITH_REAL_DOMAIN"`，KV id / D1 id 同）

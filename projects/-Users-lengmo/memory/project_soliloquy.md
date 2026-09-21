@@ -69,6 +69,6 @@ Tauri + React 19 + **Rsbuild**（已替 Vite）+ pnpm；后端自有 **Supabase*
 
 ## 历史
 
-07-03→07-26 的逐批施工战报（OC 三步、市场卡片流、IA 重构、QA 马拉松、模型升级、内部账号门控等）原本抄在这里，**2026-07-30 移除**——仓已跑到 T155，`docs/prd/DONE.md` 才是那些东西的正式归档。要考古去 DONE.md 和 `loop/decisions.md`。原文备份在 `~/.Trash/memory-project_soliloquy-备份-20260730.md`。
+07-03→07-26 的逐批施工战报（OC 三步、市场卡片流、IA 重构、QA 马拉松、模型升级、内部账号门控等）原本抄在这里，**2026-07-30 移除**——仓已跑到 T155，`docs/prd/DONE.md` 才是那些东西的正式归档。要考古去 DONE.md 和 `loop/decisions.md`。原文备份在 废纸篓（`memory-project_soliloquy-备份-20260730.md`，已清空不可恢复）。
 
 相关：[[project_soliloquy_harness_loops]]（跑批线机制）、[[project_soliloquy_review_panel]]（14 席评审团）、[[project_co_model_eval_arena]]（anna 评测）、[[feedback_project_intel_stays_in_project_docs]]、[[feedback_cleanup_use_trash_not_rm]]

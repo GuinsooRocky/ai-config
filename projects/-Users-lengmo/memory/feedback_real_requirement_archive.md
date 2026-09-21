@@ -1,8 +1,10 @@
 ---
 name: 真实需求落档约定
 description: 用户说"落档"/"落一下"/"真实需求落档"时，在 /Users/lengmo/Desktop/cmm/agg/真实需求落档/ 新建一个 md 记录这次需求的全过程
-type: feedback
-originSessionId: 74c56540-2199-45c0-abfe-7e6a64e68f5c
+metadata:
+  node_type: memory
+  type: feedback
+  originSessionId: 74c56540-2199-45c0-abfe-7e6a64e68f5c
 ---
 **触发词**："落档"/"落一下"/"真实需求落档"/"把这个需求落一下"/"帮我把这个写进 agg"
 
