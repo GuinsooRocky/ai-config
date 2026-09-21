@@ -71,7 +71,7 @@
 - [HTML 预览原地 reload](feedback_browser_preview_reload_in_place.md) — 刷新本地 HTML 预览用 reload 当前标签，绝不 close+reopen（会甩回顶部丢滚动位置）
 - [复制内容按长短分流](feedback_copy_content_delivery.md) — 短文案对话内纯文本(不上表格/#/**)；长内容(文档/报告/全量返回)写 scratchpad 文件报路径；session 关闭自动清理
 - [Obsidian vault=archives](reference_obsidian_vault_archives.md) — 07-12 装机落地，vault 直挂 ~/Desktop/archives 零迁移；只做回看层写入侧不变；砍掉 MCP/PARA/日记插件；CLI 叫 obsidian 不叫 obsidian-cli
-- [~/.claude 是私有 git 仓库](project_claude_config_git.md) — ~/.claude 是 GuinsooRocky/ai-config 的直接 checkout；Desktop/cc-memory/ai-config 是同仓中立副本（装新机器安装器）；xhs-writer 单一真相在 ~/.claude
+- [~/.claude 是私有 git 仓库](project_claude_config_git.md) — ~/.claude 是 GuinsooRocky/ai-config 直接 checkout；Desktop/cc-memory/ai-config 是中立副本，codex 插件从它装（发布链见条目）；memory 每日自动 commit
 - [生成 prompt 的质量标准](feedback_prompt_generation_quality_bar.md) — 指针：6 条 rubric（角色+硬规则/焊真实上下文/输出契约/内建优先级/可逆护栏/填空位）已实体化进 ~/.claude/skills/write-a-prompt「质量线」节，skill 没 fire 时手动过一遍
 - [找丢的东西先问在哪](feedback_find_lost_things_fast.md) — 「前两天还在」先翻废纸篓+近期会话、描述模糊先问一句在哪看到；搜 jsonl 用 python mmap（本机 grep=ugrep 拒复杂正则、长行带上下文会卡死）
 - [摘要/注释/状态码不是真相](feedback_not_ground_truth.md) — 截断当全量、状态码 200 当真内容、来源清单静默丢，先证完整再下结论（报 X/N）；注释与 PRD 都是 hint，写工单/给 owner 拍板/起草对外消息前必须 grep 垫底
