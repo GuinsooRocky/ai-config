@@ -16,7 +16,7 @@
 - [派工七件事](feedback_delegate_impl_to_opus_subagent.md) — 派工细则（跨项目）：批次先 plan 再派实作；浏览器走查也算执行派 visual-qa；跨仓别用 isolation:worktree；契约两侧要跨仓喂真实字节握手；改线上的点验自己用 chrome 做
 - [要密钥前先自己翻](feedback_find_credentials_before_asking.md) — 缺凭证先穷尽 .env*/可 ssh 机器/已登录浏览器，拿不到再开口且说清"哪把key缺在哪为什么读不到"（07-11 OPENROUTER key 就在 .env.local 却让 owner 补，被无语）
 - [批量烧付费API先确认](feedback_ask_before_paid_api_batch.md) — >50 次付费调用的批量跑（LLM打分/翻译等）先报预估费用等点头；试跑小样本可直接跑
-- [边界：改动与引用都不许外推](feedback_fix_within_reported_scope.md) — 报 A 别把 guard 推广到 B/C；PRD 指到的同外形入口不算外推、第一轮改全；引拍板砍功能先核管辖面；别人域的红只报「我们这边 0 红」
+- [边界：改动与引用都不许外推](feedback_fix_within_reported_scope.md) — 报 A 别把 guard 推广到 B/C；PRD 指到的同外形入口不算外推、第一轮改全；引拍板砍功能先核管辖面；别人域的红只报「0 红」；视口专属改动 sm: 门控别捅 PC
 - [前端兜底边界:空态vs白页面](feedback_frontend_empty_vs_blank.md) — 空数据=合法展示态(展示空别改用户选择回避)；白页面/崩溃/渲染断裂才前端兜。空是结果别替，白页面是故障要替
 - [对称操作先diff分支副作用](feedback_runtime_bug_dont_loop_static.md) — 开/关 add/remove 类bug第一步并排比两分支副作用找不对称(持久化不对称是高频根因)；"看着该工作却复现"=熔断别绕圈，拿运行时真相/要1判别事实/直接改一版（世界卡NSFW开关栽过：开落了服务端、关没落，用户"你好慢"）
 - [项目情报不进全局memory](feedback_project_intel_stays_in_project_docs.md) — 接口/迁移/探路结论落项目文档(cmm 的 notes)，全局 memory 只放跨项目的人/偏好/工作法
@@ -26,8 +26,7 @@
 - [飞书群一进一出](feedback_feishu_group_read_self_send_user.md) — 用户提「群里说/同事截图」先用 social-proxy find_thread_by_name+get_history 自己读（话题回复入库有几分钟延迟）；给同事的消息起草后给纯文本让用户自己发，不走 send_message 代发
 - [聊产品链路停在体验高度](feedback_product_chat_stay_at_flow_altitude.md) — 用户要聊产品链路时问题只停在"用户看到啥/怎么找到/去哪/卡哪"；实现(flag/脚本/后端/RLS/是否最优)自己扛自己查别抛回去(原话"我不关心实现只说链路不对")；产品要求认领成自己的活
 - [UI 图标用 SVG 不用 emoji](feedback_ui_svg_icons_not_emoji.md) — 导航/按钮/chrome 一律线性 SVG，emoji 丑爆（soliloquy 全局导航栽过，"又放上来了"别复现）
-- [对外文档过陌生读者测试](feedback_outward_doc_stranger_reader_test.md) — 私有代号/人名视角必杀，团队可及事实合法；被纠正先想通 why 再主动扫全文同类
-- [文字反馈=品味](feedback_writing_taste_umbrella.md) — 统一标尺+五切面：去注水（口语化≠奶味填充、密度给信息不给口水）、精准×共情（焊听众亲历瞬间）、保用户原话不润色、结构化内容给表格、**口语稿去 AI 味**（禁「我今天讲三件事」「一句话：」「后面我都按这个说」、破折号、排比、问答预案）
+- [文字反馈=品味](feedback_writing_taste_umbrella.md) — 统一标尺+七切面：去注水、精准×共情（焊亲历瞬间）、保用户原话不润色、结构化给表格、群里问人只留问题、口语稿去 AI 味（禁「讲三件事」「一句话：」破折号排比）、对外文档过陌生读者测试+每条负责
 - [Git dual identity](user_git_identity.md) — gitea=zhanghao（工作）、github=GuinsooRocky（个人）、跨平台 handle=lengmo；~/Desktop/cmm/ 下 includeIf 自动切身份
 - [提交与发版政策](feedback_commit_policy.md) — 仓×动作表：工作仓不明说不提交；个人仓自行判断；DK/soliloquy/sf-reader-all 可 push；分支 lengmo_YYYYMMDD_<type>；main/release 永不直推
 - [DK 后端部署铁律](project_dk_sidecar_deploy.md) — 改后端只能整体 build_app.sh 重建，绝不 in-place 换 sidecar；**全文已迁 dk/CLAUDE.md（2026-07-06 新建）**
@@ -54,7 +53,6 @@
 - [任务执行节奏](feedback_task_execution_cadence.md) — 对齐方案才动手；自动推进按里程碑汇报；调研/验证按改动规模分级（trivial 轻量路径，大改动 tsc 增量自查）
 - [sf-reader 并发](feedback_sf_reader_concurrency.md) — sf-reader-all 批量要串行/低并发(≤2)；12 并发 Playwright 互相饿死全超时；全文在 unified_inbox.json 不在 stdout
 - [写注释的边界](feedback_writing_comments_rules.md) — 简易逻辑/UI 样式/Figma 节点号不加；PRD 章节号可留；只为非直觉 why 才加
-- [mobile 改动别捅 PC](feedback_mobile_fix_dont_touch_pc.md) — 视口专属 UI 改动用 sm: 门控限定该视口，PC 保原样别为"简单"统一改；用户视外溢为回归
 - [每日复盘已废弃](feedback_daily_recap_retired.md) — 08-06 整套 daily-recap 删净；要的是月度「工作模式体检」那种，别再提议重建日报
 - [小活别开后台workflow](feedback_inline_over_background_workflow.md) — 查事实/读文件/跑命令直接 inline；background workflow 只给真并行大活（会空跑卡死，2026-05-29 空转51min）
 - [按名发射workflow先核配置块](feedback_workflow_check_config_before_fire.md) — 脚本目标常写死在 const 配置块、args 不自动覆盖；07-29 pr-audit 残留 mk 配置烧 139万 token 审错仓；pr-audit 已加 args 保险丝，其他 workflow 未必有

@@ -1,11 +1,11 @@
 ---
 name: feedback-fix-within-reported-scope
-description: 边界：改动与引用都不许外推——报 A 别把 guard 推到 B/C；但 PRD 指到的同外形入口不算外推要一次改全；引拍板砍功能先核管辖面；判「文档打架」先核对象是否同一；别人域的红不扛；分工已定后甩来的素材是文档输入不是给我的工单
+description: 边界：改动与引用都不许外推——报 A 别把 guard 推到 B/C；但 PRD 指到的同外形入口不算外推要一次改全；引拍板砍功能先核管辖面；判「文档打架」先核对象是否同一；别人域的红不扛；分工已定后甩来的素材是文档输入不是给我的工单；视口专属改动用 sm: 门控别外溢到 PC
 metadata:
   node_type: memory
   type: feedback
   originSessionId: ac55a93d-5e97-4c28-bdc8-2879a13bec40
-  modified: 2026-09-14T09:46:49.344Z
+  modified: 2026-09-21T09:30:00.000Z
 ---
 
 修一个报告的 bug 时，改动范围严格收在"报告里出现过的现象"内。别因为"顺手一起覆盖"把 guard / 拦截 / 兜底推广到报告里没提过的相邻场景。
@@ -55,5 +55,8 @@ metadata:
 而且需求群的 PM 结论（「首次提审不能编辑」）本来就是覆盖全部编辑入口的。
 判据：侦察时发现第二个**同外形同语义**的入口（同一颗按钮、同一句 PRD 能指到）→ 属于本需求，直接一起改；
 只有「形似但 PRD 没指到 / 语义不同」的才算外推。拿不准时在第一轮就改掉并说明，别等 owner 截图来追。
+
+**视口专属改动别外溢到 PC（2026-06-22 onlychat Create 弹窗）**：改动只针对某一个视口（mobile）时，用 `sm:hidden` / `hidden sm:flex` 把新布局门控在那个视口，PC 维持原样；不要为了"少写一条分支/更简单"把改动统一套到 PC。用户把"mobile 改动捅到 PC"视为回归 bug。当时 CreateNavModal.tsx ≤4 入口改竖向列表，设计稿全是 mobile（379px）节点、用户明说"mobile 端"，我图省事做成 mobile+PC 统一版（一条 `renderListCard` 分支），虽口头 flag 了"PC 也跟着变"，用户当下没拦、过后发现 PC 被动到 → 判定为 bug，已 merge 的 PR #1207 不得不再补 #1208 拆成 `sm:hidden`(mobile 竖列) + `hidden sm:flex`(PC 原 hero+横排)。
+判据：Figma 来源是 mobile 节点、或用户措辞含"mobile 端/手机"→ 默认 **mobile-only 门控**，PC 分支保持原实现，不要合并成一条。用户说"只需要改下 X 的排版"≠"PC 也一起改"。拿不准就按 mobile-only 做（PC 零回归是安全侧），需要统一时由用户显式确认。跟 [[project_onlychat_env_pitfalls]] 互补：那条讲"改共用组件两条轴都要顾"，这条讲"改动要落在它该落的那一格、别外溢"。
 
 - 同源：CLAUDE.md Karpathy "Surgical Changes"；相关 [[feedback_runtime_bug_dont_loop_static]]、[[feedback_not_ground_truth]]、[[feedback_frontend_empty_vs_blank]]、[[feedback_dont_declare_infeasible]]
