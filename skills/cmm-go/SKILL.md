@@ -1,6 +1,6 @@
 ---
 name: cmm-go
-description: OnlyChat 开工编排——报项目昵称即落到正确 worktree 并出控制面板。触发词：世界卡项目/world-book、next项目/next15、生码项目/agg、onlychat/原项目、开工、上班、继续昨天的活、继续干、/cmm-go。Use when 用户从 home 开 session、只甩一句 onlychat 项目昵称或开工口令时——解析昵称→worktree（读 `~/Desktop/cc-memory/onlychat/features.md`），出控制面板（实时分支/上次进度/watchdog 状态/分支漂移告警/按需资产菜单），管 dev-watchdog 生命周期，按需拉 PRD/Figma/后端文档。不用于：非 onlychat 项目、纯写代码实现任务（直接干）。
+description: OnlyChat 开工编排——报项目昵称即落到正确 worktree 并出控制面板。触发词：世界卡项目/world-book、生码项目/agg、onlychat/原项目、开工、上班、继续昨天的活、继续干、/cmm-go。Use when 用户从 home 开 session、只甩一句 onlychat 项目昵称或开工口令时——解析昵称→worktree（读 `~/Desktop/cc-memory/onlychat/features.md`），出控制面板（实时分支/上次进度/watchdog 状态/分支漂移告警/按需资产菜单），管 dev-watchdog 生命周期，按需拉 PRD/Figma/后端文档。不用于：非 onlychat 项目、纯写代码实现任务（直接干）。
 ---
 
 # cmm-go · OnlyChat 开工编排
@@ -11,7 +11,7 @@ description: OnlyChat 开工编排——报项目昵称即落到正确 worktree 
 
 ## 何时使用
 
-- 触发词（口语+书面+英文变体）：`世界卡项目`、`世界卡`、`world-book`、`next 项目`、`next15`、`生码项目`、`agg`、`onlychat`、`原项目`、`开工`、`上班`、`继续昨天的活`、`继续干`、`/cmm-go`
+- 触发词（口语+书面+英文变体）：`世界卡项目`、`世界卡`、`world-book`、`生码项目`、`agg`、`onlychat`、`原项目`、`开工`、`上班`、`继续昨天的活`、`继续干`、`/cmm-go`
 - 典型场景：用户从 `~` 起 `claude`，第一句就报一个 onlychat 项目昵称，想直接落到对应 worktree 接着干。
 - 不触发：非 onlychat 的活；已经在 worktree 里、直接让你写代码/修 bug（那就正常干，别硬套面板）。
 

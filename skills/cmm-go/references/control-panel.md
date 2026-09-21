@@ -32,8 +32,7 @@ watchdog   <见 watchdog.md 判定（基于 3000 实际 cwd，不是 watchdog �
 ```
 没匹配到「<用户说的>」。现有 worktree，选一个：
   [1] onlychat-world-book      lengmo_..._world_book_ui
-  [2] onlychat-next15          lengmo_..._next15_turbopack
-  [3] onlychat                 develop
+  [2] onlychat                 develop
   ...
 ```
 
