@@ -96,3 +96,4 @@
 - [重构按风险分档](feedback_refactor_risk_tiers.md) — 评审提的结构重复：小改直接改、中等只做 1:1 抽取、大/非 1:1 的不改留 TODO+doc；保障没 bug 优先于对齐（09-14 付费图 F1/F2）
 - [查bug=全量扫+质量](feedback_bug_hunt_means_full_code_scan.md) — owner 说「全项目查 bug 补 test」= 逐文件全量扫（覆盖 X/N）+ 跨进程接缝对账 + 组件共用/代码优化；别拿「更简单形态」缩成热区抽样（09-17 eval-arena 被判「没抓全」）
 - [geo-audit 项目](project_geo_audit.md) — 给任意站做可复核 GEO 诊断的新项目；仓在 my-code/geo-audit（GitHub private），单一真相=仓内 docs/PRD.md，执行方是 Codex；0号客户=soliloquy
+- [量尺寸等动画落定](feedback_measure_after_animation_settles.md) — 走查量盒模型用 offsetWidth/getComputedStyle，getBoundingClientRect 在 transform 动画中会等比骗人；"数值等比偏小"=先查 transform
