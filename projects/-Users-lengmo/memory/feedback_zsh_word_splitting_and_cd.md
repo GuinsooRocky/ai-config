@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: feedback
   originSessionId: 1dcd4bc9-e1eb-4db6-b5d6-ba34c583496c
-  modified: 2026-09-11T07:14:22.168Z
+  modified: 2026-09-23T11:54:53.146Z
 ---
 
 Bash 工具的 shell 是用户的 zsh，不是 bash。两个坑今天各踩一次：
@@ -19,5 +19,7 @@ Bash 工具的 shell 是用户的 zsh，不是 bash。两个坑今天各踩一�
 - 多个文件分开写成多个变量（`$L $U $E`），或者用 zsh 数组（`files=(a b); for f in $files`），或者直接列出来。别把多个路径塞进一个带空格的字符串。
 - 会临时改坏代码的脚本开头加 `set -e`。改之前先断言备份在，例如 `for f in ...; do [ -f "$f.bak" ] || exit 1; done`。每步还原后用 `git diff --stat` 核对，确认回到了预期状态。
 - 不要 cd。一律写绝对路径、`git -C <dir>`，或者在 python 里用绝对路径。
+- **以 `=` 开头的裸词会被当成命令路径展开**：`echo ====` / `echo =====` 报 `(eval):1: === not found`，同一行里 `;` 后面的命令也跟着不跑（2026-09-23 onlychat 推荐模型审计踩两次，第二次把后面的 `git diff` 吞了）。分隔线一律加引号：`echo "===="`，或者改用 `echo "-----"`。
+- **grep 的 `--include=*.ts` 在 zsh 会先被当成 glob 展开**，匹配不到就报 `no matches found`，整条命令不执行。要写成 `--include='*.ts'`。
 
 相关：[[feedback_gates_must_fail_on_purpose]]（闸要验反面）、[[reference_bash_timeout_orphans_child]]

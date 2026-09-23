@@ -91,9 +91,10 @@
 - [飞书文档格式会丢](reference_feishu_doc_formatting_lost.md) — get_document 读不到删除线/黄底；判 PRD 要求前先用 list_docx_blocks include_payload 扫一遍
 - [Figma 待拍先查 rules](feedback_figma_decisions_check_rules_first.md) — 列待拍前先查项目 rules 已定口径（文案跟 PRD / 颜色跟 Figma / 相邻多帧=多态非备选）；09-03 三条全是已定案被顶
 - [验UI可见性用截图非坐标](feedback_ui_visibility_screenshot_not_coords.md) — 判元素露没露全/被切用截图当裁判，别信自算 getBoundingClientRect（09-03 pricing 修复据错误坐标报「没生效」被顶，一截图 Imperial 明明全露）；build hash 已对上时别用测量推翻「已部署」
-- [zsh 不拆词 + cd 会串](feedback_zsh_word_splitting_and_cd.md) — Bash 工具是 zsh：`for f in $LIST` 只循环一次；cd 会延续到后续调用；临时拆代码做反面验证先断言备份存在、每步还原后 git diff 核对
+- [zsh 不拆词 + cd 会串](feedback_zsh_word_splitting_and_cd.md) — Bash 工具是 zsh：`for f in $LIST` 只循环一次；cd 会延续到后续调用；`echo ====` 被当命令展开报 not found、`--include=*.ts` 要加引号；临时拆代码做反面验证先断言备份存在
 - [donotdisturbd 跑满=通知中心死循环](reference_donotdisturbd_cpu_spin_notification_center.md) — 发烫见 donotdisturbd 97% 别杀它（会复发）；真因=通知中心对堆积的 osascript 通知死循环，`killall NotificationCenter` 即止；源头是子 agent 钩子攒通知
 - [重构按风险分档](feedback_refactor_risk_tiers.md) — 评审提的结构重复：小改直接改、中等只做 1:1 抽取、大/非 1:1 的不改留 TODO+doc；保障没 bug 优先于对齐（09-14 付费图 F1/F2）
 - [查bug=全量扫+质量](feedback_bug_hunt_means_full_code_scan.md) — owner 说「全项目查 bug 补 test」= 逐文件全量扫（覆盖 X/N）+ 跨进程接缝对账 + 组件共用/代码优化；别拿「更简单形态」缩成热区抽样（09-17 eval-arena 被判「没抓全」）
 - [geo-audit 项目](project_geo_audit.md) — 给任意站做可复核 GEO 诊断的新项目；仓在 my-code/geo-audit（GitHub private），单一真相=仓内 docs/PRD.md，执行方是 Codex；0号客户=soliloquy
 - [量尺寸等动画落定](feedback_measure_after_animation_settles.md) — 走查量盒模型用 offsetWidth/getComputedStyle，getBoundingClientRect 在 transform 动画中会等比骗人；"数值等比偏小"=先查 transform
+- [不预先打备份包](feedback_no_preemptive_backup.md) — 改代码前别自作主张 tar/拷贝工作区当保险，owner 说不需要；可逆性靠 git + mv ~/.Trash
