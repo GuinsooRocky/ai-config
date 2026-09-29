@@ -63,3 +63,5 @@ metadata:
 **Skill 双份同步（软约定）**：改 `~/.claude/skills/<name>/` 时若同 skill 也分发在个人项目仓里（如 sf-reader-all/skills/），两份同步改再 commit。2026-07-06 核实这条并未被强制执行（已有 diff 不同步），改动时想得起来就同步，别把"两份一致"当可依赖事实。
 
 参见 [[user_git_identity]]、[[feedback_rebase_over_merge]]。
+
+**「开始做 / 做吧」不等于提交或开 PR（2026-09-29）**：onlychat 推荐模型 §4.5 拆完后 owner 说「好的 开始做啊」，我自己理解成「剩下的就是提交」，一路跑 code-review、登记 features.md，弹出了提 PR 的确认框，被顶「我没说要 pr 哇」。工作仓提交和开 PR 只认明确的「提交 / 提pr / commit」这类说法；「做」指的是需求本身的活，意思拿不准时先问一句「做」指的是什么，别把交付动作当成默认的下一步。
