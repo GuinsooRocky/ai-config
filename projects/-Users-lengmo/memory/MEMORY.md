@@ -98,3 +98,5 @@
 - [geo-audit 项目](project_geo_audit.md) — 给任意站做可复核 GEO 诊断的新项目；仓在 my-code/geo-audit（GitHub private），单一真相=仓内 docs/PRD.md，执行方是 Codex；0号客户=soliloquy
 - [量尺寸等动画落定](feedback_measure_after_animation_settles.md) — 走查量盒模型用 offsetWidth/getComputedStyle，getBoundingClientRect 在 transform 动画中会等比骗人；"数值等比偏小"=先查 transform
 - [不预先打备份包](feedback_no_preemptive_backup.md) — 改代码前别自作主张 tar/拷贝工作区当保险，owner 说不需要；可逆性靠 git + mv ~/.Trash
+- [个人项目账号备忘](reference_loop_project_account_notes.md) — 账号/密码/外部服务入口记 ~/Desktop/loop_project/账号备忘/外部服务账号清单.md，别写进仓 docs/ops
+- [指向旧上下文先翻会话](feedback_read_past_sessions_before_asking.md) — owner 说「告诉过你/细节在 codex」先搜 claude+codex jsonl 再答，别让他重讲（09-30 Google 停用被怼）
