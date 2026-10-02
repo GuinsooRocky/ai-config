@@ -100,3 +100,4 @@
 - [不预先打备份包](feedback_no_preemptive_backup.md) — 改代码前别自作主张 tar/拷贝工作区当保险，owner 说不需要；可逆性靠 git + mv ~/.Trash
 - [个人项目账号备忘](reference_loop_project_account_notes.md) — 账号/密码/外部服务入口记 ~/Desktop/loop_project/账号备忘/外部服务账号清单.md，别写进仓 docs/ops
 - [指向旧上下文先翻会话](feedback_read_past_sessions_before_asking.md) — owner 说「告诉过你/细节在 codex」先搜 claude+codex jsonl 再答，别让他重讲（09-30 Google 停用被怼）
+- [待 owner 做的步骤要带直达链接](feedback_owner_steps_need_direct_links.md) — 交给 owner 的网页操作第一次提就贴 URL，别只写菜单路径（10-02 一天被追问两次）
