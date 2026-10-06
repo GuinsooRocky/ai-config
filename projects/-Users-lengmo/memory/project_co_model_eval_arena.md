@@ -27,3 +27,7 @@ metadata:
 - 语料资产：`真实聊天/2026-07-28-crushon聊天记录/` 57 会话逐条真实时间戳 = 自己的 REALTALK（数据集本身不是参考素材）。单轮接话轻量 eval 另在 soliloquy 仓 `scripts/eval-engagement/`
 
 相关裁定已收官：[[project_soliloquy_t158_memory_verdict]]（图谱不立项，工单三 bug 待 owner 拍）。
+
+## 2026-10 全量查 bug 与修复
+
+131 条 finding 的结论在 `~/Desktop/loop_project/eval-arena-bugscan-20261002/FINAL.md`，修复收口在同目录 `fix/FIX_SUMMARY.md`（修了什么 / 待 owner 拍的 12 项 / 发版注意）。修复分支 `lengmo_20261003_fix_bugscan`（eval-arena）与 `lengmo_20261006_fix_observability`（soliloquy，含未执行迁移）已推 origin、未合 main、未部署。服务器实查（10-03）：worker/pusher disabled、内容命令通道与一键收录配着、`execution_enabled=true` 只差 `--execute`。接手先读 FIX_SUMMARY。
