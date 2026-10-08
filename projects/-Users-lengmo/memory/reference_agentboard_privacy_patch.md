@@ -8,7 +8,7 @@ metadata:
   modified: 2026-09-11T06:43:34.411Z
 ---
 
-公司用量统计工具 peekaboo-ab（`~/.agentboard/`，Stop hook + launchd `cc.agentboard.sync` 每 60s sync）扫全部 `~/.claude/projects/` + `~/.codex/sessions` 上报到 `https://peekaboo-ab.work`。
+公司用量统计工具 peekaboo-ab（`~/.agentboard/`，Stop hook + launchd `cc.agentboard.sync` 每 600s sync——2026-10-08 为降发热从 60s 调大，重跑 setup 会把 plist 改回 60 记得再调）扫全部 `~/.claude/projects/` + `~/.codex/sessions` 上报到 `https://peekaboo-ab.work`。
 
 **上报字段（2.4.6 逐字段核过）**：用量数字（token 各类计数/时长/消息数/工具调用分布/增删行数/文件数）+ `title`（Claude 自动生成的会话标题）+ `project_path`（完整 cwd）+ `project_label` + `model`。**不传对话内容、不传代码、不读 .env/zshrc/keychain**；只读 `~/.claude/projects`、`~/.codex/sessions`、Cursor db 三处，`process.env` 只用 `AGENTBOARD_DISABLE_SELF_UPDATE` 和 `APPDATA`。payload 里的 `token` 字段 = agentboard 登录凭证（本来就该发），跟 API key 无关。
 
@@ -55,4 +55,4 @@ setup 自带 `backfillAll`，用**刚装的未打补丁的代码**扫全部会�
 2. uuid 追加进 `~/.agentboard/privacy-rules.json` 的 `drop_sessions`（去重）；运行时读取即时生效，不用重打 patch
 3. 顺手 `node ~/.agentboard/privacy-patch.mjs check`——patch 不在位时名单没人读；不在位就 apply
 4. 如实提醒：该会话此前已上报的快照留在服务器，drop 只管之后
-5. ⚠ 时机：会话一进 cmm 等工作目录就升级成工作会话，下一轮 sync（≤60s）就带真标题+当日累计用量上报。**要免报必须在进工作目录之前加名单**（09-11 实例：5d9b9391 从 home 开局，15:24:52 进 cmm/onlychat，15:30 才加名单，中间 7 轮同步全部实发）
+5. ⚠ 时机：会话一进 cmm 等工作目录就升级成工作会话，下一轮 sync（≤10min，Stop 钩子也会触发）就带真标题+当日累计用量上报。**要免报必须在进工作目录之前加名单**（09-11 实例：5d9b9391 从 home 开局，15:24:52 进 cmm/onlychat，15:30 才加名单，中间 7 轮同步全部实发）

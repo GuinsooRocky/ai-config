@@ -59,7 +59,7 @@
 - [Bash 超时不杀子进程](reference_bash_timeout_orphans_child.md) — heredoc 起的 python/node 超时后变 PPID=1 孤儿继续空烧（08-15 一个跑飞 32h、swap 43.5G、机器发烫）；`exit 144` ≠ 已死，发烫先查 PPID=1 + swap
 - [长跑要挂 Monitor 报主对话](feedback_long_run_report_to_main_chat.md) — 长跑用 Bash run_in_background 起（nohup & 会认 PID 1 当爹、跑完永不通知）；当场挂 Monitor 报每轮进度并覆盖进程死亡；有守护脚本的绝不外挂
 - [调研必须回写资产](feedback_research_must_writeback.md) — ultracode/调研收尾默认带"已有资产回写清单"；新能力优先长在现有 skill 上；**论文结论别直接改 PRD/协议，先写成带证据强弱的候选、核完项目数据再改**（09-14 改 eval PRD 被判草率全撤）
-- [brew 证书钩子坏](project_brew_ca_certificates_hook_broken.md) — ca-certificates postinstall 本机必失败；SSL FileNotFoundError 直接手动重建 cert.pem（命令在档）；升级 yt-dlp 前先查 sf-reader python 来源
+- [brew 证书钩子坏](project_brew_ca_certificates_hook_broken.md) — brew upgrade 必须开代理 7897（ghcr manifest 直连超时、半截升级坏依赖；走代理一次过）；ca-certificates postinstall 本机必失败；SSL FileNotFoundError 直接手动重建 cert.pem（命令在档）；升级 yt-dlp 前先查 sf-reader python 来源
 - [Chrome 扩展按需开](feedback_chrome_extension_on_demand.md) — 默认不开，要用 `claude --chrome`；绝不主动调浏览器工具；走查不 resize/全屏；截图不是渲染真相；登录交给 owner 后别导航/刷新，等他说「好了」
 - [GROQ key 在 zshrc](feedback_groq_key_in_zshrc.md) — GROQ_API_KEY 只在 ~/.zshrc（交互式）；非交互 Bash 读不到→401（≠网络 000）；从 .zshrc 抠；附小宇宙整档转写坑（524 切块/429 限流/shownote 校准）
 - [agentboard 上报脱敏](reference_agentboard_privacy_patch.md) — peekaboo-ab 2.4.6+privacy-patch v6：config 必须 autoUpdate:false；永远别跑 npx setup（backfill 未脱敏）；「别上报」→ uuid 进 drop_sessions
@@ -79,7 +79,7 @@
 - [跑迁移前查禁跑名单](feedback_check_forbidden_before_batch_migration.md) — 只验技术前置不够；07-27 误跑了被 owner 判死的迁移，装了个每天自动扣点的 cron
 - [commit描述用户影响先行](feedback_commit_desc_user_impact_first.md) — onlychat 老板反馈：改动说明先写用户影响再写实现（首例 50ccf75976）
 - [别自己起 dev app](feedback_no_auto_start_dev_app.md) — 桌面 app 起 dev 抢窗口焦点；验证只做静态(tsc/build/纯逻辑抠出来跑)，要真点的列「待 owner 点」交回去
-- [codex database is locked](reference_codex_sqlite_locked.md) — 真因是有 codex 被 Ctrl+Z 挂起（认 ps STAT=T）；kill -CONT 要配 TERM 或去 tty 里 fg；logs_2.sqlite 63% 是空洞，VACUUM 可回收 1.2G
+- [codex database is locked](reference_codex_sqlite_locked.md) — 真因是有 codex 被 Ctrl+Z 挂起（认 ps STAT=T）；kill -CONT 要配 TERM 或去 tty 里 fg；logs_2 VACUUM + sessions 按 14 天切是周期性瘦身活（10-08 logs_2 只剩 104M，大头在 sessions 与 app-server 旧版本）
 - [git 三坑](feedback_git_pitfalls.md) — 逐路径 add 挡不住 commit（提交的是整个索引，先看 `git diff --cached`）；判在不在某分支禁用 `--contains`（cherry-pick 换 hash）；rebase 全程关钩子 + 时间熔断
 - [照 PRD 写别问 PM](feedback_follow_prd_dont_ask_pm.md) — PRD 写死的照写，别自造改进版也别起草消息找 PM 确认；有疑义写进待决策交回 owner
 - [告警要有读者](feedback_alarm_needs_a_reader.md) — 加兜底前先确认信号被谁读；没 sink 就明说+留空钩子，别装哑铃；dead man's switch 优于失败告警
@@ -103,3 +103,5 @@
 - [待 owner 做的步骤要带直达链接](feedback_owner_steps_need_direct_links.md) — 交给 owner 的网页操作第一次提就贴 URL，别只写菜单路径（10-02 一天被追问两次）
 - [多路并行查修流水线教训](feedback_parallel_subagent_fix_pipeline.md) — 额度/并发20/文件归属/独立审查/子代理写仓内记忆/mac 无 timeout/子代理等测试卡一天
 - [内容政策范围归 owner](feedback_content_policy_scope_is_owner.md) — 安全过滤/词表/分级只修实现 bug，不主动提扩语言、加词、接审核服务（10-06 被顶「模型的事跟你有什么关系」）
+- [pnpm store prune 在 mac 清空全部](reference_pnpm_store_prune_macos.md) — APFS clone 导致 prune 把整个 store 当无引用删光（10-08 踩过）；清缓存别跑它
+- [视觉改动先改再给看](feedback_visual_work_do_then_show.md) — 「怎么更好看/再想想 UI」=直接改完截图交，别先写文字方案等拍板（10-08 画布 demo 被顶）
