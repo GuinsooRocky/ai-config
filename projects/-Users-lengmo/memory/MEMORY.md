@@ -102,6 +102,7 @@
 - [指向旧上下文先翻会话](feedback_read_past_sessions_before_asking.md) — owner 说「告诉过你/细节在 codex」先搜 claude+codex jsonl 再答，别让他重讲（09-30 Google 停用被怼）
 - [待 owner 做的步骤要带直达链接](feedback_owner_steps_need_direct_links.md) — 交给 owner 的网页操作第一次提就贴 URL，别只写菜单路径（10-02 一天被追问两次）
 - [多路并行查修流水线教训](feedback_parallel_subagent_fix_pipeline.md) — 额度/并发20/文件归属/独立审查/子代理写仓内记忆/mac 无 timeout/子代理等测试卡一天
-- [内容政策范围归 owner](feedback_content_policy_scope_is_owner.md) — 安全过滤/词表/分级只修实现 bug，不主动提扩语言、加词、接审核服务（10-06 被顶「模型的事跟你有什么关系」）
+- [内容政策范围归 owner](feedback_content_policy_scope_is_owner.md) — 安全过滤/词表/分级只修实现 bug，不主动提扩语言、加词、接审核服务（10-06）；图片侧默认不拦，AI 评审自提的像素/审核前置只能标待拍不得写成硬规则（10-09 T212 像素检查被判「有病的规定」）
 - [pnpm store prune 在 mac 清空全部](reference_pnpm_store_prune_macos.md) — APFS clone 导致 prune 把整个 store 当无引用删光（10-08 踩过）；清缓存别跑它
 - [视觉改动先改再给看](feedback_visual_work_do_then_show.md) — 「怎么更好看/再想想 UI」=直接改完截图交，别先写文字方案等拍板（10-08 画布 demo 被顶）
+- [iTerm2 高级设置键名要首字母大写](reference_iterm2_advanced_settings_key_case.md) — defaults write 写小写键会被静默忽略（标签字号 09-14 写错一直没生效）；现行配置是行高 60、字号 20
