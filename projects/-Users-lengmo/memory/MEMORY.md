@@ -106,3 +106,4 @@
 - [pnpm store prune 在 mac 清空全部](reference_pnpm_store_prune_macos.md) — APFS clone 导致 prune 把整个 store 当无引用删光（10-08 踩过）；清缓存别跑它
 - [视觉改动先改再给看](feedback_visual_work_do_then_show.md) — 「怎么更好看/再想想 UI」=直接改完截图交，别先写文字方案等拍板（10-08 画布 demo 被顶）
 - [iTerm2 高级设置键名要首字母大写](reference_iterm2_advanced_settings_key_case.md) — defaults write 写小写键会被静默忽略（标签字号 09-14 写错一直没生效）；现行配置是行高 60、字号 20
+- [漫剧测试项目](project_manju_test_lingjing.md) — 灵境行者只当测试不发布（换皮也侵权，owner 10-10 拍板）；流程=三视图→首帧→Seedance 6s→后期配音；可复用资料在 AI课/时空之门
