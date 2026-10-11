@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: feedback
   originSessionId: 1dcd4bc9-e1eb-4db6-b5d6-ba34c583496c
-  modified: 2026-09-23T11:54:53.146Z
+  modified: 2026-10-11T00:10:15.222Z
 ---
 
 Bash 工具的 shell 是用户的 zsh，不是 bash。两个坑今天各踩一次：
@@ -20,6 +20,7 @@ Bash 工具的 shell 是用户的 zsh，不是 bash。两个坑今天各踩一�
 - 会临时改坏代码的脚本开头加 `set -e`。改之前先断言备份在，例如 `for f in ...; do [ -f "$f.bak" ] || exit 1; done`。每步还原后用 `git diff --stat` 核对，确认回到了预期状态。
 - 不要 cd。一律写绝对路径、`git -C <dir>`，或者在 python 里用绝对路径。
 - **以 `=` 开头的裸词会被当成命令路径展开**：`echo ====` / `echo =====` 报 `(eval):1: === not found`，同一行里 `;` 后面的命令也跟着不跑（2026-09-23 onlychat 推荐模型审计踩两次，第二次把后面的 `git diff` 吞了）。分隔线一律加引号：`echo "===="`，或者改用 `echo "-----"`。
+- **测试文件清单塞进变量 = 假绿**：`T=$(git diff --name-only … | tr '\n' ' '); vitest run $T other.test.ts` 在 zsh 里 `$T` 是一个整参数，vitest 当成过滤串匹配不到任何文件，只跑了后面显式写的那些，照样报全绿（2026-10-11 soliloquy 画布：列了 27 个只跑 13 个）。要拆词写 `${=T}`；跑完核「Test Files N」等于预期文件数。
 - **grep 的 `--include=*.ts` 在 zsh 会先被当成 glob 展开**，匹配不到就报 `no matches found`，整条命令不执行。要写成 `--include='*.ts'`。
 
 相关：[[feedback_gates_must_fail_on_purpose]]（闸要验反面）、[[reference_bash_timeout_orphans_child]]

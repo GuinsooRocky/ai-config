@@ -4,6 +4,7 @@
 - [出海项目](project_chuhai_oem_seo.md) — 海外 AI 陪伴站=soliloquy web 端即站；现行真相=soliloquy 仓 docs/growth/SEO-GEO现行策略.md + 09-13 五路调研合成结论；原 OEM 尽调方向已让位
 - [T158图谱记忆验证收官](project_soliloquy_t158_memory_verdict.md) — 图谱不立项；基线68/160；结论/工单/回归跑法 09-10 已迁 Linux 服务器 /home/lab/.local/share/eval-arena/soliloquy-t158（本机没了）；工单三 bug 待 owner 拍
 - [产品优先SEO让路](project_soliloquy_product_over_seo.md) — soliloquy 根路径=产品面市场(客户端/爬虫空壳,owner已认)；⚠「市场」两个所指先确认再动手
+- [soliloquy 10-11 全仓捉虫](project_soliloquy_bugscan_20261011.md) — 结论=soliloquy-bugscan-20261011/FINAL.md；150 条经对抗、P1 18 根因、修复未开始、5 件待 owner 拍；修就在 repo/ worktree 分支 lengmo_20261011_fix_bugscan
 - [独白(soliloquy)项目](project_soliloquy.md) — 个人桌面 AI 陪伴客户端（Tauri+React19+Supabase），~/Desktop/loop_project/soliloquy；已 pivot 成 UGC 角色卡市场；进度去仓里 docs/prd/ 现读别信记忆
 - [soliloquy跑批线机制修复](project_soliloquy_harness_loops.md) — loop/graph 两条 codex 自主跑批线；机制唯一真相=main；B26 现场保留勿动（stash 已固化成 refs/stash-archive/*，别去 stash list 找）；loop worktree 已回收
 - [drama-agent项目](project_drama_agent.md) — 短故事→视频 prompt 制作包 SPA，本机只剩 my-code/drama-agent；付费墙+SEO 落地页已进 main 但一行没部署；真相=docs/2026-07-17-付费墙与SEO-交接.md
@@ -50,7 +51,7 @@
 - [回复一律中文](feedback_reply_in_chinese.md) — 对 owner 的结论、进度播报、工具前说明都用中文；代码/命令/提交信息照原样（09-11 等发版时中英混写被要求「中文回复」）
 - [owner 拍板交互口径](feedback_owner_decision_interaction.md) — 默认不设门带 1 个推荐直接走（只有不可逆/真钱/首曝光才停）；他明说「挨个问」就一次一题；问「哪种最好」是要答案不是要他选；甩截图问好看吗=要我改+同类筛查
 - [实验记录 ≠ 已采用](feedback_memory_experiment_vs_adopted.md) — memory 里"升级/迁移实施记录"默认是本地实验分支；判断技术栈用 lockfile + package.json，不用历史 memory
-- [任务执行节奏](feedback_task_execution_cadence.md) — 对齐方案才动手；自动推进按里程碑汇报；调研/验证按改动规模分级（trivial 轻量路径，大改动 tsc 增量自查）
+- [任务执行节奏](feedback_task_execution_cadence.md) — 对齐方案才动手（大功能先交编号改动清单/PRD 等 owner 划，「多路并行做」不是方案批准，10-11 画布被问「PRD 没写就写完了」）；自动推进按里程碑汇报；调研/验证按改动规模分级
 - [sf-reader 并发](feedback_sf_reader_concurrency.md) — sf-reader-all 批量要串行/低并发(≤2)；12 并发 Playwright 互相饿死全超时；全文在 unified_inbox.json 不在 stdout
 - [写注释的边界](feedback_writing_comments_rules.md) — 简易逻辑/UI 样式/Figma 节点号不加；PRD 章节号可留；只为非直觉 why 才加
 - [每日复盘已废弃](feedback_daily_recap_retired.md) — 08-06 整套 daily-recap 删净；要的是月度「工作模式体检」那种，别再提议重建日报
@@ -73,9 +74,10 @@
 - [生成 prompt 的质量标准](feedback_prompt_generation_quality_bar.md) — 指针：6 条 rubric（角色+硬规则/焊真实上下文/输出契约/内建优先级/可逆护栏/填空位）已实体化进 ~/.claude/skills/write-a-prompt「质量线」节，skill 没 fire 时手动过一遍
 - [找丢的东西先问在哪](feedback_find_lost_things_fast.md) — 「前两天还在」先翻废纸篓+近期会话、描述模糊先问一句在哪看到；搜 jsonl 用 python mmap（本机 grep=ugrep 拒复杂正则、长行带上下文会卡死）
 - [摘要/注释/状态码不是真相](feedback_not_ground_truth.md) — 截断当全量、状态码 200 当真内容、来源清单静默丢，先证完整再下结论（报 X/N）；注释与 PRD 都是 hint，写工单/给 owner 拍板/起草对外消息前必须 grep 垫底
+- [提产品建议先看 main](feedback_check_main_before_product_advice.md) — 叠在未合入分支上干活时，列待拍/提建议前先 `git log origin/main` 看口径变没变（10-11 画布建议保留扣费确认，main 前一天已改额度百分比制被顶）
 - [交付物只写终态](feedback_deliverable_is_final_state_not_process.md) — 复核过程/版本演进不进交付文档；改文件=覆盖清理不是追加；PRD 同理；学习笔记/转写稿也一样（来源工具/切块时间戳/校验方式/待补标注都是过程，09-24 第三次被提）
 - [pages发布走social-proxy](reference_pages_publish_via_social_proxy.md) — 原pages MCP已死；直接用 social-proxy 的 publish_page/share_page（profile=full，不用 curl 绕路），先 preview 后 confirm，wei=徐唯原
-- [公开就是公开](feedback_public_means_public.md) — soliloquy 公开面不按成人分级过滤是 owner 拍板；审查报成 bug 别照修、别再问第二遍
+- [公开面分级口径](feedback_public_means_public.md) — 07-21「公开就是公开」已被 08-10 恢复三档取代（公开面只出全年龄，REDLINES #16）；别当 bug 报、别再问、别拿旧句翻闸
 - [跑迁移前查禁跑名单](feedback_check_forbidden_before_batch_migration.md) — 只验技术前置不够；07-27 误跑了被 owner 判死的迁移，装了个每天自动扣点的 cron
 - [commit描述用户影响先行](feedback_commit_desc_user_impact_first.md) — onlychat 老板反馈：改动说明先写用户影响再写实现（首例 50ccf75976）
 - [别自己起 dev app](feedback_no_auto_start_dev_app.md) — 桌面 app 起 dev 抢窗口焦点；验证只做静态(tsc/build/纯逻辑抠出来跑)，要真点的列「待 owner 点」交回去
@@ -101,7 +103,7 @@
 - [个人项目账号备忘](reference_loop_project_account_notes.md) — 账号/密码/外部服务入口记 ~/Desktop/loop_project/账号备忘/外部服务账号清单.md，别写进仓 docs/ops
 - [指向旧上下文先翻会话](feedback_read_past_sessions_before_asking.md) — owner 说「告诉过你/细节在 codex」先搜 claude+codex jsonl 再答，别让他重讲（09-30 Google 停用被怼）
 - [待 owner 做的步骤要带直达链接](feedback_owner_steps_need_direct_links.md) — 交给 owner 的网页操作第一次提就贴 URL，别只写菜单路径（10-02 一天被追问两次）
-- [多路并行查修流水线教训](feedback_parallel_subagent_fix_pipeline.md) — 额度/并发20/文件归属/独立审查/子代理写仓内记忆/mac 无 timeout/子代理等测试卡一天
+- [多路并行查修流水线教训](feedback_parallel_subagent_fix_pipeline.md) — 额度/并发20/文件归属/独立审查/子代理写仓内记忆/mac 无 timeout/子代理等测试卡一天/共用产物目录被别路清空/额度断了 SendMessage 续/大文件先 1:1 拆接缝再并行
 - [内容政策范围归 owner](feedback_content_policy_scope_is_owner.md) — 安全过滤/词表/分级只修实现 bug，不主动提扩语言、加词、接审核服务（10-06）；图片侧默认不拦，AI 评审自提的像素/审核前置只能标待拍不得写成硬规则（10-09 T212 像素检查被判「有病的规定」）
 - [pnpm store prune 在 mac 清空全部](reference_pnpm_store_prune_macos.md) — APFS clone 导致 prune 把整个 store 当无引用删光（10-08 踩过）；清缓存别跑它
 - [视觉改动先改再给看](feedback_visual_work_do_then_show.md) — 「怎么更好看/再想想 UI」=直接改完截图交，别先写文字方案等拍板（10-08 画布 demo 被顶）
