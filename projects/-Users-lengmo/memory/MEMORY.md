@@ -4,7 +4,8 @@
 - [出海项目](project_chuhai_oem_seo.md) — 海外 AI 陪伴站=soliloquy web 端即站；现行真相=soliloquy 仓 docs/growth/SEO-GEO现行策略.md + 09-13 五路调研合成结论；原 OEM 尽调方向已让位
 - [T158图谱记忆验证收官](project_soliloquy_t158_memory_verdict.md) — 图谱不立项；基线68/160；结论/工单/回归跑法 09-10 已迁 Linux 服务器 /home/lab/.local/share/eval-arena/soliloquy-t158（本机没了）；工单三 bug 待 owner 拍
 - [产品优先SEO让路](project_soliloquy_product_over_seo.md) — soliloquy 根路径=产品面市场(客户端/爬虫空壳,owner已认)；⚠「市场」两个所指先确认再动手
-- [soliloquy 10-11 全仓捉虫](project_soliloquy_bugscan_20261011.md) — 结论=soliloquy-bugscan-20261011/FINAL.md；150 条经对抗、P1 18 根因、修复未开始、5 件待 owner 拍；修就在 repo/ worktree 分支 lengmo_20261011_fix_bugscan
+- [soliloquy 10-11 捉虫 + 10-12 并行修复](project_soliloquy_bugscan_20261011.md) — 真相=soliloquy-bugscan-20261011/FINAL.md §修复回执；已合 main、26 迁移全跑、Server 已发；**Web 未补发**（owner 定留给下次 Web 发布顺带）；eval-arena 合同同步未做
+- [soliloquy 验证机制审查](project_soliloquy_verification_audit.md) — 10-12 审完，真相=仓内 docs/prd/research/2026-10-12-验证机制审查.md（37 条/P0 4/待拍 3）；main CI 自 09-08 无绿、Full 结构上不可能红；Escape 放行修复未提交在 feature 分支
 - [独白(soliloquy)项目](project_soliloquy.md) — 个人桌面 AI 陪伴客户端（Tauri+React19+Supabase），~/Desktop/loop_project/soliloquy；已 pivot 成 UGC 角色卡市场；进度去仓里 docs/prd/ 现读别信记忆
 - [soliloquy跑批线机制修复](project_soliloquy_harness_loops.md) — loop/graph 两条 codex 自主跑批线；机制唯一真相=main；B26 现场保留勿动（stash 已固化成 refs/stash-archive/*，别去 stash list 找）；loop worktree 已回收
 - [drama-agent项目](project_drama_agent.md) — 短故事→视频 prompt 制作包 SPA，本机只剩 my-code/drama-agent；付费墙+SEO 落地页已进 main 但一行没部署；真相=docs/2026-07-17-付费墙与SEO-交接.md
@@ -12,7 +13,7 @@
 - [缺口先自己推演再上报](feedback_think_before_escalating_gaps.md) — 「还没做」≠「不做」，PRD 定过终态的中间态不是缺口；别人提的问题别当把柄反复提；前端依赖找前端别递给 PD
 - [别把别的项目惯例搬过来](feedback_dont_import_other_project_conventions.md) — 干 A 项目只认 A 自己文档写的；文档没写就说没写，别拿 B 项目的模版/人名填空再标「推断」（07-27 crushon-admin 上线把 onlychat 模版+林珉搬过来被顶）
 - [onlychat动态场景卡调研](project_onlychat_dynamic_scene_card_research.md) — 老板派的活（形态/落地/性能/gojelly 四问）；**③性能已完结**，结论在 World-Path/AI短剧-合集.html「性能线上实测」tab，测试床已回收，测法留作模板；其余三问是否推进未核实，接手先问
-- [eval-arena=anna+B端](project_co_model_eval_arena.md) — 触发词 anna/arena对战；owner 说「B端」=它，别听成「客户端」（易混当场问）；施工真相=仓内 docs/prd/；Lab 已迁 VPS、Mac 别起 worker/pusher，接线真相=服务器 README
+- [eval-arena=anna+B端](project_co_model_eval_arena.md) — 触发词 anna/arena对战；owner 说「B端」=它别听成「客户端」；施工真相=仓内 docs/prd/；Lab 已迁 VPS、Mac 别起 worker/pusher；**10-12 第二轮捉虫 FINAL 在 eval-arena-bugscan-20261012/，线上 P0（发件箱 4097>4096）等 owner 说「修」**
 - [crushon-admin上pre流程](project_crushon_admin_pre_deploy.md) — 全文=cmm/onlychat-World-Path/crushon-admin上pre流程.md；速记：cherry-pick 进 release→deploy-argocd（来自=develop）→PR 合到 pre
 - [派工七件事](feedback_delegate_impl_to_opus_subagent.md) — 派工细则（跨项目）：批次先 plan 再派实作；浏览器走查也算执行派 visual-qa；跨仓别用 isolation:worktree；契约两侧要跨仓喂真实字节握手；改线上的点验自己用 chrome 做
 - [要密钥前先自己翻](feedback_find_credentials_before_asking.md) — 缺凭证先穷尽 .env*/可 ssh 机器/已登录浏览器，拿不到再开口且说清"哪把key缺在哪为什么读不到"（07-11 OPENROUTER key 就在 .env.local 却让 owner 补，被无语）
@@ -49,7 +50,7 @@
 - [MK 项目](project_mk.md) — 个人语音输入工具；仓根 .claude/CLAUDE.md=ground truth，技术细节在 docs/；全局只留用户裁决（**拒绝上 LLM 判同音词别再劝**、云端准确率偏好、≤120ms、只维护当前态 doc）
 - [owner 只在后台点](feedback_owner_operates_from_admin_only.md) — 日常与验收只写后台里能点的步骤；要他跑命令的环节做成出事时的后备口子，不进清单（09-11「为啥要跑命令切，我都在后台控制」）
 - [回复一律中文](feedback_reply_in_chinese.md) — 对 owner 的结论、进度播报、工具前说明都用中文；代码/命令/提交信息照原样（09-11 等发版时中英混写被要求「中文回复」）
-- [owner 拍板交互口径](feedback_owner_decision_interaction.md) — 默认不设门带 1 个推荐直接走（只有不可逆/真钱/首曝光才停）；他明说「挨个问」就一次一题；问「哪种最好」是要答案不是要他选；甩截图问好看吗=要我改+同类筛查
+- [owner 拍板交互口径](feedback_owner_decision_interaction.md) — 默认不设门带 1 个推荐直接走（只有不可逆/真钱/首曝光才停）；反讲收口后别再列「拍板/留意」清单（数据边界写兜底、有先例照先例、等字段留 TODO）；他明说「挨个问」就一次一题；问「哪种最好」是要答案不是要他选；甩截图问好看吗=要我改+同类筛查
 - [实验记录 ≠ 已采用](feedback_memory_experiment_vs_adopted.md) — memory 里"升级/迁移实施记录"默认是本地实验分支；判断技术栈用 lockfile + package.json，不用历史 memory
 - [任务执行节奏](feedback_task_execution_cadence.md) — 对齐方案才动手（大功能先交编号改动清单/PRD 等 owner 划，「多路并行做」不是方案批准，10-11 画布被问「PRD 没写就写完了」）；自动推进按里程碑汇报；调研/验证按改动规模分级
 - [sf-reader 并发](feedback_sf_reader_concurrency.md) — sf-reader-all 批量要串行/低并发(≤2)；12 并发 Playwright 互相饿死全超时；全文在 unified_inbox.json 不在 stdout
@@ -87,6 +88,7 @@
 - [告警要有读者](feedback_alarm_needs_a_reader.md) — 加兜底前先确认信号被谁读；没 sink 就明说+留空钩子，别装哑铃；dead man's switch 优于失败告警
 - [闸必须验反面](feedback_gates_must_fail_on_purpose.md) — 闸/检查/告警改动要实跑失败分支，正例绿不算；改旧闸补「旧闸会放行」的用例；没接线的检查不是闸
 - [onlychat 本地环境四坑索引](project_onlychat_env_pitfalls.md) — i18n 必挂(3.12 venv)/静态图裂(inline bg)/共用组件双轴(PC·mobile×dark·light)/tRPC 403(查 http_proxy 7897)；细节全在 World-Path 对应章节
+- [CI 绿=每个 job 都绿](feedback_ci_green_means_every_job.md) — 「main 全绿」判定面是 PR 全量 CI 的全部 job（audit/harness/两套 Playwright/supply-chain），不只 code-gate；e2e 在 main 上可能早烂了，用干净 main worktree 对照定性，根因排查顺序见条目
 - [说做完前先要运行时证据](feedback_done_needs_runtime_before_saying_so.md) — 报「做完/可以合」前对照项目完成定义；静态全绿仍漏部署接线与真调用缺陷（09-11 T252 被问「做完了吗」后真跑挖出 5 处：CI 变量、私有配置位置、dev env 不加载、静默失败、并发上限）
 - [终端验通≠用户那条路径通](feedback_verify_on_users_path_not_terminal.md) — URL Handler/launchd 环境被剥光（PATH/证书/代理三次），跨进程边界查白名单，认代理看 lsof 不看快慢
 - [诊断≠授权清理](feedback_diagnose_dont_kill.md) — 问「为啥烫/卡」只要结论，杀 dev server 前必须问；PPID=1≠跑飞（watchdog 托管就是孤儿相）；动 3000 先读 /tmp/onlychat-dev-3000.json
@@ -96,7 +98,7 @@
 - [zsh 不拆词 + cd 会串](feedback_zsh_word_splitting_and_cd.md) — Bash 工具是 zsh：`for f in $LIST` 只循环一次；cd 会延续到后续调用；`echo ====` 被当命令展开报 not found、`--include=*.ts` 要加引号；临时拆代码做反面验证先断言备份存在
 - [donotdisturbd 跑满=通知中心死循环](reference_donotdisturbd_cpu_spin_notification_center.md) — 发烫见 donotdisturbd 97% 别杀它（会复发）；真因=通知中心对堆积的 osascript 通知死循环，`killall NotificationCenter` 即止；源头是子 agent 钩子攒通知
 - [重构按风险分档](feedback_refactor_risk_tiers.md) — 评审提的结构重复：小改直接改、中等只做 1:1 抽取、大/非 1:1 的不改留 TODO+doc；保障没 bug 优先于对齐（09-14 付费图 F1/F2）
-- [查bug=全量扫+质量](feedback_bug_hunt_means_full_code_scan.md) — owner 说「全项目查 bug 补 test」= 逐文件全量扫（覆盖 X/N）+ 跨进程接缝对账 + 组件共用/代码优化；别拿「更简单形态」缩成热区抽样（09-17 eval-arena 被判「没抓全」）
+- [查bug/审UI=全量逐行扫+审main](feedback_bug_hunt_means_full_code_scan.md) — owner 说「全项目查 bug」「想想有哪些 UI 要优化」= 逐行全量扫（每文件已读行=总行，逐行审 1 万行/片）+ 基线用 origin/main worktree 别审落后本地分支；别拿维度抽样/热区替全量（09-17 eval-arena、10-12 soliloquy UI 审查两次被打回）
 - [geo-audit 项目](project_geo_audit.md) — 给任意站做可复核 GEO 诊断的新项目；仓在 my-code/geo-audit（GitHub private），单一真相=仓内 docs/PRD.md，执行方是 Codex；0号客户=soliloquy
 - [量尺寸等动画落定](feedback_measure_after_animation_settles.md) — 走查量盒模型用 offsetWidth/getComputedStyle，getBoundingClientRect 在 transform 动画中会等比骗人；"数值等比偏小"=先查 transform
 - [不预先打备份包](feedback_no_preemptive_backup.md) — 改代码前别自作主张 tar/拷贝工作区当保险，owner 说不需要；可逆性靠 git + mv ~/.Trash
@@ -109,3 +111,4 @@
 - [视觉改动先改再给看](feedback_visual_work_do_then_show.md) — 「怎么更好看/再想想 UI」=直接改完截图交，别先写文字方案等拍板（10-08 画布 demo 被顶）
 - [iTerm2 高级设置键名要首字母大写](reference_iterm2_advanced_settings_key_case.md) — defaults write 写小写键会被静默忽略（标签字号 09-14 写错一直没生效）；现行配置是行高 60、字号 20
 - [漫剧测试项目](project_manju_test_lingjing.md) — 灵境行者只当测试不发布（换皮也侵权，owner 10-10 拍板）；流程=三视图→首帧→Seedance 6s→后期配音；可复用资料在 AI课/时空之门
+- [GitHub 要开 Clash](reference_github_needs_clash_proxy.md) — 7897 没监听时 git push/fetch 直连被 reset、soliloquy 发版 ssh 也走它；先查 lsof 再让 owner 开，别自己改网络

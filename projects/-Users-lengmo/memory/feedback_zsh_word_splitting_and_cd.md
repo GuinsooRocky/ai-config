@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: feedback
   originSessionId: 1dcd4bc9-e1eb-4db6-b5d6-ba34c583496c
-  modified: 2026-10-11T00:10:15.222Z
+  modified: 2026-10-12T07:49:45.104Z
 ---
 
 Bash 工具的 shell 是用户的 zsh，不是 bash。两个坑今天各踩一次：
@@ -22,5 +22,7 @@ Bash 工具的 shell 是用户的 zsh，不是 bash。两个坑今天各踩一�
 - **以 `=` 开头的裸词会被当成命令路径展开**：`echo ====` / `echo =====` 报 `(eval):1: === not found`，同一行里 `;` 后面的命令也跟着不跑（2026-09-23 onlychat 推荐模型审计踩两次，第二次把后面的 `git diff` 吞了）。分隔线一律加引号：`echo "===="`，或者改用 `echo "-----"`。
 - **测试文件清单塞进变量 = 假绿**：`T=$(git diff --name-only … | tr '\n' ' '); vitest run $T other.test.ts` 在 zsh 里 `$T` 是一个整参数，vitest 当成过滤串匹配不到任何文件，只跑了后面显式写的那些，照样报全绿（2026-10-11 soliloquy 画布：列了 27 个只跑 13 个）。要拆词写 `${=T}`；跑完核「Test Files N」等于预期文件数。
 - **grep 的 `--include=*.ts` 在 zsh 会先被当成 glob 展开**，匹配不到就报 `no matches found`，整条命令不执行。要写成 `--include='*.ts'`。
+- **管道吃掉退出码 = 假 PUSH_OK**：`git fetch 2>&1 | tail -1 && git push … | tail -1 && echo PUSH_OK` 里每段的退出码都是 `tail` 的 0，fetch/push 全部 `Connection reset by peer` 照样打印 PUSH_OK（2026-10-12 soliloquy SEO 整改推送，差点把「已推上 main」写进汇报）。网络类 git 命令不接管道：`if git fetch origin > /tmp/x.log 2>&1; then …`，最后再 `git merge-base --is-ancestor HEAD origin/main` 验真。
+- **BSD sed 不认 `\?`**：`sed 's/<\/\?loc>//g'` 在 macOS 上一字不剥，下游 `comm` 交集直接变 0（同日把 /discover 与 sitemap 交集误报成 0/23，真值 9/23）。要用 `sed -E 's#</?loc>##g'`，并对中间文件 `head` 一眼。
 
 相关：[[feedback_gates_must_fail_on_purpose]]（闸要验反面）、[[reference_bash_timeout_orphans_child]]
