@@ -62,7 +62,7 @@
 - [长跑要挂 Monitor 报主对话](feedback_long_run_report_to_main_chat.md) — 长跑用 Bash run_in_background 起（nohup & 会认 PID 1 当爹、跑完永不通知）；当场挂 Monitor 报每轮进度并覆盖进程死亡；有守护脚本的绝不外挂
 - [调研必须回写资产](feedback_research_must_writeback.md) — ultracode/调研收尾默认带"已有资产回写清单"；新能力优先长在现有 skill 上；**论文结论别直接改 PRD/协议，先写成带证据强弱的候选、核完项目数据再改**（09-14 改 eval PRD 被判草率全撤）
 - [brew 证书钩子坏](project_brew_ca_certificates_hook_broken.md) — brew upgrade 必须开代理 7897（ghcr manifest 直连超时、半截升级坏依赖；走代理一次过）；ca-certificates postinstall 本机必失败；SSL FileNotFoundError 直接手动重建 cert.pem（命令在档）；升级 yt-dlp 前先查 sf-reader python 来源
-- [Chrome 扩展按需开](feedback_chrome_extension_on_demand.md) — 默认不开，要用 `claude --chrome`；绝不主动调浏览器工具；走查不 resize/全屏；截图不是渲染真相；登录交给 owner 后别导航/刷新，等他说「好了」
+- [Chrome 扩展按需开](feedback_chrome_extension_on_demand.md) — 默认不开，要用 `claude --chrome`；绝不主动调浏览器工具；走查不 resize/全屏；截图不是渲染真相；登录交给 owner 后别导航/刷新，等他说「好了」；**走查前记下会被动到的服务端状态、走完核对还原**（选即保存的控件误触会写库）
 - [GROQ key 在 zshrc](feedback_groq_key_in_zshrc.md) — GROQ_API_KEY 只在 ~/.zshrc（交互式）；非交互 Bash 读不到→401（≠网络 000）；从 .zshrc 抠；附小宇宙整档转写坑（524 切块/429 限流/shownote 校准）
 - [agentboard 上报脱敏](reference_agentboard_privacy_patch.md) — peekaboo-ab 2.4.6+privacy-patch v6：config 必须 autoUpdate:false；永远别跑 npx setup（backfill 未脱敏）；「别上报」→ uuid 进 drop_sessions
 - [onlychat CDN 批量种图](reference_onlychat_cdn_batch_upload.md) — 拿一批图的 CDN fileURL 的 console 签名直传技法；全文在 onlychat-World-Path/CDN批量种图-console技法.md，memory 只留指针
@@ -71,7 +71,7 @@
 - [HTML 预览原地 reload](feedback_browser_preview_reload_in_place.md) — 刷新本地 HTML 预览用 reload 当前标签，绝不 close+reopen（会甩回顶部丢滚动位置）
 - [复制内容按长短分流](feedback_copy_content_delivery.md) — 短文案对话内纯文本(不上表格/#/**)；长内容(文档/报告/全量返回)写 scratchpad 文件报路径；session 关闭自动清理
 - [Obsidian vault=archives](reference_obsidian_vault_archives.md) — 07-12 装机落地，vault 直挂 ~/Desktop/archives 零迁移；只做回看层写入侧不变；砍掉 MCP/PARA/日记插件；CLI 叫 obsidian 不叫 obsidian-cli
-- [~/.claude 是私有 git 仓库](project_claude_config_git.md) — ~/.claude 是 GuinsooRocky/ai-config 直接 checkout；Desktop/cc-memory/ai-config 是中立副本，codex 插件从它装（发布链见条目）；memory 每日自动 commit
+- [~/.claude 是私有 git 仓库](project_claude_config_git.md) — ~/.claude 是 GuinsooRocky/ai-config 直接 checkout；Desktop/cc-memory/ai-config 是中立副本，codex 插件从它装（发布链见条目；发布跑 `scripts/prepare-update.sh patch`）；memory 每日自动 commit
 - [生成 prompt 的质量标准](feedback_prompt_generation_quality_bar.md) — 指针：6 条 rubric（角色+硬规则/焊真实上下文/输出契约/内建优先级/可逆护栏/填空位）已实体化进 ~/.claude/skills/write-a-prompt「质量线」节，skill 没 fire 时手动过一遍
 - [找丢的东西先问在哪](feedback_find_lost_things_fast.md) — 「前两天还在」先翻废纸篓+近期会话、描述模糊先问一句在哪看到；搜 jsonl 用 python mmap（本机 grep=ugrep 拒复杂正则、长行带上下文会卡死）
 - [摘要/注释/状态码不是真相](feedback_not_ground_truth.md) — 截断当全量、状态码 200 当真内容、来源清单静默丢，先证完整再下结论（报 X/N）；注释与 PRD 都是 hint，写工单/给 owner 拍板/起草对外消息前必须 grep 垫底
@@ -86,13 +86,14 @@
 - [git 三坑](feedback_git_pitfalls.md) — 逐路径 add 挡不住 commit（提交的是整个索引，先看 `git diff --cached`）；判在不在某分支禁用 `--contains`（cherry-pick 换 hash）；rebase 全程关钩子 + 时间熔断
 - [照 PRD 写别问 PM](feedback_follow_prd_dont_ask_pm.md) — PRD 写死的照写，别自造改进版也别起草消息找 PM 确认；有疑义写进待决策交回 owner
 - [告警要有读者](feedback_alarm_needs_a_reader.md) — 加兜底前先确认信号被谁读；没 sink 就明说+留空钩子，别装哑铃；dead man's switch 优于失败告警
-- [闸必须验反面](feedback_gates_must_fail_on_purpose.md) — 闸/检查/告警改动要实跑失败分支，正例绿不算；改旧闸补「旧闸会放行」的用例；没接线的检查不是闸
+- [闸必须验反面](feedback_gates_must_fail_on_purpose.md) — 闸/检查/告警改动要实跑失败分支，正例绿不算；改旧闸补「旧闸会放行」的用例；没接线的检查不是闸；反面验证脚本要单用例、子进程限时、finally 从仓外备份还原
 - [onlychat 本地环境四坑索引](project_onlychat_env_pitfalls.md) — i18n 必挂(3.12 venv)/静态图裂(inline bg)/共用组件双轴(PC·mobile×dark·light)/tRPC 403(查 http_proxy 7897)；细节全在 World-Path 对应章节
 - [CI 绿=每个 job 都绿](feedback_ci_green_means_every_job.md) — 「main 全绿」判定面是 PR 全量 CI 的全部 job（audit/harness/两套 Playwright/supply-chain），不只 code-gate；e2e 在 main 上可能早烂了，用干净 main worktree 对照定性，根因排查顺序见条目
 - [说做完前先要运行时证据](feedback_done_needs_runtime_before_saying_so.md) — 报「做完/可以合」前对照项目完成定义；静态全绿仍漏部署接线与真调用缺陷（09-11 T252 被问「做完了吗」后真跑挖出 5 处：CI 变量、私有配置位置、dev env 不加载、静默失败、并发上限）
 - [终端验通≠用户那条路径通](feedback_verify_on_users_path_not_terminal.md) — URL Handler/launchd 环境被剥光（PATH/证书/代理三次），跨进程边界查白名单，认代理看 lsof 不看快慢
 - [诊断≠授权清理](feedback_diagnose_dont_kill.md) — 问「为啥烫/卡」只要结论，杀 dev server 前必须问；PPID=1≠跑飞（watchdog 托管就是孤儿相）；动 3000 先读 /tmp/onlychat-dev-3000.json
 - [飞书文档格式会丢](reference_feishu_doc_formatting_lost.md) — get_document 读不到删除线/黄底；判 PRD 要求前先用 list_docx_blocks include_payload 扫一遍
+- [甩 Figma 先查需求归属](feedback_check_requirement_owner_before_figma_impl.md) — onlychat 甩设计稿说 Implement，先查排期表这条需求开发是不是 owner；是别人的（10-13 GIF 标签=傅晓杰）不写代码，改为核稿里有没有画到他自己的需求
 - [Figma 待拍先查 rules](feedback_figma_decisions_check_rules_first.md) — 列待拍前先查项目 rules 已定口径（文案跟 PRD / 颜色跟 Figma / 相邻多帧=多态非备选）；09-03 三条全是已定案被顶
 - [验UI可见性用截图非坐标](feedback_ui_visibility_screenshot_not_coords.md) — 判元素露没露全/被切用截图当裁判，别信自算 getBoundingClientRect（09-03 pricing 修复据错误坐标报「没生效」被顶，一截图 Imperial 明明全露）；build hash 已对上时别用测量推翻「已部署」
 - [zsh 不拆词 + cd 会串](feedback_zsh_word_splitting_and_cd.md) — Bash 工具是 zsh：`for f in $LIST` 只循环一次；cd 会延续到后续调用；`echo ====` 被当命令展开报 not found、`--include=*.ts` 要加引号；临时拆代码做反面验证先断言备份存在
@@ -111,4 +112,5 @@
 - [视觉改动先改再给看](feedback_visual_work_do_then_show.md) — 「怎么更好看/再想想 UI」=直接改完截图交，别先写文字方案等拍板（10-08 画布 demo 被顶）
 - [iTerm2 高级设置键名要首字母大写](reference_iterm2_advanced_settings_key_case.md) — defaults write 写小写键会被静默忽略（标签字号 09-14 写错一直没生效）；现行配置是行高 60、字号 20
 - [漫剧测试项目](project_manju_test_lingjing.md) — 灵境行者只当测试不发布（换皮也侵权，owner 10-10 拍板）；流程=三视图→首帧→Seedance 6s→后期配音；可复用资料在 AI课/时空之门
-- [GitHub 要开 Clash](reference_github_needs_clash_proxy.md) — 7897 没监听时 git push/fetch 直连被 reset、soliloquy 发版 ssh 也走它；先查 lsof 再让 owner 开，别自己改网络
+- [GitHub 要开 Clash](reference_github_needs_clash_proxy.md) — 7897 没监听时 git push/fetch 直连被 reset、soliloquy 发版 ssh 也走它；先查 lsof 再让 owner 开，别自己改网络；开着 git 仍卡就加 `-c http.proxy=http://127.0.0.1:7897`
+- [静态全绿直接合不等亲点](feedback_merge_without_owner_clickthrough.md) — soliloquy 大批修复闸绿+独立审查过就自己合 main，亲点清单只作发版走查依据不当合并门（10-13 PR #17「直接合吧我并没有想看」）

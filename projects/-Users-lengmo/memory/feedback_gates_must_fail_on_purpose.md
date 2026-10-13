@@ -20,3 +20,9 @@ metadata:
 - 闸写完先问一句：它接进 CI / timer 了吗？没接线的检查不是闸。
 - 别为了让它绿去放宽断言（RPO/RTO、关 `--exit-on-error`、跳过必查表都算洗绿），
   差距如实报出来。参见 [[feedback-alarm-needs-a-reader]]。
+
+## 反面验证脚本的卫生（2026-10-13）
+
+临时改坏源码跑测试时，子进程（vitest）卡住被 Bash 超时打断，源码停在了改坏的状态、`.mutbak` 留在仓里，后来还是靠手动比对还原的。
+
+**How to apply:** 每个用例单独起一次脚本；子进程设 `timeout`（或 `perl -e 'alarm N; exec …'`）；还原放进 `finally`，从仓外（scratchpad）的备份拷回而不是 move 仓内备份；跑完 `find src -name '*.mutbak'` 和源码哈希双重确认，再查有没有残留的测试进程。
