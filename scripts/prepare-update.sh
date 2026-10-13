@@ -27,12 +27,9 @@ if printf '%s\n' "$changed_files" | grep -Eq \
   CONTINUITY_CLAUDE_SOURCE="$repo_root" \
     "$repo_root/codex/scripts/rebuild-codex-plugin.sh"
 elif printf '%s\n' "$changed_files" | grep -q '^codex/plugins/claude-continuity/'; then
-  cachebuster_helper="$HOME/.codex/skills/.system/plugin-creator/scripts/update_plugin_cachebuster.py"
-  if [[ ! -f "$cachebuster_helper" ]]; then
-    echo "Codex plugin cachebuster helper not found: $cachebuster_helper" >&2
-    exit 1
-  fi
-  python3 "$cachebuster_helper" "$repo_root/codex/plugins/claude-continuity"
+  # Same inline cachebuster as rebuild-codex-plugin.sh (codex 0.162 dropped the helper).
+  perl -pi -e 's/("version":\s*"[^"+]+)(\+codex\.\d+)?"/$1+codex.'"$(date -u +%Y%m%d%H%M%S)"'"/' \
+    "$repo_root/codex/plugins/claude-continuity/.codex-plugin/plugin.json"
 fi
 
 "$repo_root/scripts/bump-version.sh" "$part"

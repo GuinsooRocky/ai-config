@@ -9,7 +9,7 @@ metadata:
 
 关键事实：main CI 自 09-08 无绿；09-09 起 Actions 账单停摆，10-01～10-09 恢复期 42 次全红无人读；Engineering Full 每天 12/12 unavailable 结构上不可能红；生产发布脚本不引用任何验证裁决。
 
-未收尾：主仓 feature 分支上有一份未提交的 3+10 行修复（perfArtifactPrivacy 放行采集器自按 Escape 键），修后 perf:web completed 0→324 但仍 partial（28 样本缺 INP，V-17）。
+10-13 三条待拍已按推荐执行并合入 main（PR #15，merge 78264b236）：Full 停定时、deploy-edge 退役（仓库变量已删）、reply+capacity 四场景 disabled、Escape 放行修复一并合入。仍开着的坑：perf:web 仍 partial（28 样本缺 INP，V-17）；审查文档 V-05～V-23 其余 P1 未动。
 
 **Why:** owner 当时记得「有个比架构高一层的框架放在 CI 上」，回查发现它半年空跑；三条待拍 owner 还没拍。
 **How to apply:** 再碰 soliloquy CI / 性能采集 / Engineering Full 时先读那份文档，别重审；待拍没拍前别动 cron 和目录。相关 [[soliloquy-harness-loops]]。

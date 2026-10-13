@@ -5,7 +5,7 @@
 - [T158图谱记忆验证收官](project_soliloquy_t158_memory_verdict.md) — 图谱不立项；基线68/160；结论/工单/回归跑法 09-10 已迁 Linux 服务器 /home/lab/.local/share/eval-arena/soliloquy-t158（本机没了）；工单三 bug 待 owner 拍
 - [产品优先SEO让路](project_soliloquy_product_over_seo.md) — soliloquy 根路径=产品面市场(客户端/爬虫空壳,owner已认)；⚠「市场」两个所指先确认再动手
 - [soliloquy 10-11 捉虫 + 10-12 并行修复](project_soliloquy_bugscan_20261011.md) — 真相=soliloquy-bugscan-20261011/FINAL.md §修复回执；已合 main、26 迁移全跑、Server 已发；**Web 未补发**（owner 定留给下次 Web 发布顺带）；eval-arena 合同同步未做
-- [soliloquy 验证机制审查](project_soliloquy_verification_audit.md) — 10-12 审完，真相=仓内 docs/prd/research/2026-10-12-验证机制审查.md（37 条/P0 4/待拍 3）；main CI 自 09-08 无绿、Full 结构上不可能红；Escape 放行修复未提交在 feature 分支
+- [soliloquy 验证机制审查](project_soliloquy_verification_audit.md) — 10-12 审完，真相=仓内 docs/prd/research/2026-10-12-验证机制审查.md（37 条/P0 4/待拍 3）；三条待拍 10-13 已合 main（PR #15）；main CI 自 09-08 无绿；剩 V-05～V-23 P1 未动、perf:web 仍 partial
 - [独白(soliloquy)项目](project_soliloquy.md) — 个人桌面 AI 陪伴客户端（Tauri+React19+Supabase），~/Desktop/loop_project/soliloquy；已 pivot 成 UGC 角色卡市场；进度去仓里 docs/prd/ 现读别信记忆
 - [soliloquy跑批线机制修复](project_soliloquy_harness_loops.md) — loop/graph 两条 codex 自主跑批线；机制唯一真相=main；B26 现场保留勿动（stash 已固化成 refs/stash-archive/*，别去 stash list 找）；loop worktree 已回收
 - [drama-agent项目](project_drama_agent.md) — 短故事→视频 prompt 制作包 SPA，本机只剩 my-code/drama-agent；付费墙+SEO 落地页已进 main 但一行没部署；真相=docs/2026-07-17-付费墙与SEO-交接.md
@@ -13,7 +13,7 @@
 - [缺口先自己推演再上报](feedback_think_before_escalating_gaps.md) — 「还没做」≠「不做」，PRD 定过终态的中间态不是缺口；别人提的问题别当把柄反复提；前端依赖找前端别递给 PD
 - [别把别的项目惯例搬过来](feedback_dont_import_other_project_conventions.md) — 干 A 项目只认 A 自己文档写的；文档没写就说没写，别拿 B 项目的模版/人名填空再标「推断」（07-27 crushon-admin 上线把 onlychat 模版+林珉搬过来被顶）
 - [onlychat动态场景卡调研](project_onlychat_dynamic_scene_card_research.md) — 老板派的活（形态/落地/性能/gojelly 四问）；**③性能已完结**，结论在 World-Path/AI短剧-合集.html「性能线上实测」tab，测试床已回收，测法留作模板；其余三问是否推进未核实，接手先问
-- [eval-arena=anna+B端](project_co_model_eval_arena.md) — 触发词 anna/arena对战；owner 说「B端」=它别听成「客户端」；施工真相=仓内 docs/prd/；Lab 已迁 VPS、Mac 别起 worker/pusher；**10-12 第二轮捉虫 FINAL 在 eval-arena-bugscan-20261012/，线上 P0（发件箱 4097>4096）等 owner 说「修」**
+- [eval-arena=anna+B端](project_co_model_eval_arena.md) — 触发词 anna/arena对战；owner 说「B端」=它别听成「客户端」；施工真相=仓内 docs/prd/；Lab 已迁 VPS、Mac 别起 worker/pusher；**10-13：第二轮捉虫 61 条已全修并合 main（721175d），线上两层 P0 已止血自愈；未发版，手顺 bugscan-20261012/fix/RELEASE_HANDBOOK.md（含不可逆 D1 迁移）**
 - [crushon-admin上pre流程](project_crushon_admin_pre_deploy.md) — 全文=cmm/onlychat-World-Path/crushon-admin上pre流程.md；速记：cherry-pick 进 release→deploy-argocd（来自=develop）→PR 合到 pre
 - [派工七件事](feedback_delegate_impl_to_opus_subagent.md) — 派工细则（跨项目）：批次先 plan 再派实作；浏览器走查也算执行派 visual-qa；跨仓别用 isolation:worktree；契约两侧要跨仓喂真实字节握手；改线上的点验自己用 chrome 做
 - [要密钥前先自己翻](feedback_find_credentials_before_asking.md) — 缺凭证先穷尽 .env*/可 ssh 机器/已登录浏览器，拿不到再开口且说清"哪把key缺在哪为什么读不到"（07-11 OPENROUTER key 就在 .env.local 却让 owner 补，被无语）

@@ -33,6 +33,11 @@ metadata:
 131 条 finding 的结论在 `~/Desktop/loop_project/eval-arena-bugscan-20261002/FINAL.md`，修复收口在同目录 `fix/FIX_SUMMARY.md`（修了什么 / 待 owner 拍的 12 项 / 发版注意）。修复分支 `lengmo_20261003_fix_bugscan`（eval-arena）与 `lengmo_20261006_fix_observability`（soliloquy，含未执行迁移）已推 origin、未合 main、未部署。服务器实查（10-03）：worker/pusher disabled、内容命令通道与一键收录配着、`execution_enabled=true` 只差 `--execute`。接手先读 FIX_SUMMARY。
 - **合同同步 SOP（10-12 实跑）**：干净 worktree 基于远端 main → `python3 scripts/sync_soliloquy_contracts.py --soliloquy-root <产品仓 main>` → `.venv/bin/python scripts/check_soliloquy_contract_drift.py` + `unittest -p test_soliloquy*` + `apps/ops pnpm check` + `apps/admin tsc/test/build` → 推 main，CI 自动发服务器与 Cloudflare（本机 GitHub 要开 7897 代理）；worktree 里把主仓 `.venv` 软链进来，tests 会按相对路径找 `.venv/bin/python`。
 
-## 2026-10-12 第二轮全量查 bug（只查不修）
+## 2026-10-12 第二轮全量查 bug + 10-13 修复（owner 全权委托「你觉得对的就修」）
 
-结论=`~/Desktop/loop_project/eval-arena-bugscan-20261012/FINAL.md`（61 条：P0 1 / P1 2 / P2 34 含 4 已修 / 潜伏 22；基线 main 9707439≈线上，main 后前进到 683f3f5 只改契约镜像）。**P0 正在线上发生**：域命令发件箱 `lab-control/control-plane-domain-commands/state.json` 的 lease_attempts 4097 条 > 4096 硬上限（`control_plane_domain_commands.py:671`），09-19 21:43 UTC 起内容命令通道每分钟失败、六域投影停更、后台命令建不出来；14321c2 救不了存量账本。止血=lab 身份手工截尾到最后 8 条（保末条 pending、不换 worker_ref、备份别硬链接），**等 owner 一句「修」**；代码修=`_load` 内存截尾+回归测试。哨兵 09-02 起 40 天零成功 pass。上一轮 PR #3 仍未合且与 main 冲突，130 条已知仍在线上。ssh 直连 `ssh -o ProxyCommand=none -p 22222 root@167.179.78.237`（Clash 没开时）。
+结论=`~/Desktop/loop_project/eval-arena-bugscan-20261012/FINAL.md`（61 条），修复回执=同目录 `fix/FIX_SUMMARY.md`，发版手顺=`fix/RELEASE_HANDBOOK.md`，过程账=`STATUS.md`。
+- **线上两层 P0 已手工止血并自愈**（10-12 17:09 截尾域命令发件箱 lease_attempts 4097→8；18:05 置空投影账本 records 走 sequence-stale 自愈，18:10 proj_age=0）。根因：①`control_plane_domain_commands.py:671` 4096 硬上限、写入侧 model_copy 不校验；②d49233f 给 `DomainProjectionV1` 加必填 total_count/truncated 无存量迁移。备份在服务器 `manual-backups/20261013-*`。
+- **main 已含全部修复**：PR #4 合并提交 721175d（= PR #3 的 130 条 + 本轮 9 路，每路独立审查实跑红→绿）；release_check 14/14 绿。**未发版**：带 D1 迁移 0047/0048/0049（不可逆），接收器拒自动发布；本机 wrangler 登录已过期，迁移要在服务器以 lab 身份用 release-wrangler.toml 跑；发版走「先 ff 服务器仓再走接收器同 SHA 分支，空闲时重启 tasks」，全在 RELEASE_HANDBOOK。owner 不拍板，由我裁决今晚不发（线上已自愈、凌晨手工迁移风险>收益）。
+- 生产可见变化（发版后）：默认每日额度 215→190、/app 退出登录、失败命令重发回真实状态、手工入库 CLI --occurred-at 必填。
+- ssh 服务器：Clash 没开时 `ssh -o ProxyCommand=none -p 22222 root@167.179.78.237`；只读诊断用 lab 身份跑仓内 store API（手顺在 fix/reports/R1.md）。
+- 教训：严格 pydantic 模型加必填字段/上限而不测「存量账本读回」= 本轮两起 P0 同形（14321c2、d49233f 的测试都只从空账本起步）；全仓同形排查已做（仅此 1 处落盘）。

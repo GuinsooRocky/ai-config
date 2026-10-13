@@ -9,7 +9,8 @@
 边缘缓存，200 返回**另一篇不相干文章**的 HTML，不报错。两条都做：
 1. 加破缓存参数 + 浏览器 UA：
    `curl -sL -H "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/131.0 Safari/537.36" "<url>?cb=1"`
-2. 抓回来后核对 **`og:url` 含目标 slug 且 `<title>`/h1 与目标语义一致**，全过才能动笔；
+2. 抓回来后核对 **`<link rel="canonical">` 含目标 slug 且 `<title>`/`og:title`/h1 与目标语义一致**，全过才能动笔
+   （anthropic.com 2026-09 起不再输出 `og:url`，别拿它当判据；claude.com/blog 仍有 `og:url`，有就一并核）；
    核不过=拿到错页，换新 cb 值（加 `-H "Cache-Control: no-cache"`）重抓到过为止。
    ⚠ 别用 `data-wf-item-slug` 当判据——相关文章卡片里也有它，实测假阳。
    ⚠ fetch、核对、剥正文要在**同一次 bash 调用**里完成——实测落盘文件跨调用会被

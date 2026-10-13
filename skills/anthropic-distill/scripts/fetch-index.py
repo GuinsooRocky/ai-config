@@ -6,7 +6,7 @@
 sitemap 没有标题，所以再抓三个板块索引页把首屏能拿到的标题/发布日期合并进来；
 拿不到标题的条目 title 为空，蒸馏子 agent 读原文时自己补。
 
-第二个源是 claude.com/sitemap.xml 的 /blog/ 段（section="blog"）——工程实践类文章
+第二个源是 claude.com/sitemap.xml 的 /resources/articles/ 段（section="blog"，原 /blog/，2026-10 整体迁移、旧链接 308 过去）——工程实践类文章
 搬去了那个域，anthropic.com 的 sitemap 里一条都没有。它的索引页是 Webflow 渲染，
 抓不到标题，所以 blog 条目 title 一律为空，照样由蒸馏子 agent 读原文补。
 
@@ -55,11 +55,11 @@ def parse_sitemap(xml):
 
 
 def parse_claude_blog_sitemap(xml):
-    """claude.com 的 /blog/ 段：(slug, lastmod)。它的 lastmod 是完整 ISO 时间戳
+    """claude.com 的 /resources/articles/ 段（原 /blog/）：(slug, lastmod)。迁移后 lastmod 整段消失（可选组，缺了为空串、排序沉底）；有时是完整 ISO 时间戳
     （2026-08-24T...），正则只吃前面的日期部分，跟 anthropic.com 那边对齐成同一种排序键。
-    路径卡死 /blog/ 开头，顺带把 /ko/blog/ 这类本地化副本挡在外面。"""
+    路径卡死 /resources/articles/ 开头，顺带把 /ko/resources/ 这类本地化副本挡在外面。"""
     return re.findall(
-        r"<loc>%s/blog/([a-z0-9\-]+)</loc>\s*<lastmod>(\d{4}-\d{2}-\d{2})" % CLAUDE_BASE,
+        r"<loc>%s/resources/articles/([a-z0-9\-]+)</loc>\s*(?:<lastmod>(\d{4}-\d{2}-\d{2}))?" % CLAUDE_BASE,
         xml,
     )
 
@@ -154,7 +154,7 @@ def collect():
                 "title": "",
                 "date": "",
                 "sort_key": lastmod,
-                "url": f"{CLAUDE_BASE}/blog/{slug}",
+                "url": f"{CLAUDE_BASE}/resources/articles/{slug}",
             }
         )
     return articles

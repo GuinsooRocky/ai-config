@@ -87,12 +87,10 @@ for generated_path in assets hooks; do
   fi
 done
 
-cachebuster_helper="$HOME/.codex/skills/.system/plugin-creator/scripts/update_plugin_cachebuster.py"
-if [[ ! -f "$cachebuster_helper" ]]; then
-  echo "Codex plugin cachebuster helper not found: $cachebuster_helper" >&2
-  exit 1
-fi
-python3 "$cachebuster_helper" "$plugin_root"
+# codex 0.162 removed plugin-creator's update_plugin_cachebuster.py; it only
+# rewrote the "+codex.<UTC timestamp>" version suffix, so do that inline.
+perl -pi -e 's/("version":\s*"[^"+]+)(\+codex\.\d+)?"/$1+codex.'"$(date -u +%Y%m%d%H%M%S)"'"/' \
+  "$plugin_root/.codex-plugin/plugin.json"
 
 "$repo_root/scripts/verify-no-secrets.sh"
 CONTINUITY_PROFILE="$profile_name" ruby "$repo_root/scripts/verify-codex-profile.rb" "$plugin_root"
