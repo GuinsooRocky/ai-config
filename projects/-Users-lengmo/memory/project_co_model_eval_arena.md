@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: e880b644-17ae-42a9-a888-888faeef5f3c
-  modified: 2026-09-21T09:00:00.000Z
+  modified: 2026-10-14T18:16:55.795Z
 ---
 
 **owner 叫它 anna**。触发词：「anna」「arena 对战」「给竞品聊天打分」「跟 soliloquy 对战」。路径 `~/Desktop/loop_project/eval-arena`（git 仓，来源痕迹已抹、别写回去）。三阶段成对对战：Phase1 对话生成（玩家模型代打 或 replay 回放）→ Phase2 盲判（15 子维度、位置对调）→ Phase3 BT 排名。细节地图=仓内 CLAUDE.md。
@@ -37,6 +37,8 @@ metadata:
 
 结论=`~/Desktop/loop_project/eval-arena-bugscan-20261012/FINAL.md`（61 条），修复回执=同目录 `fix/FIX_SUMMARY.md`，发版手顺=`fix/RELEASE_HANDBOOK.md`，过程账=`STATUS.md`。
 - **线上两层 P0 已手工止血并自愈**（10-12 17:09 截尾域命令发件箱 lease_attempts 4097→8；18:05 置空投影账本 records 走 sequence-stale 自愈，18:10 proj_age=0）。根因：①`control_plane_domain_commands.py:671` 4096 硬上限、写入侧 model_copy 不校验；②d49233f 给 `DomainProjectionV1` 加必填 total_count/truncated 无存量迁移。备份在服务器 `manual-backups/20261013-*`。
+- **10-15 已发版**：服务器 47515ff，D1 迁移到 0049，执行器 1.0.35（回执 `receiver-47515ff/recovery-receipt.json` status=ready；systemd 里 `lab-manual-release-47515ff` 显示 failed 是第一次尝试的残留，别当发版失败）。下面「未发版」是 10-13 的旧快照。
+- 服务器只有 1 核 / 1.6G 内存；相册入册约 24 分钟一个 OC（10-15 实测），整轮 354 个 OC 约 6 天；每日解锁和相册更新共用一个浏览器通道、排队跑。
 - **main 已含全部修复**：PR #4 合并提交 721175d（= PR #3 的 130 条 + 本轮 9 路，每路独立审查实跑红→绿）；release_check 14/14 绿。**未发版**：带 D1 迁移 0047/0048/0049（不可逆），接收器拒自动发布；本机 wrangler 登录已过期，迁移要在服务器以 lab 身份用 release-wrangler.toml 跑；发版走「先 ff 服务器仓再走接收器同 SHA 分支，空闲时重启 tasks」，全在 RELEASE_HANDBOOK。owner 不拍板，由我裁决今晚不发（线上已自愈、凌晨手工迁移风险>收益）。
 - 生产可见变化（发版后）：默认每日额度 215→190、/app 退出登录、失败命令重发回真实状态、手工入库 CLI --occurred-at 必填。
 - ssh 服务器：Clash 没开时 `ssh -o ProxyCommand=none -p 22222 root@167.179.78.237`；只读诊断用 lab 身份跑仓内 store API（手顺在 fix/reports/R1.md）。
