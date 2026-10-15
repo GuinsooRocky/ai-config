@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: feedback
   originSessionId: 62222e4b-fd3d-4b5d-9f20-c6b5f75148fb
-  modified: 2026-09-17T09:01:24.573Z
+  modified: 2026-10-15T09:03:12.846Z
 ---
 
 # 提交与发版政策（仓 × 动作）
@@ -63,5 +63,7 @@ metadata:
 **Skill 双份同步（软约定）**：改 `~/.claude/skills/<name>/` 时若同 skill 也分发在个人项目仓里（如 sf-reader-all/skills/），两份同步改再 commit。2026-07-06 核实这条并未被强制执行（已有 diff 不同步），改动时想得起来就同步，别把"两份一致"当可依赖事实。
 
 参见 [[user_git_identity]]、[[feedback_rebase_over_merge]]。
+
+**提交粒度别加码（2026-10-15）**：一批修复合成一个提交就行，别要求「每个修复单独一个提交、方便单独回退」。给别的会话写条件/prompt 时也别塞这条；soliloquy PR #18 把 12 条单测修复合一个提交，我当成没达标来报，owner 回「不不不 就一个就好」。
 
 **「开始做 / 做吧」不等于提交或开 PR（2026-09-29）**：onlychat 推荐模型 §4.5 拆完后 owner 说「好的 开始做啊」，我自己理解成「剩下的就是提交」，一路跑 code-review、登记 features.md，弹出了提 PR 的确认框，被顶「我没说要 pr 哇」。工作仓提交和开 PR 只认明确的「提交 / 提pr / commit」这类说法；「做」指的是需求本身的活，意思拿不准时先问一句「做」指的是什么，别把交付动作当成默认的下一步。

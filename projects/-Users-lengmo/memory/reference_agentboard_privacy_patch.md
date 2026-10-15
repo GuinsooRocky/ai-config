@@ -1,6 +1,6 @@
 ---
 name: agentboard-privacy-patch
-description: "公司用量统计 peekaboo-ab(agentboard) 本机已升 2.4.6 + 打 v6 脱敏 patch（2026-09-10 实测：全量 529 条里 401 条个人会话被拦，实发 0 条个人）— 非工作会话 title/path/label 上报为 \"personal\"，privacy-rules.json 可整条屏蔽；2.4.6 起必须 config.json 关 autoUpdate 否则自升级会静默冲掉 patch；永远别跑 npx setup（自带未脱敏全量 backfill）"
+description: "公司用量统计 peekaboo-ab(agentboard) 本机 2.4.8 + v8 脱敏 patch（2026-10-15 升级，沙箱正反测试 PASS；09-10 实测全量 529 条里 401 条个人会话被拦）— 非工作会话 title/path/label 上报为 \"personal\"，privacy-rules.json 可整条屏蔽；2.4.6 起必须 config.json 关 autoUpdate 否则自升级会静默冲掉 patch；永远别跑 npx setup（自带未脱敏全量 backfill）"
 metadata: 
   node_type: memory
   type: reference
@@ -12,11 +12,13 @@ metadata:
 
 **上报字段（2.4.6 逐字段核过）**：用量数字（token 各类计数/时长/消息数/工具调用分布/增删行数/文件数）+ `title`（Claude 自动生成的会话标题）+ `project_path`（完整 cwd）+ `project_label` + `model`。**不传对话内容、不传代码、不读 .env/zshrc/keychain**；只读 `~/.claude/projects`、`~/.codex/sessions`、Cursor db 三处，`process.env` 只用 `AGENTBOARD_DISABLE_SELF_UPDATE` 和 `APPDATA`。payload 里的 `token` 字段 = agentboard 登录凭证（本来就该发），跟 API key 无关。
 
-## 当前状态（2026-09-10 迁移完成）
+## 当前状态（2026-10-15 升 2.4.8）
 
-- cli 2.4.6 + `privacy-patch.mjs` **v6**；`node ~/.agentboard/privacy-patch.mjs check` → `PATCHED(v6)`
+- cli 2.4.8 + `privacy-patch.mjs` **v8**；`node ~/.agentboard/privacy-patch.mjs check` → `PATCHED(v8)`
+- v8 只改了 Codex 工作目录升级的锚点（2.4.8 重写 `parseSessionEvents`，改挂到上游 `args?.workdir` 计数行）；2.4.7→2.4.8 无新增上报字段/网络调用（字段名全集 diff 为空）
+- 2.4.8 升了账本缓存版本+指纹算法 → 升级后第一轮 sync 会全量重算重发（照样过 patch 过滤）
 - `config.json` 带 `"autoUpdate": false`；plist 改走 `sync-runner.sh`（运行时解析 node，不再钉死 nvm 绝对路径）
-- 备份：`cli.mjs.orig-2026-09-10` = 干净 2.4.6（重打前先 `cp` 它回 cli.mjs）；`*.bak-pre246-*` = 迁移前的整套旧现场
+- 备份：`cli.mjs.orig-2026-10-15` = 干净 2.4.8（重打前先 `cp` 它回 cli.mjs）；`*.bak-pre248-*` = 升级前的 2.4.7+v7 现场
 
 ## ⚠️ 2.4.6 带来的三个新事实
 
@@ -41,7 +43,8 @@ setup 自带 `backfillAll`，用**刚装的未打补丁的代码**扫全部会�
 1. `launchctl bootout gui/$(id -u) ~/Library/LaunchAgents/cc.agentboard.sync.plist`
 2. 备份现场 → `npm pack peekaboo-ab@latest` 解出 `package/dist/cli.mjs`
 3. **先在沙箱试打**：`HOME=<沙箱> node <沙箱>/.agentboard/privacy-patch.mjs apply`，锚点对不上就人工改锚点，别动真环境
-4. 拷进 `~/.agentboard/cli.mjs` → `privacy-patch.mjs apply` → `check`
+3b. **沙箱正反测**：`node ~/.agentboard/privacy-sandbox-test.mjs <沙箱HOME>`（假会话+本地抓包服务器，覆盖个人/工作/白帽子/cwd 升级 × Claude/Codex）→ 打了补丁要 PASS、原版要 FAIL；脚本拒收真实 HOME
+4. 沙箱里打好的 cli.mjs 先拷到 `~/.agentboard/cli.mjs.swap-tmp` 再 `mv` 原子替换（Stop 钩子随时会触发 sync，不能有未打补丁的窗口）→ `check`
 5. `config.json` 补 `"autoUpdate": false`
 6. `launchctl bootstrap gui/$(id -u) <plist>` → 看 **`logs/sync.log`** 有 `[privacy] dropped` 行才算通
 

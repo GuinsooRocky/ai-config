@@ -5,7 +5,7 @@
 - [T158图谱记忆验证收官](project_soliloquy_t158_memory_verdict.md) — 图谱不立项；基线68/160；结论/工单/回归跑法 09-10 已迁 Linux 服务器 /home/lab/.local/share/eval-arena/soliloquy-t158（本机没了）；工单三 bug 待 owner 拍
 - [产品优先SEO让路](project_soliloquy_product_over_seo.md) — soliloquy 根路径=产品面市场(客户端/爬虫空壳,owner已认)；⚠「市场」两个所指先确认再动手
 - [soliloquy 10-11 捉虫 + 10-12 并行修复](project_soliloquy_bugscan_20261011.md) — 真相=soliloquy-bugscan-20261011/FINAL.md §修复回执；已合 main、26 迁移全跑、Server 已发；**Web 未补发**（owner 定留给下次 Web 发布顺带）；eval-arena 合同同步未做
-- [soliloquy 验证机制审查](project_soliloquy_verification_audit.md) — 10-12 审完，真相=仓内 docs/prd/research/2026-10-12-验证机制审查.md（37 条/P0 4/待拍 3）；三条待拍 10-13 已合 main（PR #15）；main CI 自 09-08 无绿；剩 V-05～V-23 P1 未动、perf:web 仍 partial
+- [soliloquy 验证机制审查](project_soliloquy_verification_audit.md) — 10-12 审完，真相=仓内 docs/prd/research/2026-10-12-验证机制审查.md（37 条/P0 4/待拍 3）；三条待拍 10-13 已合 main（PR #15）；main CI 09-08 起无绿、10-15 a31e5010e 恢复绿；剩 V-05～V-23 P1 未动、perf:web 仍 partial
 - [独白(soliloquy)项目](project_soliloquy.md) — 个人桌面 AI 陪伴客户端（Tauri+React19+Supabase），~/Desktop/loop_project/soliloquy；已 pivot 成 UGC 角色卡市场；进度去仓里 docs/prd/ 现读别信记忆
 - [soliloquy跑批线机制修复](project_soliloquy_harness_loops.md) — loop/graph 两条 codex 自主跑批线；机制唯一真相=main；B26 现场保留勿动（stash 已固化成 refs/stash-archive/*，别去 stash list 找）；loop worktree 已回收
 - [drama-agent项目](project_drama_agent.md) — 短故事→视频 prompt 制作包 SPA，本机只剩 my-code/drama-agent；付费墙+SEO 落地页已进 main 但一行没部署；真相=docs/2026-07-17-付费墙与SEO-交接.md
