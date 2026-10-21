@@ -24,7 +24,7 @@
 - [项目情报不进全局memory](feedback_project_intel_stays_in_project_docs.md) — 接口/迁移/探路结论落项目文档(cmm 的 notes)，全局 memory 只放跨项目的人/偏好/工作法
 - [认 session 按内容非 mtime](feedback_session_id_by_content_not_mtime.md) — -Users-lengmo/ 下多会话并发写，认当前 session 用内容指纹 grep，别用最近 mtime（会抓到 chat-cc-bot 等别的会话）
 - [上 loop 先补 back-pressure](feedback_loop_needs_backpressure_first.md) — 自主 loop 前必须有可机械判定的检查；back-pressure 配任务别默认上测试/eval；「生成 loop」=交付骨架+prompt 不代劳；搭法归 loop-forge skill
-- [大白话与禁用词表](feedback_no_jargon_plain_product_language.md) — 大白话讲产品；禁用词：臂/客户端/北极星/Persona/RCE；群里改动说明=动作→应该看到→实际看到+一句生活比喻；聊 AB/架构发前机械扫一遍
+- [大白话与禁用词表](feedback_no_jargon_plain_product_language.md) — 大白话讲产品；禁用词：臂/客户端/北极星/Persona/RCE；群里改动说明=动作→应该看到→实际看到+一句生活比喻；给测试的清单每句能照做、不讲为什么；聊 AB/架构发前机械扫一遍
 - [飞书群一进一出](feedback_feishu_group_read_self_send_user.md) — 用户提「群里说/同事截图」先用 social-proxy find_thread_by_name+get_history 自己读（话题回复入库有几分钟延迟）；给同事的消息起草后给纯文本让用户自己发，不走 send_message 代发
 - [聊产品链路停在体验高度](feedback_product_chat_stay_at_flow_altitude.md) — 用户要聊产品链路时问题只停在"用户看到啥/怎么找到/去哪/卡哪"；实现(flag/脚本/后端/RLS/是否最优)自己扛自己查别抛回去(原话"我不关心实现只说链路不对")；产品要求认领成自己的活
 - [UI 图标用 SVG 不用 emoji](feedback_ui_svg_icons_not_emoji.md) — 导航/按钮/chrome 一律线性 SVG，emoji 丑爆（soliloquy 全局导航栽过，"又放上来了"别复现）
