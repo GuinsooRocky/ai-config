@@ -26,3 +26,5 @@ Bash 工具的 shell 是用户的 zsh，不是 bash。两个坑今天各踩一�
 - **BSD sed 不认 `\?`**：`sed 's/<\/\?loc>//g'` 在 macOS 上一字不剥，下游 `comm` 交集直接变 0（同日把 /discover 与 sitemap 交集误报成 0/23，真值 9/23）。要用 `sed -E 's#</?loc>##g'`，并对中间文件 `head` 一眼。
 
 相关：[[feedback_gates_must_fail_on_purpose]]（闸要验反面）、[[reference_bash_timeout_orphans_child]]
+
+- `git show $REF:path` 在 zsh 里 `$REF:s...` 会被当成 `:s` 修饰符吃掉，打出来的是整个 commit 而不是文件；要写 `${REF}:path`（10-22 perf-lab 栽过，1.3MB 输出落盘才发现）

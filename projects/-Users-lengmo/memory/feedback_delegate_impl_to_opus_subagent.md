@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: feedback
   originSessionId: e1a98655-f407-4a08-98df-2abae18cf430
-  modified: 2026-09-21T09:00:00.000Z
+  modified: 2026-10-22T11:48:10.776Z
 ---
 
 > 选型口径（显式写 `model` 别靠继承、档位 ≥ 任务所需、拿不准往上取、2026-08-06 主会话默认换 Fable 后仍显式 `opus`）以及「独立派工放同一条消息并行发」已全量落 `~/.claude/model-dispatch.md` §2/§7，本文件只留那边没有的三条。
@@ -33,7 +33,7 @@ metadata:
   ```
 - 连带：闸别在主目录跑。主目录常混着别的会话的未提交改动，会掩盖真红（同一提交混合树全绿、干净树红）。落主线前在 `git worktree add --detach <sha>` 的干净树上跑一遍。相关 [[feedback_not_ground_truth]]。
 
-**④ 跨仓派工别用 `isolation: worktree`（2026-09-11）**：Agent 工具的 worktree 隔离**只会建在当前主工作目录那个仓**，而且隔离闸会拒绝 agent 对任何别的仓做 git 操作（连只读 `git log` 都拒）。T252 同时派 soliloquy + eval-arena 两个仓，eval-arena 那个 agent 分到的是 soliloquy 的 worktree，`apps/admin` 根本不存在，零改动交回、白烧 228s/106k token。第二个仓的做法：**自己先 `git worktree add -b <branch> /private/tmp/<repo>-<task> main`、装好 node_modules（`pnpm install --frozen-lockfile --offline`）、把绝对路径和分支名写进 prompt、不带 isolation 派**。未提交的 PRD 在 worktree 里没有，让 agent 用主 checkout 的绝对路径只读。
+**④ 跨仓派工别用 `isolation: worktree`（2026-09-11）**：Agent 工具的 worktree 隔离**只会建在当前主工作目录那个仓**，而且隔离闸会拒绝 agent 对任何别的仓做 git 操作（连只读 `git log` 都拒）。T252 同时派 soliloquy + eval-arena 两个仓，eval-arena 那个 agent 分到的是 soliloquy 的 worktree，`apps/admin` 根本不存在，零改动交回、白烧 228s/106k token。第二个仓的做法：**自己先 `git worktree add -b <branch> /private/tmp/<repo>-<task> main`、装好 node_modules（`pnpm install --frozen-lockfile --offline`）、把绝对路径和分支名写进 prompt、不带 isolation 派**。未提交的 PRD 在 worktree 里没有，让 agent 用主 checkout 的绝对路径只读。**补（2026-10-22）：「当前主工作目录」指派工那一刻 Bash 的 cwd，不是会话起始目录**——前一条 Bash 为只读查 onlychat 做了 `cd`，紧接着派 perf-lab 的 agent，隔离 worktree 就建在 onlychat 里，agent 零改动交回。单仓派工前先 `cd` 回目标仓（或用 `git -C` 查别的仓、别 `cd`）。
 
 **⑤ 两个 agent 各做契约一侧时，验收必须喂真实字节（2026-09-11）**：T252 产品侧 + 后台侧各按同一份 PRD 附录 A 写、各写各的严格解析器和测试固定装置、各自全绿，但把产品真实回执喂进后台解析器，三条主路径全部判废（null 字段、revision 0）——功能从迁移跑完那刻起自锁死，任何一侧的测试都测不出来。派工书里要写死：**交付前用 `tsx` 跨仓 import 两侧模块、把一侧的真实产出喂另一侧的解析器跑一遍，输出附报告**；集成会话再自己跑一次。bug-hunter 这次就是靠这一招抓到 3 条 P0。
 

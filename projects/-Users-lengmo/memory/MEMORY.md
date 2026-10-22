@@ -104,7 +104,7 @@
 - [量尺寸等动画落定](feedback_measure_after_animation_settles.md) — 走查量盒模型用 offsetWidth/getComputedStyle，getBoundingClientRect 在 transform 动画中会等比骗人；"数值等比偏小"=先查 transform
 - [不预先打备份包](feedback_no_preemptive_backup.md) — 改代码前别自作主张 tar/拷贝工作区当保险，owner 说不需要；可逆性靠 git + mv ~/.Trash
 - [个人项目账号备忘](reference_loop_project_account_notes.md) — 账号/密码/外部服务入口记 ~/Desktop/loop_project/账号备忘/外部服务账号清单.md，别写进仓 docs/ops
-- [指向旧上下文先翻会话](feedback_read_past_sessions_before_asking.md) — owner 说「告诉过你/细节在 codex」先搜 claude+codex jsonl 再答，别让他重讲（09-30 Google 停用被怼）
+- [指向旧上下文先翻会话](feedback_read_past_sessions_before_asking.md) — owner 说「告诉过你/细节在 codex」先搜 claude+codex jsonl 再答，别让他重讲；接手 codex 停下的活看 worktree diff＋/private/tmp 验收产物（子 agent 消息加密读不到），它自报的通过要重跑（09-30 Google 停用被怼）
 - [待 owner 做的步骤要带直达链接](feedback_owner_steps_need_direct_links.md) — 交给 owner 的网页操作第一次提就贴 URL，别只写菜单路径（10-02 一天被追问两次）
 - [多路并行查修流水线教训](feedback_parallel_subagent_fix_pipeline.md) — 额度/并发20/文件归属/独立审查/子代理写仓内记忆/mac 无 timeout/子代理等测试卡一天/共用产物目录被别路清空/额度断了 SendMessage 续/大文件先 1:1 拆接缝再并行
 - [内容政策范围归 owner](feedback_content_policy_scope_is_owner.md) — 安全过滤/词表/分级只修实现 bug，不主动提扩语言、加词、接审核服务（10-06）；图片侧默认不拦，AI 评审自提的像素/审核前置只能标待拍不得写成硬规则（10-09 T212 像素检查被判「有病的规定」）
@@ -114,3 +114,5 @@
 - [漫剧测试项目](project_manju_test_lingjing.md) — 灵境行者只当测试不发布（换皮也侵权，owner 10-10 拍板）；流程=三视图→首帧→Seedance 6s→后期配音；可复用资料在 AI课/时空之门
 - [GitHub 要开 Clash](reference_github_needs_clash_proxy.md) — 7897 没监听时 git push/fetch 直连被 reset、soliloquy 发版 ssh 也走它；先查 lsof 再让 owner 开，别自己改网络；开着 git 仍卡就加 `-c http.proxy=http://127.0.0.1:7897`
 - [静态全绿直接合不等亲点](feedback_merge_without_owner_clickthrough.md) — soliloquy 大批修复闸绿+独立审查过就自己合 main，亲点清单只作发版走查依据不当合并门（10-13 PR #17「直接合吧我并没有想看」）
+- [切分支前当场看 status](feedback_check_worktree_status_right_before_checkout.md) — 别的会话可能正在同一工作树改文件，几分钟前的「干净」不算数；并行活开独立 worktree，派工 prompt 写明绝不进主工作树（10-22 perf-lab 带着别人 14 个未提交文件切了分支）
+- [crushon-ai-perf-lab](project_crushon_ai_perf_lab.md) — 工作仓，beta 首页性能测量；规则真相=仓根 CLAUDE.md + docs/README.md；集群测量机 10-22 已在 chat-test 跑通测量，进度与下一步=仓内 docs/cluster-2026-10-22/README.md，出卡方案=docs/card-and-report.md（待拍板）
