@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: feedback
   originSessionId: e1a98655-f407-4a08-98df-2abae18cf430
-  modified: 2026-10-22T11:48:10.776Z
+  modified: 2026-10-23T03:52:14.904Z
 ---
 
 > 选型口径（显式写 `model` 别靠继承、档位 ≥ 任务所需、拿不准往上取、2026-08-06 主会话默认换 Fable 后仍显式 `opus`）以及「独立派工放同一条消息并行发」已全量落 `~/.claude/model-dispatch.md` §2/§7，本文件只留那边没有的三条。
@@ -39,4 +39,4 @@ metadata:
 
 **⑥ 改线上配置的浏览器点验，主会话自己做（2026-09-11）**：visual-qa 子 agent 不认转述的授权，哪怕逐字引用 owner 原话也不点「确认」这类改生产的按钮，派两次都停在弹层前、白跑约 20 分钟。第②条「浏览器走查派 visual-qa」只适用于只读走查和截图；**owner 在主对话里直接授权了会改线上的点验，就由主会话自己用 claude-in-chrome 做**，同时用接口挂监视器盯线上状态、准备好接口兜底回退。
 
-**⑦ 施工批次的标准节奏：plan 模式出计划 → 派实作 → 主会话只检查（2026-09-13 owner 原话「plan模式 让子agent做 你来检查」）**：EnterPlanMode 里先派 Explore 侦察落点与在途改动、再派 Plan agent 写逐文件规格与可机械判定的验收，遇到会撞既有拍板的（那次是「8 篇冻结」）用 AskUserQuestion 一题一问带推荐，ExitPlanMode 批了才派实作。实作用 `isolation: worktree`（单仓好用：自动建在 `.claude/worktrees/agent-<id>`，`pnpm install --frozen-lockfile --offline` 就能跑闸），各在自己分支提交不 push；主会话收货时**自己在它的 worktree 里重跑显式测试 + tsc + grep 构建产物**，再 `merge --ff-only` 第一支、`cherry-pick` 第二支保线性，用完 `git worktree remove --force` + `branch -D`。发布走 Bash `run_in_background` + Monitor 盯阶段，失败先读日志找因（那次先是短 sha 被当非法参数、再是 docker 构建 30 分钟硬超时被网络吃掉），别盲目重试。
+**⑦ 施工批次的标准节奏：plan 模式出计划 → 派实作 → 主会话只检查（2026-09-13 owner 原话「plan模式 让子agent做 你来检查」）**：EnterPlanMode 里先派 Explore 侦察落点与在途改动、再派 Plan agent 写逐文件规格与可机械判定的验收，遇到会撞既有拍板的（那次是「8 篇冻结」）用 AskUserQuestion 一题一问带推荐，ExitPlanMode 批了才派实作。实作用 `isolation: worktree`（单仓好用：自动建在 `.claude/worktrees/agent-<id>`，`pnpm install --frozen-lockfile --offline` 就能跑闸），各在自己分支提交不 push；主会话收货时**自己在它的 worktree 里重跑显式测试 + tsc + grep 构建产物**，再 `merge --ff-only` 第一支、`cherry-pick` 第二支保线性，用完回收 worktree 和分支（mv 进废纸篓，不用 `remove --force`，细则见 [[feedback_cleanup_worktrees_when_done]]）。发布走 Bash `run_in_background` + Monitor 盯阶段，失败先读日志找因（那次先是短 sha 被当非法参数、再是 docker 构建 30 分钟硬超时被网络吃掉），别盲目重试。

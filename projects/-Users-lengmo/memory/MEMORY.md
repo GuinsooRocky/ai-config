@@ -11,6 +11,7 @@
 - [drama-agent项目](project_drama_agent.md) — 短故事→视频 prompt 制作包 SPA，本机只剩 my-code/drama-agent；付费墙+SEO 落地页已进 main 但一行没部署；真相=docs/2026-07-17-付费墙与SEO-交接.md
 - [别判「不可行」](feedback_dont_declare_infeasible.md) — 别盲目判「不可行」：子 agent 的否定结论转述前自己核；CI 起不来有手工手顺、没 dev 可从别的 worktree 拷 env；UI 走查默认推 dev 后 --chrome 测
 - [缺口先自己推演再上报](feedback_think_before_escalating_gaps.md) — 「还没做」≠「不做」，PRD 定过终态的中间态不是缺口；别人提的问题别当把柄反复提；前端依赖找前端别递给 PD
+- [拍板当场记账、列缺口前先查](feedback_record_owner_decisions_and_check_before_listing_gaps.md) — owner 对话里定的口径当场写进项目决策账；列薄弱处/待办前先查决策账+近期会话，已定的别当缺口重提；目标外的明说（10-23 perf-lab「最多存 7 份」被重提）
 - [别把别的项目惯例搬过来](feedback_dont_import_other_project_conventions.md) — 干 A 项目只认 A 自己文档写的；文档没写就说没写，别拿 B 项目的模版/人名填空再标「推断」（07-27 crushon-admin 上线把 onlychat 模版+林珉搬过来被顶）
 - [onlychat动态场景卡调研](project_onlychat_dynamic_scene_card_research.md) — 老板派的活（形态/落地/性能/gojelly 四问）；**③性能已完结**，结论在 World-Path/AI短剧-合集.html「性能线上实测」tab，测试床已回收，测法留作模板；其余三问是否推进未核实，接手先问
 - [eval-arena=anna+B端](project_co_model_eval_arena.md) — 触发词 anna/arena对战；owner 说「B端」=它别听成「客户端」；施工真相=仓内 docs/prd/；Lab 已迁 VPS、Mac 别起 worker/pusher；**10-13：第二轮捉虫 61 条已全修并合 main（721175d），线上两层 P0 已止血自愈；10-15 已发版 47515ff（迁移到 0049）；服务器 1 核，相册整轮约 6 天**
@@ -115,4 +116,6 @@
 - [GitHub 要开 Clash](reference_github_needs_clash_proxy.md) — 7897 没监听时 git push/fetch 直连被 reset、soliloquy 发版 ssh 也走它；先查 lsof 再让 owner 开，别自己改网络；开着 git 仍卡就加 `-c http.proxy=http://127.0.0.1:7897`
 - [静态全绿直接合不等亲点](feedback_merge_without_owner_clickthrough.md) — soliloquy 大批修复闸绿+独立审查过就自己合 main，亲点清单只作发版走查依据不当合并门（10-13 PR #17「直接合吧我并没有想看」）
 - [切分支前当场看 status](feedback_check_worktree_status_right_before_checkout.md) — 别的会话可能正在同一工作树改文件，几分钟前的「干净」不算数；并行活开独立 worktree，派工 prompt 写明绝不进主工作树（10-22 perf-lab 带着别人 14 个未提交文件切了分支）
+- [做完当场回收 worktree](feedback_cleanup_worktrees_when_done.md) — 合进 main 就收：兄弟目录 + `.claude/worktrees/agent-*` + 已合并分支 + 空挂的 Monitor；按内容核（cherry + 同标题）后 mv 进废纸篓，有独有内容的留给 owner
+- [perf-lab 汇报只讲技术链路](feedback_perf_lab_report_technical_altitude.md) — 现阶段问「还要搞什么」只答更快/更准/测法更优，跑通、部署、pre、等人等流程不提；大白话文章不列表（10-23 被「不不不 你不要管跑通」顶回）
 - [crushon-ai-perf-lab](project_crushon_ai_perf_lab.md) — 工作仓，beta 首页性能测量；规则真相=仓根 CLAUDE.md + docs/README.md；集群测量机 10-22 已在 chat-test 跑通测量，进度与下一步=仓内 docs/cluster-2026-10-22/README.md，出卡方案=docs/card-and-report.md（待拍板）
