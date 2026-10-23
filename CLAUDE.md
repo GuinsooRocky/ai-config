@@ -19,6 +19,7 @@
 ## 删除/清理
 
 - 帮删文件一律 `mv` 到 `~/.Trash`，**绝不 `rm`**（即使用户已批准）——保持可逆（详见 memory: feedback_cleanup_use_trash_not_rm.md）
+- 一批活合进 main 就当场回收，不等 owner 提醒：兄弟 worktree + `.claude/worktrees/agent-*` + 已合并分支 + 空挂的 Monitor；按内容核（`git cherry` + 同标题提交）后 mv 进废纸篓，有独有内容的留给 owner 定（详见 memory: feedback_cleanup_worktrees_when_done.md；立法理由：10-23 perf-lab 攒了 22 个 worktree、约 2.5G，owner 只看到其中 5 个）
 
 ---
 
