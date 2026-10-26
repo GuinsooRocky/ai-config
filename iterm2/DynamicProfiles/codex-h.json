@@ -1,0 +1,12 @@
+{
+  "Profiles": [
+    {
+      "Name": "codex-h",
+      "Guid": "8E1F3A40-CODE-XDED-BASE-000000000002",
+      "Custom Command": "Yes",
+      "Command": "/bin/zsh -lc 'export http_proxy=http://127.0.0.1:7897; export https_proxy=http://127.0.0.1:7897; /opt/homebrew/bin/codex --dangerously-bypass-approvals-and-sandbox; exec /bin/zsh -l'",
+      "Working Directory": "/Users/lengmo",
+      "Custom Directory": "Yes"
+    }
+  ]
+}

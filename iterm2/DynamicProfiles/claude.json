@@ -1,0 +1,42 @@
+{
+  "Profiles": [
+    {
+      "Name": "claude",
+      "Guid": "8E1F3A40-CLAU-DEDU-BASE-000000000001",
+      "Custom Command": "Yes",
+      "Command": "/bin/zsh -lc '/Users/lengmo/.local/bin/claude --dangerously-skip-permissions --chrome; exec /bin/zsh -l'",
+      "Working Directory": "/Users/lengmo",
+      "Custom Directory": "Yes",
+      "Background Color": {
+        "Red Component": 0.06,
+        "Green Component": 0.06,
+        "Blue Component": 0.06,
+        "Alpha Component": 1.0
+      },
+      "Foreground Color": {
+        "Red Component": 1.0,
+        "Green Component": 1.0,
+        "Blue Component": 1.0,
+        "Alpha Component": 1.0
+      },
+      "Bold Color": {
+        "Red Component": 1.0,
+        "Green Component": 1.0,
+        "Blue Component": 1.0,
+        "Alpha Component": 1.0
+      },
+      "Cursor Color": {
+        "Red Component": 1.0,
+        "Green Component": 1.0,
+        "Blue Component": 1.0,
+        "Alpha Component": 1.0
+      },
+      "Cursor Text Color": {
+        "Red Component": 0.0,
+        "Green Component": 0.0,
+        "Blue Component": 0.0,
+        "Alpha Component": 1.0
+      }
+    }
+  ]
+}

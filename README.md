@@ -92,6 +92,12 @@ git status
 
 `ai-config.json` 保存人可读版本号；每个安装环境的回执保存在 `~/.config/ai-config/receipts/`。回执同时记录发布版本、Git commit 与该 profile 的 SHA-256 内容指纹，所以即使忘记升级版本号，真实内容变化仍能被发现。
 
+## iTerm2 配置
+
+`iterm2/` 是本机 iTerm2 的配置快照：主偏好（已去掉机器态）、启动 Claude/Codex 的动态 profile、AutoLaunch 脚本。不属于任何安装 profile，安装器不会碰它。
+
+改完 iTerm2 设置后刷新快照：`~/.claude/iterm2/export.sh`，再自行 commit。新机器还原步骤写在 `iterm2/export.sh` 头部注释里。
+
 ## 不同步的内容
 
 Claude/Codex 登录状态、OAuth、真实密钥、原始会话、SQLite 数据库、缓存和遥测不进入安装 profile。新机器仍需单独登录并授权需要的外部服务。

@@ -1,0 +1,12 @@
+{
+  "Profiles": [
+    {
+      "Name": "codex",
+      "Guid": "8E1F3A40-CODE-XDED-BASE-000000000001",
+      "Custom Command": "Yes",
+      "Command": "/bin/zsh -lc '/opt/homebrew/bin/codex --dangerously-bypass-approvals-and-sandbox; exec /bin/zsh -l'",
+      "Working Directory": "/Users/lengmo",
+      "Custom Directory": "Yes"
+    }
+  ]
+}
