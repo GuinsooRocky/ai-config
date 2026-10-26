@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 2389aa12-6873-4592-bd4d-1e4eacf9dc22
-  modified: 2026-10-13T05:10:00.000Z
+  modified: 2026-10-26T14:47:44.154Z
 ---
 
 `~/.claude` 目录本身是私有仓库 [GuinsooRocky/ai-config](https://github.com/GuinsooRocky/ai-config) 的直接 checkout（2026-07-01 建，原名 claude-config，2026-07-22 改名并重构成 Claude/Codex 共用能力源）。白名单式 `.gitignore` 只跟踪可复用配置 + memory + 消毒过的 settings/mcp/launchd。
@@ -23,4 +23,5 @@ metadata:
 - **memory 目录每天 03:30 由 launchd 自动 commit**（`launchd/com.lengmo.ai-config.memory-autocommit.plist` → `scripts/memory-autocommit.sh`，2026-09-21 起）：只 commit `projects/-Users-lengmo/memory`、不 push、不 bump 版本；skills/agents/hooks 等仍手工 commit。看到「memory 自动快照」提交别奇怪
 - **codex 那边装的是 Desktop 副本，不是 `~/.claude`**：`~/.codex/config.toml` 的 marketplace source 指向 `~/Desktop/cc-memory/ai-config/codex`。改完 `~/.claude` 要走：`CONTINUITY_CLAUDE_SOURCE=~/.claude ~/.claude/codex/scripts/rebuild-codex-plugin.sh` 重建便携插件 → commit/push → Desktop 副本 `pull --ff-only` → `codex plugin add claude-continuity@ai-continuity`，codex 才看得到。这条链 07-22 → 09-21 断了两个月没人发现（profile 引用已删 skill、`skills/synced` 无 SKILL.md 卡死生成脚本），09-21 修好；便携过滤器屏蔽词 `cmm` 会把描述里提到 cmm 的 skill 静默剔除（meta-check-skill 曾因示例名 `cmm-go` 中招）。正常走法是 `~/.claude` 里跑 `./scripts/prepare-update.sh patch`（自动重建插件+升版本+校验）。10-13 第三次断：codex 0.162 删了 plugin-creator 的 cachebuster 脚本，已改成两处脚本内联 perl 刷 `plugin.json` 版本后缀；注意脚本中途失败后重跑会判「生成物无变化」跳过版本刷新，要手动补一次
 - **`codex/scripts/install-codex.sh` 会用仓内 `codex/shared/AGENTS.md` 覆盖 `~/.codex/AGENTS.md`**（有备份到 `~/.codex/continuity-backups/`）：活文件常比仓内多（owner 直接在 `~/.codex` 里加法），跑前先 `diff` 两边、把活的合回仓再跑；只刷插件用上一条的 `codex plugin add` 即可（09-21 已把活文件回抄仓内一次，两边一致；owner 以后再直接改 `~/.codex/AGENTS.md` 就又会分叉，体检时顺手 diff）
+- **iTerm2 配置也在仓里**：`iterm2/`（主偏好去机器态 + DynamicProfiles + Scripts），不进任何安装 profile；改了 iTerm2 设置跑 `~/.claude/iterm2/export.sh` 刷快照再手动 commit，不会自动跟（[[reference-iterm2-advanced-settings-key-case]]）
 - 静态整机快照 `~/Desktop/cc-memory/cc-防丢失` **已于 2026-07-30 删除**（曾进 `~/.Trash/cc-防丢失-20260730`，废纸篓已清空、不可恢复），独有内容（xhs-writer 全套）已入库，不再存在"两套备份"

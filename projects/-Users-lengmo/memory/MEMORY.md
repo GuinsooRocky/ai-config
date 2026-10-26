@@ -73,11 +73,11 @@
 - [复制内容按长短分流](feedback_copy_content_delivery.md) — 短文案对话内纯文本(不上表格/#/**)；长内容(文档/报告/全量返回)写 scratchpad 文件报路径；session 关闭自动清理
 - [Obsidian vault=archives](reference_obsidian_vault_archives.md) — 07-12 装机落地，vault 直挂 ~/Desktop/archives 零迁移；只做回看层写入侧不变；砍掉 MCP/PARA/日记插件；CLI 叫 obsidian 不叫 obsidian-cli
 - [~/.claude 是私有 git 仓库](project_claude_config_git.md) — ~/.claude 是 GuinsooRocky/ai-config 直接 checkout；Desktop/cc-memory/ai-config 是中立副本，codex 插件从它装（发布链见条目；发布跑 `scripts/prepare-update.sh patch`）；memory 每日自动 commit
-- [生成 prompt 的质量标准](feedback_prompt_generation_quality_bar.md) — 指针：6 条 rubric（角色+硬规则/焊真实上下文/输出契约/内建优先级/可逆护栏/填空位）已实体化进 ~/.claude/skills/write-a-prompt「质量线」节，skill 没 fire 时手动过一遍
+- [生成 prompt 的质量标准](feedback_prompt_generation_quality_bar.md) — 指针：7 条 rubric（角色+硬规则/焊真实上下文/输出契约/内建优先级/可逆护栏/填空位/专家四问做深）已实体化进 ~/.claude/skills/write-a-prompt「质量线」节，skill 没 fire 时手动过一遍
 - [找丢的东西先问在哪](feedback_find_lost_things_fast.md) — 「前两天还在」先翻废纸篓+近期会话、描述模糊先问一句在哪看到；搜 jsonl 用 python mmap（本机 grep=ugrep 拒复杂正则、长行带上下文会卡死）
 - [摘要/注释/状态码不是真相](feedback_not_ground_truth.md) — 截断当全量、状态码 200 当真内容、来源清单静默丢，先证完整再下结论（报 X/N）；注释与 PRD 都是 hint，写工单/给 owner 拍板/起草对外消息前必须 grep 垫底
 - [提产品建议先看 main](feedback_check_main_before_product_advice.md) — 叠在未合入分支上干活时，列待拍/提建议前先 `git log origin/main` 看口径变没变（10-11 画布建议保留扣费确认，main 前一天已改额度百分比制被顶）
-- [交付物只写终态](feedback_deliverable_is_final_state_not_process.md) — 复核过程/版本演进不进交付文档；改文件=覆盖清理不是追加；PRD 同理；学习笔记/转写稿也一样（来源工具/切块时间戳/校验方式/待补标注都是过程，09-24 第三次被提）
+- [交付物只写终态](feedback_deliverable_is_final_state_not_process.md) — 复核过程/版本演进不进交付文档；改文件=覆盖清理不是追加；PRD 同理；学习笔记/转写稿也一样（来源工具/切块时间戳/校验方式/待补标注都是过程，09-24 第三次被提）；skill/memory 加内容不写「X 日并入」
 - [pages发布走social-proxy](reference_pages_publish_via_social_proxy.md) — 原pages MCP已死；直接用 social-proxy 的 publish_page/share_page（profile=full，不用 curl 绕路），先 preview 后 confirm，wei=徐唯原
 - [公开面分级口径](feedback_public_means_public.md) — 07-21「公开就是公开」已被 08-10 恢复三档取代（公开面只出全年龄，REDLINES #16）；别当 bug 报、别再问、别拿旧句翻闸
 - [跑迁移前查禁跑名单](feedback_check_forbidden_before_batch_migration.md) — 只验技术前置不够；07-27 误跑了被 owner 判死的迁移，装了个每天自动扣点的 cron
@@ -117,5 +117,6 @@
 - [静态全绿直接合不等亲点](feedback_merge_without_owner_clickthrough.md) — soliloquy 大批修复闸绿+独立审查过就自己合 main，亲点清单只作发版走查依据不当合并门（10-13 PR #17「直接合吧我并没有想看」）
 - [切分支前当场看 status](feedback_check_worktree_status_right_before_checkout.md) — 别的会话可能正在同一工作树改文件，几分钟前的「干净」不算数；并行活开独立 worktree，派工 prompt 写明绝不进主工作树（10-22 perf-lab 带着别人 14 个未提交文件切了分支）
 - [做完当场回收 worktree](feedback_cleanup_worktrees_when_done.md) — 合进 main 就收：兄弟目录 + `.claude/worktrees/agent-*` + 已合并分支 + 空挂的 Monitor；按内容核（cherry + 同标题）后 mv 进废纸篓，有独有内容的留给 owner
-- [perf-lab 汇报只讲技术链路](feedback_perf_lab_report_technical_altitude.md) — 现阶段问「还要搞什么」只答更快/更准/测法更优，跑通、部署、pre、等人等流程不提；大白话文章不列表（10-23 被「不不不 你不要管跑通」顶回）
-- [crushon-ai-perf-lab](project_crushon_ai_perf_lab.md) — 工作仓，beta 首页性能测量；规则真相=仓根 CLAUDE.md + docs/README.md；集群测量机 10-22 已在 chat-test 跑通测量，进度与下一步=仓内 docs/cluster-2026-10-22/README.md，出卡方案=docs/card-and-report.md（待拍板）
+- [perf-lab 汇报只讲技术链路](feedback_perf_lab_report_technical_altitude.md) — 现阶段问「还要搞什么」只答更快/更准/测法更优，跑通、部署、pre、等人等流程不提；大白话文章不列表；「更快」=整轮本身变快，少跑格子/增量轮算治标（10-23、10-26 两次被顶）；问「有没有问题」只给几行结论
+- [crushon-ai-perf-lab](project_crushon_ai_perf_lab.md) — 工作仓，beta 首页性能测量；规则真相=仓根 CLAUDE.md + docs/README.md；集群测量机 10-22 已在 chat-test 跑通测量；进度与下一步现读决策账最新条目；出卡方案 10-26 已定（PR #27 卡片+自托管面板），card-and-report.md 已作废
+- [核默认值要核最外层](feedback_verify_defaults_at_wrapper_layer.md) — 包装工具会覆盖内层默认（sitespeed 把 browsertime 等待 8000 改成 5000），在锁定镜像里 grep 两层再报「能省多少」（10-26 perf-lab 提速白拍板）
