@@ -19,6 +19,7 @@
 - [派工七件事](feedback_delegate_impl_to_opus_subagent.md) — 派工细则（跨项目）：批次先 plan 再派实作；浏览器走查也算执行派 visual-qa；跨仓别用 isolation:worktree；契约两侧要跨仓喂真实字节握手；改线上的点验自己用 chrome 做
 - [要密钥前先自己翻](feedback_find_credentials_before_asking.md) — 缺凭证先穷尽 .env*/可 ssh 机器/已登录浏览器，拿不到再开口且说清"哪把key缺在哪为什么读不到"（07-11 OPENROUTER key 就在 .env.local 却让 owner 补，被无语）
 - [批量烧付费API先确认](feedback_ask_before_paid_api_batch.md) — >50 次付费调用的批量跑（LLM打分/翻译等）先报预估费用等点头；试跑小样本可直接跑
+- [验证不默认跑真实模型](feedback_no_real_model_runs_for_verification.md) — 验证用假模型测试+读代码；改动明显改变模型理解方式且非跑不可时先说一声等同意（10-28 lich 底稿连跑三轮被问「一定要跑模型吗」）
 - [边界：改动与引用都不许外推](feedback_fix_within_reported_scope.md) — 报 A 别把 guard 推广到 B/C；PRD 指到的同外形入口不算外推、第一轮改全；引拍板砍功能先核管辖面；别人域的红只报「0 红」；视口专属改动 sm: 门控别捅 PC
 - [前端兜底边界:空态vs白页面](feedback_frontend_empty_vs_blank.md) — 空数据=合法展示态(展示空别改用户选择回避)；白页面/崩溃/渲染断裂才前端兜。空是结果别替，白页面是故障要替
 - [对称操作先diff分支副作用](feedback_runtime_bug_dont_loop_static.md) — 开/关 add/remove 类bug第一步并排比两分支副作用找不对称(持久化不对称是高频根因)；"看着该工作却复现"=熔断别绕圈，拿运行时真相/要1判别事实/直接改一版（世界卡NSFW开关栽过：开落了服务端、关没落，用户"你好慢"）
@@ -117,6 +118,6 @@
 - [静态全绿直接合不等亲点](feedback_merge_without_owner_clickthrough.md) — soliloquy 大批修复闸绿+独立审查过就自己合 main，亲点清单只作发版走查依据不当合并门（10-13 PR #17「直接合吧我并没有想看」）
 - [切分支前当场看 status](feedback_check_worktree_status_right_before_checkout.md) — 别的会话可能正在同一工作树改文件，几分钟前的「干净」不算数；并行活开独立 worktree，派工 prompt 写明绝不进主工作树（10-22 perf-lab 带着别人 14 个未提交文件切了分支）
 - [做完当场回收 worktree](feedback_cleanup_worktrees_when_done.md) — 合进 main 就收：兄弟目录 + `.claude/worktrees/agent-*` + 已合并分支 + 空挂的 Monitor；按内容核（cherry + 同标题）后 mv 进废纸篓，有独有内容的留给 owner
-- [perf-lab 汇报只讲技术链路](feedback_perf_lab_report_technical_altitude.md) — 现阶段问「还要搞什么」只答更快/更准/测法更优，跑通、部署、pre、等人等流程不提；大白话文章不列表；「更快」=整轮本身变快，少跑格子/增量轮算治标（10-23、10-26 两次被顶）；问「有没有问题」只给几行结论
+- [perf-lab 汇报只讲技术链路](feedback_perf_lab_report_technical_altitude.md) — 现阶段问「还要搞什么」只答更快/更准/测法更优，跑通、部署、pre、等人等流程不提；大白话文章不列表；「更快」=整轮本身变快；问「有没有问题」「验证合理性」只给每项一句结论，不给表格和报告路径（10-23、10-26、10-28 三次被顶）
 - [crushon-ai-perf-lab](project_crushon_ai_perf_lab.md) — 工作仓，beta 首页性能测量；规则真相=仓根 CLAUDE.md + docs/README.md；集群测量机 10-22 已在 chat-test 跑通测量；进度与下一步现读决策账最新条目；出卡方案 10-26 已定（PR #27 卡片+自托管面板），card-and-report.md 已作废
 - [核默认值要核最外层](feedback_verify_defaults_at_wrapper_layer.md) — 包装工具会覆盖内层默认（sitespeed 把 browsertime 等待 8000 改成 5000），在锁定镜像里 grep 两层再报「能省多少」（10-26 perf-lab 提速白拍板）
