@@ -27,7 +27,7 @@
 - [认 session 按内容非 mtime](feedback_session_id_by_content_not_mtime.md) — -Users-lengmo/ 下多会话并发写，认当前 session 用内容指纹 grep，别用最近 mtime（会抓到 chat-cc-bot 等别的会话）
 - [上 loop 先补 back-pressure](feedback_loop_needs_backpressure_first.md) — 自主 loop 前必须有可机械判定的检查；back-pressure 配任务别默认上测试/eval；「生成 loop」=交付骨架+prompt 不代劳；搭法归 loop-forge skill
 - [大白话与禁用词表](feedback_no_jargon_plain_product_language.md) — 大白话讲产品；禁用词：臂/客户端/北极星/Persona/RCE；群里改动说明=动作→应该看到→实际看到+一句生活比喻；给测试的清单每句能照做、不讲为什么；聊 AB/架构发前机械扫一遍
-- [飞书群一进一出](feedback_feishu_group_read_self_send_user.md) — 用户提「群里说/同事截图」先用 social-proxy find_thread_by_name+get_history 自己读（话题回复入库有几分钟延迟）；给同事的消息起草后给纯文本让用户自己发，不走 send_message 代发
+- [飞书群一进一出](feedback_feishu_group_read_self_send_user.md) — 用户提「群里说/同事截图」先用 social-proxy find_thread_by_name+get_history 自己读（话题回复入库有几分钟延迟）；给同事的消息起草后给纯文本让用户自己发，不走 send_message 代发；例外：pages 页面明说「发送给 XX」就 share_page 直接发、连接报错直接重发
 - [聊产品链路停在体验高度](feedback_product_chat_stay_at_flow_altitude.md) — 用户要聊产品链路时问题只停在"用户看到啥/怎么找到/去哪/卡哪"；实现(flag/脚本/后端/RLS/是否最优)自己扛自己查别抛回去(原话"我不关心实现只说链路不对")；产品要求认领成自己的活
 - [UI 图标用 SVG 不用 emoji](feedback_ui_svg_icons_not_emoji.md) — 导航/按钮/chrome 一律线性 SVG，emoji 丑爆（soliloquy 全局导航栽过，"又放上来了"别复现）
 - [文字反馈=品味](feedback_writing_taste_umbrella.md) — 统一标尺+七切面：去注水、精准×共情（焊亲历瞬间）、保用户原话不润色、结构化给表格、群里问人只留问题、口语稿去 AI 味（禁「讲三件事」「一句话：」破折号排比）、对外文档过陌生读者测试+每条负责
@@ -79,7 +79,7 @@
 - [摘要/注释/状态码不是真相](feedback_not_ground_truth.md) — 截断当全量、状态码 200 当真内容、来源清单静默丢，先证完整再下结论（报 X/N）；注释与 PRD 都是 hint，写工单/给 owner 拍板/起草对外消息前必须 grep 垫底
 - [提产品建议先看 main](feedback_check_main_before_product_advice.md) — 叠在未合入分支上干活时，列待拍/提建议前先 `git log origin/main` 看口径变没变（10-11 画布建议保留扣费确认，main 前一天已改额度百分比制被顶）
 - [交付物只写终态](feedback_deliverable_is_final_state_not_process.md) — 复核过程/版本演进不进交付文档；改文件=覆盖清理不是追加；PRD 同理；学习笔记/转写稿也一样（来源工具/切块时间戳/校验方式/待补标注都是过程，09-24 第三次被提）；skill/memory 加内容不写「X 日并入」
-- [pages发布走social-proxy](reference_pages_publish_via_social_proxy.md) — 原pages MCP已死；直接用 social-proxy 的 publish_page/share_page（profile=full，不用 curl 绕路），先 preview 后 confirm，wei=徐唯原
+- [pages发布走social-proxy](reference_pages_publish_via_social_proxy.md) — 原pages MCP已死；直接用 social-proxy 的 publish_page/share_page（profile=full，不用 curl 绕路），先 preview 后 confirm，wei=徐唯原，liuxinyi=刘心仪（群里同名两人→reply_to 代替 @）
 - [公开面分级口径](feedback_public_means_public.md) — 07-21「公开就是公开」已被 08-10 恢复三档取代（公开面只出全年龄，REDLINES #16）；别当 bug 报、别再问、别拿旧句翻闸
 - [跑迁移前查禁跑名单](feedback_check_forbidden_before_batch_migration.md) — 只验技术前置不够；07-27 误跑了被 owner 判死的迁移，装了个每天自动扣点的 cron
 - [commit描述用户影响先行](feedback_commit_desc_user_impact_first.md) — onlychat 老板反馈：改动说明先写用户影响再写实现（首例 50ccf75976）
@@ -121,3 +121,6 @@
 - [perf-lab 汇报只讲技术链路](feedback_perf_lab_report_technical_altitude.md) — 现阶段问「还要搞什么」只答更快/更准/测法更优，跑通、部署、pre、等人等流程不提；大白话文章不列表；「更快」=整轮本身变快；问「有没有问题」「验证合理性」只给每项一句结论，不给表格和报告路径（10-23、10-26、10-28 三次被顶）
 - [crushon-ai-perf-lab](project_crushon_ai_perf_lab.md) — 工作仓，beta 首页性能测量；规则真相=仓根 CLAUDE.md + docs/README.md；集群测量机 10-22 已在 chat-test 跑通测量；进度与下一步现读决策账最新条目；出卡方案 10-26 已定（PR #27 卡片+自托管面板），card-and-report.md 已作废
 - [核默认值要核最外层](feedback_verify_defaults_at_wrapper_layer.md) — 包装工具会覆盖内层默认（sitespeed 把 browsertime 等待 8000 改成 5000），在锁定镜像里 grep 两层再报「能省多少」（10-26 perf-lab 提速白拍板）
+- [样张只放程序能产出的](feedback_mock_output_only_what_system_produces.md) — 演示「改完会看到什么」时，手工查出的原因、推断不进样张；换算百分比前核原始基数（10-29 perf-lab 卡片样张被指「这是 AI 得出的，面板里不会有」）
+- [拆工时口径](feedback_work_hour_breakdown_format.md) — 照排期表他自己填过的行：一行一个 PRD 小节+子项带天数，联调自测埋点单列，P2 单列不计；原「带你拆过」的会话已找不到，样板在排期表
+- [perf-lab 小改不等全量就合](feedback_perf_lab_merge_without_full_suite.md) — 卡片文案/面板样式改动跑改到的测试+验反面就当场开 PR 自合，不等 tests/all.mjs（10-29「用不了全量检查吧。。。 直接合」）

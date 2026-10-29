@@ -4,7 +4,8 @@ description: 飞书群一进一出：消息自己用 social-proxy 读（find_thr
 metadata:
   node_type: memory
   type: feedback
-  modified: 2026-09-09T00:00:00.000Z
+  modified: 2026-10-29T08:36:16.222Z
+  originSessionId: 6e85f4e4-b9a9-4116-ab07-271a99150dd8
 ---
 
 ## 读：群里在聊什么，自己去读
@@ -22,3 +23,9 @@ metadata:
 **Why:** 2026-09-01 动图埋点联调，让用户给后端同事发 character id，我走了 send_message preview + AskUserQuestion 确认，被打断：「你直接返回给我 让我发」。工作群消息他要用自己的手发。
 
 **How to apply:** 用户说「给 XX 发/回一下 XX」且对象是同事/工作群时，产出可直接粘贴的纯文本（[[feedback_copy_content_delivery]]：短文案不带 markdown 装饰）。send_message 代发只留给用户明说「帮我发出去」的场景。改动说明怎么写见 [[feedback_no_jargon_plain_product_language]]。相关 [[project_onlychat]]。
+
+## 例外：页面卡片明说「发送给 XX」就用 MCP 直接发
+
+「写成 html 发送给 XX」这类（交付物是 pages 页面）→ publish_page 后 share_page preview 核对收件人唯一命中，随即 confirm=true 发出，不再停下问。发送时连接报错（ECONNRESET 等）不确定送达 → 直接重发，别让他去飞书里核。
+
+**Why:** 2026-10-29 简介格式限制页发朱俊瀚，confirm 时 ECONNRESET，我停下让 owner 去飞书看有没有送到，被回「你调用mcp 发啊」。
