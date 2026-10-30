@@ -6,6 +6,7 @@
 - [产品优先SEO让路](project_soliloquy_product_over_seo.md) — soliloquy 根路径=产品面市场(客户端/爬虫空壳,owner已认)；⚠「市场」两个所指先确认再动手
 - [soliloquy 10-11 捉虫 + 10-12 并行修复](project_soliloquy_bugscan_20261011.md) — 真相=soliloquy-bugscan-20261011/FINAL.md §修复回执；已合 main、26 迁移全跑、Server 已发；**Web 未补发**（owner 定留给下次 Web 发布顺带）；eval-arena 合同同步未做
 - [soliloquy 验证机制审查](project_soliloquy_verification_audit.md) — 10-12 审完，真相=仓内 docs/prd/research/2026-10-12-验证机制审查.md（37 条/P0 4/待拍 3）；三条待拍 10-13 已合 main（PR #15）；main CI 09-08 起无绿、10-15 a31e5010e 恢复绿；剩 V-05～V-23 P1 未动、perf:web 仍 partial
+- [soliloquy 超流量连带 lich](project_soliloquy_supabase_quota.md) — 10-31 定不搬家，整库备份改约 15 天一次（T299 已部署，剩 11-17 核对）；T298 后置，重提先读方案 §9
 - [独白(soliloquy)项目](project_soliloquy.md) — 个人桌面 AI 陪伴客户端（Tauri+React19+Supabase），~/Desktop/loop_project/soliloquy；已 pivot 成 UGC 角色卡市场；进度去仓里 docs/prd/ 现读别信记忆
 - [soliloquy跑批线机制修复](project_soliloquy_harness_loops.md) — loop/graph 两条 codex 自主跑批线；机制唯一真相=main；B26 现场保留勿动（stash 已固化成 refs/stash-archive/*，别去 stash list 找）；loop worktree 已回收
 - [drama-agent项目](project_drama_agent.md) — 短故事→视频 prompt 制作包 SPA，本机只剩 my-code/drama-agent；付费墙+SEO 落地页已进 main 但一行没部署；真相=docs/2026-07-17-付费墙与SEO-交接.md
@@ -26,6 +27,7 @@
 - [项目情报不进全局memory](feedback_project_intel_stays_in_project_docs.md) — 接口/迁移/探路结论落项目文档(cmm 的 notes)，全局 memory 只放跨项目的人/偏好/工作法
 - [认 session 按内容非 mtime](feedback_session_id_by_content_not_mtime.md) — -Users-lengmo/ 下多会话并发写，认当前 session 用内容指纹 grep，别用最近 mtime（会抓到 chat-cc-bot 等别的会话）
 - [上 loop 先补 back-pressure](feedback_loop_needs_backpressure_first.md) — 自主 loop 前必须有可机械判定的检查；back-pressure 配任务别默认上测试/eval；「生成 loop」=交付骨架+prompt 不代劳；搭法归 loop-forge skill
+- [界面不放技术详情](feedback_no_dev_details_in_product.md) — 「查看技术详情」、原始报错、错误码都不进产品界面，折叠也不行；只给人话和下一步，原始错误进日志（10-31 lich 被顶回）
 - [大白话与禁用词表](feedback_no_jargon_plain_product_language.md) — 大白话讲产品；禁用词：臂/客户端/北极星/Persona/RCE；群里改动说明=动作→应该看到→实际看到+一句生活比喻；给测试的清单每句能照做、不讲为什么；聊 AB/架构发前机械扫一遍
 - [飞书群一进一出](feedback_feishu_group_read_self_send_user.md) — 用户提「群里说/同事截图」先用 social-proxy find_thread_by_name+get_history 自己读（话题回复入库有几分钟延迟）；给同事的消息起草后给纯文本让用户自己发，不走 send_message 代发；例外：pages 页面明说「发送给 XX」就 share_page 直接发、连接报错直接重发
 - [聊产品链路停在体验高度](feedback_product_chat_stay_at_flow_altitude.md) — 用户要聊产品链路时问题只停在"用户看到啥/怎么找到/去哪/卡哪"；实现(flag/脚本/后端/RLS/是否最优)自己扛自己查别抛回去(原话"我不关心实现只说链路不对")；产品要求认领成自己的活
@@ -52,7 +54,7 @@
 - [MK 项目](project_mk.md) — 个人语音输入工具；仓根 .claude/CLAUDE.md=ground truth，技术细节在 docs/；全局只留用户裁决（**拒绝上 LLM 判同音词别再劝**、云端准确率偏好、≤120ms、只维护当前态 doc）
 - [owner 只在后台点](feedback_owner_operates_from_admin_only.md) — 日常与验收只写后台里能点的步骤；要他跑命令的环节做成出事时的后备口子，不进清单（09-11「为啥要跑命令切，我都在后台控制」）
 - [回复一律中文](feedback_reply_in_chinese.md) — 对 owner 的结论、进度播报、工具前说明都用中文；代码/命令/提交信息照原样（09-11 等发版时中英混写被要求「中文回复」）
-- [owner 拍板交互口径](feedback_owner_decision_interaction.md) — 默认不设门带 1 个推荐直接走（只有不可逆/真钱/首曝光才停）；反讲收口后别再列「拍板/留意」清单（数据边界写兜底、有先例照先例、等字段留 TODO）；他明说「挨个问」就一次一题；问「哪种最好」是要答案不是要他选；甩截图问好看吗=要我改+同类筛查
+- [owner 拍板交互口径](feedback_owner_decision_interaction.md) — 默认不设门带 1 个推荐直接走（只有不可逆/真钱/首曝光才停）；派工 brief 别开「留给 owner」档，手里有推荐就做掉（10-30 lich 第五次）；反讲收口后别再列「拍板/留意」清单（数据边界写兜底、有先例照先例、等字段留 TODO）；他明说「挨个问」就一次一题；问「哪种最好」是要答案不是要他选；甩截图问好看吗=要我改+同类筛查
 - [实验记录 ≠ 已采用](feedback_memory_experiment_vs_adopted.md) — memory 里"升级/迁移实施记录"默认是本地实验分支；判断技术栈用 lockfile + package.json，不用历史 memory
 - [任务执行节奏](feedback_task_execution_cadence.md) — 对齐方案才动手（大功能先交编号改动清单/PRD 等 owner 划，「多路并行做」不是方案批准，10-11 画布被问「PRD 没写就写完了」）；自动推进按里程碑汇报；调研/验证按改动规模分级
 - [sf-reader 并发](feedback_sf_reader_concurrency.md) — sf-reader-all 批量要串行/低并发(≤2)；12 并发 Playwright 互相饿死全超时；全文在 unified_inbox.json 不在 stdout
@@ -66,7 +68,7 @@
 - [brew 证书钩子坏](project_brew_ca_certificates_hook_broken.md) — brew upgrade 必须开代理 7897（ghcr manifest 直连超时、半截升级坏依赖；走代理一次过）；ca-certificates postinstall 本机必失败；SSL FileNotFoundError 直接手动重建 cert.pem（命令在档）；升级 yt-dlp 前先查 sf-reader python 来源
 - [Chrome 扩展按需开](feedback_chrome_extension_on_demand.md) — 默认不开，要用 `claude --chrome`；绝不主动调浏览器工具；走查不 resize/全屏；截图不是渲染真相；登录交给 owner 后别导航/刷新，等他说「好了」；**走查前记下会被动到的服务端状态、走完核对还原**（选即保存的控件误触会写库）
 - [GROQ key 在 zshrc](feedback_groq_key_in_zshrc.md) — GROQ_API_KEY 只在 ~/.zshrc（交互式）；非交互 Bash 读不到→401（≠网络 000）；从 .zshrc 抠；附小宇宙整档转写坑（524 切块/429 限流/shownote 校准）
-- [agentboard 上报脱敏](reference_agentboard_privacy_patch.md) — peekaboo-ab 2.4.6+privacy-patch v6：config 必须 autoUpdate:false；永远别跑 npx setup（backfill 未脱敏）；「别上报」→ uuid 进 drop_sessions
+- [agentboard 上报脱敏](reference_agentboard_privacy_patch.md) — peekaboo-ab 2.4.6+privacy-patch v6：config 必须 autoUpdate:false；永远别跑 npx setup（backfill 未脱敏）；「别上报」→ uuid 进 drop_sessions；10-30 起 `claude:` `codex:` 全量屏蔽，Claude 全部不上报
 - [onlychat CDN 批量种图](reference_onlychat_cdn_batch_upload.md) — 拿一批图的 CDN fileURL 的 console 签名直传技法；全文在 onlychat-World-Path/CDN批量种图-console技法.md，memory 只留指针
 - [学习材料定义先行](feedback_learning_material_define_first.md) — 第一屏先给主题词字面定义（零基础+日常例）；块是顺序不是卡片，一章 ≤2 框、h3 ≤3、表 ≤2；练习不做表单；元说明直接删不折叠
 - [长文HTML用codex侧skill](feedback_longform_html_skill_in_codex.md) — 文章/笔记落 HTML 用 ~/.codex/skills/longform-html 模板；学习材料走 Claude 侧 learning-handbook 别排成汇报；找 skill 时 codex 侧也有库存
@@ -76,6 +78,7 @@
 - [~/.claude 是私有 git 仓库](project_claude_config_git.md) — ~/.claude 是 GuinsooRocky/ai-config 直接 checkout；Desktop/cc-memory/ai-config 是中立副本，codex 插件从它装（发布链见条目；发布跑 `scripts/prepare-update.sh patch`）；memory 每日自动 commit
 - [生成 prompt 的质量标准](feedback_prompt_generation_quality_bar.md) — 指针：7 条 rubric（角色+硬规则/焊真实上下文/输出契约/内建优先级/可逆护栏/填空位/专家四问做深）已实体化进 ~/.claude/skills/write-a-prompt「质量线」节，skill 没 fire 时手动过一遍
 - [找丢的东西先问在哪](feedback_find_lost_things_fast.md) — 「前两天还在」先翻废纸篓+近期会话、描述模糊先问一句在哪看到；搜 jsonl 用 python mmap（本机 grep=ugrep 拒复杂正则、长行带上下文会卡死）
+- [会话记录只留 30 天](reference_session_transcripts_30day_window.md) — cleanupPeriodDays=30，jsonl 统计先核真实时间窗，别把过滤条件当样本起点；更早的现场从 git 和 docs 重建
 - [摘要/注释/状态码不是真相](feedback_not_ground_truth.md) — 截断当全量、状态码 200 当真内容、来源清单静默丢，先证完整再下结论（报 X/N）；注释与 PRD 都是 hint，写工单/给 owner 拍板/起草对外消息前必须 grep 垫底
 - [提产品建议先看 main](feedback_check_main_before_product_advice.md) — 叠在未合入分支上干活时，列待拍/提建议前先 `git log origin/main` 看口径变没变（10-11 画布建议保留扣费确认，main 前一天已改额度百分比制被顶）
 - [交付物只写终态](feedback_deliverable_is_final_state_not_process.md) — 复核过程/版本演进不进交付文档；改文件=覆盖清理不是追加；PRD 同理；学习笔记/转写稿也一样（来源工具/切块时间戳/校验方式/待补标注都是过程，09-24 第三次被提）；skill/memory 加内容不写「X 日并入」
@@ -124,3 +127,4 @@
 - [样张只放程序能产出的](feedback_mock_output_only_what_system_produces.md) — 演示「改完会看到什么」时，手工查出的原因、推断不进样张；换算百分比前核原始基数（10-29 perf-lab 卡片样张被指「这是 AI 得出的，面板里不会有」）
 - [拆工时口径](feedback_work_hour_breakdown_format.md) — 照排期表他自己填过的行：一行一个 PRD 小节+子项带天数，联调自测埋点单列，P2 单列不计；原「带你拆过」的会话已找不到，样板在排期表
 - [perf-lab 小改不等全量就合](feedback_perf_lab_merge_without_full_suite.md) — 卡片文案/面板样式改动跑改到的测试+验反面就当场开 PR 自合，不等 tests/all.mjs（10-29「用不了全量检查吧。。。 直接合」）
+- [答「对不对」前先查项目禁令](feedback_check_project_prohibitions_before_saying_right.md) — owner 问「这么做对吗、对就放行」先过项目 CLAUDE.md「不许做的事」+决策账，冲突当场说（10-30 perf-lab 改旧数据混比被仓规明令禁止，我没查就答「对」）

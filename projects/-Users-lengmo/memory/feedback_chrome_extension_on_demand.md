@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: feedback
   originSessionId: f1980b1a-2d70-4bfd-a827-95c8bbaa3fd6
-  modified: 2026-09-22T00:00:00.000Z
+  modified: 2026-10-30T16:25:27.444Z
 ---
 
 用户曾因 CC 过度主动调用 Chrome 扩展（claude-in-chrome）而手动禁用了扩展（2026-06 之前）。2026-06-11 已把 `~/.claude.json` 的 `claudeInChromeDefaultEnabled` 设为 false：平时会话不接入浏览器工具，需要时用户启动 `claude --chrome` 按需开启。
@@ -23,6 +23,8 @@ metadata:
 **浏览器截图不是渲染真相（2026-08-08）**：懒加载图片常已 `complete && naturalWidth>0`，截图里却仍是灰块——抓帧没等到合成。别拿截图当「图裂了」的证据，要判就查 DOM（`naturalWidth`/`complete` 计数）或直接 HEAD 图片 URL；曾为此追了五六轮假警报。
 
 **⚠ 登录交给 owner 后就停手（2026-09-11 栽过）**：Bing Webmaster 要 Google 重新输密码，我把登录交给用户；会话重启后旧标签组没了，我自己新开一页、点 Sign In 走了一遍登录，用户说「你不要刷新，我自己登录一下呀」。交出登录后不导航、不刷新、不新开页，等 owner 说「好了」再接手；接手时先截图看现状，已经登录就直接往下做。
+
+**⚠ 连着多个 Chrome 时别用默认那个（2026-10-31 栽过）**：`list_connected_browsers` 里只有 Browser 1／2，看不出哪个是 owner 的窗口，我直接用了默认的，owner 说「你别开错浏览器哇」。第一次动手前先跑 `list_connected_browsers`，有两个以上就 `switch_browser` 让 owner 在目标 Chrome 里点 Connect；owner 正在标签里登录时别碰那个标签，其余页面开新标签看。
 
 **⚠ 别动用户的窗口尺寸（2026-08-26 栽过，合并自 feedback_dont_resize_browser_window）**：走查时不要调 `resize_window`，也不要弄成全屏——用户正用着那个窗口。付费图走查我为了「标准 1440×960 视口」顺手 resize 了一次，用户当场说「你能别动浏览器全屏吗」。走查要的是看渲染对不对，不是像素级基准。视口太小导致 `zoom` 报「Region exceeds viewport boundaries」→ 先 `screenshot` 看真实尺寸再框区域；确实要验 PC/mobile 断点 → 先说一句「要改窗口宽度到 X，可以吗」再动。
 
