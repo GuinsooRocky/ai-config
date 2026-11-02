@@ -35,7 +35,7 @@ GROUP BY bucket ORDER BY bucket;
 "
 ```
 
-若 `tool_call_count >= 25`（skill candidate 阈值）的会话占比 > 30%，提示阈值偏低。
+若 `tool_call_count >= 100`（skill candidate 阈值）的会话占比 > 30%，提示阈值偏低。
 
 **1b. 拉取会话列表**（最近 N 天 top 50，按工具调用数排序）：
 
@@ -50,7 +50,7 @@ LIMIT 50;
 ```
 
 重点关注：
-- `tool_call_count >= 25` 的会话（skill candidate）
+- `tool_call_count >= 100` 的会话（skill candidate）
 - 同一 `project_path` 重复出现的相似 `title`
 
 ---
