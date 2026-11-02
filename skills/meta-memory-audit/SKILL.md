@@ -1,6 +1,6 @@
 ---
 name: meta-memory-audit
-description: Claude Code 记忆系统月度审计：检查所有项目的 MEMORY.md，清理过期条目、合并重复记忆、删除无关项。触发场景：每月记忆整理、感觉记忆杂乱时。触发词：/meta-memory-audit、记忆审计、清理 MEMORY.md。只动 MEMORY.md 与记忆文件本体；清 SQLite 中期记忆库用 memory-clean，审 memory_candidates 候选用 meta-memory-review。
+description: Claude Code 记忆系统月度审计：检查所有项目的 MEMORY.md，清理过期条目、合并重复记忆、删除无关项。触发场景：每月记忆整理、感觉记忆杂乱时。触发词：/meta-memory-audit、记忆审计、清理 MEMORY.md。只动 MEMORY.md 与记忆文件本体；清 SQLite 中期记忆库用 memory-clean。
 ---
 
 # Memory Audit
@@ -22,8 +22,7 @@ SELECT
   (SELECT COUNT(*) FROM messages) AS total_messages,
   (SELECT MIN(started_at) FROM sessions) AS earliest,
   (SELECT MAX(started_at) FROM sessions) AS latest,
-  (SELECT COUNT(*) FROM sessions WHERE tool_call_count >= 25) AS skill_candidates,
-  (SELECT COUNT(*) FROM memory_candidates WHERE reviewed = 0) AS pending_review;
+  (SELECT COUNT(*) FROM sessions WHERE tool_call_count >= 100) AS skill_candidates;
 "
 ```
 
@@ -31,7 +30,6 @@ SELECT
 - sessions 数 **每月增长 > 300**：正常（活跃使用）；> 600 则提示考虑归档
 - skill candidates 占比 **> 30%**：阈值可能需要调整
 - 最新记录与今天相差 **> 3 天**：Stop Hook 可能中断，需排查
-- pending_review **> 200**：建议先跑 `/meta-memory-review`
 
 输出一行摘要：`DB 状态：正常 / 异常（原因）`
 
