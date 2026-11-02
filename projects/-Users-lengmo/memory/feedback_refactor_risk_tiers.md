@@ -2,7 +2,10 @@
 name: refactor-risk-tiers
 description: 评审提的结构重复/重构类改动按风险分三档：小改动直接改、中等只做 1:1 机械抽取、大或非 1:1 的不改只留 TODO+doc 对齐
 metadata:
+  node_type: memory
   type: feedback
+  originSessionId: 7ea49df9-4ecd-41a9-999f-cd80a8377ddd
+  modified: 2026-11-02T06:14:04.774Z
 ---
 
 评审（code review / ultrareview）报的「结构重复」类改动，owner 的口径是**保障没 bug 优先于对齐**，按风险分档：

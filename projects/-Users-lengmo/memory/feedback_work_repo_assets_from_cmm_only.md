@@ -20,3 +20,6 @@ metadata:
 **How to apply:** 工作仓需要素材时，先在 `~/Desktop/cmm` 内找（`相册/` 这类目录是合法来源）；找不到合适的就**自己合成**（当时那两张平涂图/透明 PNG 就是手写 PNG 编码器生成的，完全没问题），或者直接问 owner 要。不要拿"只是临时文件、反正会删"当理由。
 
 相关：[[feedback_agg_readonly]]、[[feedback_project_intel_stays_in_project_docs]]
+
+
+补充：08-05 被当场发火

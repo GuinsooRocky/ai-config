@@ -17,3 +17,6 @@ T158（soliloquy 图谱记忆验证）2026-08-02 收官。裁定：**图谱记�
 owner 拍板：§11 销毁条款**豁免不删**（含 crushon 真实聊天派生物，本机留存不在意）。crushon 原始导出 55 份在 `eval-arena/research-assets/crushon-real-chats/`。
 
 回归三戒律：不许照题面优化检索（尺子作废）；只测「记得住」不测「聊得好」；答题模型参数（deepseek-v4-pro/t=0/StreamLake）一格不动否则不可比。
+
+
+补充：图谱不立项；基线68/160；结论/工单/回归跑法 09-10 已迁 Linux 服务器 /home/lab/.local/share/eval-arena/soliloquy-t158（本机没了）；工单三 bug 待 owner 拍

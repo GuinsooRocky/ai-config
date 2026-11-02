@@ -1,11 +1,11 @@
 ---
 name: onlychat-jank-sample-rate-release
-description: "onlychat 抽样率类改动的惯例：单独走一次发版、上线后把生效时间发给数据同学、数几天条数再决定回不回调"
+description: "onlychat 抽样率类改动的惯例：单独走一次发版、上线后把生效时间发给数据同学、数几天条数再决定回不回调；onlychat 搜索开场时长线已进 develop，收场那条按 owner 拍板挂起，等产品需求单"
 metadata: 
   node_type: memory
   type: project
   originSessionId: eb2479e1-72ea-468f-9aa2-d1fcc471751c
-  modified: 2026-09-21T09:00:00.000Z
+  modified: 2026-11-02T07:53:13.757Z
 ---
 
 **规则（owner 2026-07-27 拍板，此后按此办）**：onlychat 埋点抽样率（`jankMonitor/aggregation.ts` 里那几个 `*_RATE`）的改动——
@@ -20,4 +20,14 @@ metadata:
 
 **同一套打法正在世界卡上复用**：`src/utils/performance/jankMonitor/aggregation.ts` 里（行号必漂，搜常量名；09-21 在 :112-113）是 `// CLEANUP: 世界卡首页转场 A/B 拍板后回落 RATE。` + `WORLDCARD_TRANSITION_RATE = 1`（2026-09-01 从 5% 提到全量，因为首页世界卡入口 PV 本就低、5% 再砍一刀 A/B 两组都不够判）；施工 worktree `cmm/onlychat-jank-rate` 09-21 核已回收（`worktree list` 与 `ls ~/Desktop/cmm/` 均无），要续做现起树。**全量后世界卡的 freeze 会优先吃掉 `MAX_FREEZE_PER_SESSION` 那 10 条全局额度，其它 scene 的 freeze 条数会被动变少——不是那些场景变好了**，回调时记得这条。
 
-相关：[[onlychat-project-context]]、[[project_onlychat_search_open_timing]]
+相关：[[onlychat-project-context]]
+
+## 搜索开场时长线
+
+**开场线已落地**：`cus.logic_search_open_timing`——「点首页搜索图标 → 搜索页能用」端到端耗时，老路由组与新动效组各一条，同起点同源终点、差值可归因；顺带把搜索 AB 的分组从单布尔补成三档 `experiment_group` + `group_resolved`（照世界卡）。代码在 origin/develop（`c111e5f024 feat(tracking): 搜索开场时长线`，其后 `0bde4c6ca0 chore(tracking): 搜索动效 ab 推全量后清理实验侧埋点` 已清掉实验侧那半）。做它的 worktree `cmm/onlychat-search-timing` 与分支 `lengmo_20260813_feat_search-transition-timing` 均已回收。
+
+**看板口径**：必须钉死 `is_mobile=true`，否则 PC 整页跳转会污染对照基线。
+
+**仍挂起的那条 = 收场时长线**（返回 → 首页回到眼前）。卡点是老路由组没有干净的终点挂点——搜索入口横跨 dashboard 各页、返回目的地不固定，`HomeCharacterList` 又被个人页/文件夹/搜索结果页复用。owner 2026-08-13 拍板：**先放着，等产品提需求单**。至今未做（origin/develop 里 `search_back_timing` / `searchBackTiming` 均零命中）。
+
+参照物是世界卡那两条同款线（`worldCardOpenTiming.ts` / `worldCardBackTiming.ts`）。相关：[[project_onlychat]]、[[feedback_no_jargon_plain_product_language]]。

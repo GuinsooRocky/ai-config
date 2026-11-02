@@ -1,8 +1,11 @@
 ---
 name: pnpm-store-prune-macos-wipes-all
-description: macOS 上 `pnpm store prune` 会把整个 store 当无引用清空（APFS clone 非硬链接），清缓存时别跑它
+description: "macOS 上 `pnpm store prune` 会把整个 store 当无引用清空（APFS clone 非硬链接），清缓存时别跑它"
 metadata:
+  node_type: memory
   type: reference
+  originSessionId: 7ea49df9-4ecd-41a9-999f-cd80a8377ddd
+  modified: 2026-11-02T06:14:01.775Z
 ---
 
 2026-10-08 电脑体检清缓存时跑了 `pnpm store prune`：`~/Library/pnpm/store/v10` 1.0G → 12K，连 soliloquy 正在用的包都删了。原因推测是 macOS/APFS 上 pnpm 用 clone（写时复制）往 node_modules 放独立副本而非硬链接，prune 按链接数判「无引用」→ 全删。

@@ -4,7 +4,7 @@ description: 飞书群一进一出：消息自己用 social-proxy 读（find_thr
 metadata:
   node_type: memory
   type: feedback
-  modified: 2026-10-29T08:36:16.222Z
+  modified: 2026-11-02T07:53:42.943Z
   originSessionId: 6e85f4e4-b9a9-4116-ab07-271a99150dd8
 ---
 
@@ -16,16 +16,21 @@ metadata:
 
 **How to apply:** 接到 onlychat 排障任务先扫一遍相关群最近消息再动手；转述同事结论时注明来源和时间。
 
+群显示 `message_count: 0`、`get_history` 为空 ≠ 群里没消息：多半是同步任务暂停（大部分群默认 paused，`list_sync_tasks` 看 status）。`start_sync_task(task_id)` 后约 2 分钟入库，读完 `pause_sync_task` 还原，并告诉用户动过。
+
 ## 发：给同事的消息，纯文本交给用户自己发
 
 给同事或工作群（飞书）的消息：起草好后**直接把纯文本贴在对话里让用户自己复制发送**，不走 social-proxy send_message 的 preview→confirm 代发流程。
 
 **Why:** 2026-09-01 动图埋点联调，让用户给后端同事发 character id，我走了 send_message preview + AskUserQuestion 确认，被打断：「你直接返回给我 让我发」。工作群消息他要用自己的手发。
 
-**How to apply:** 用户说「给 XX 发/回一下 XX」且对象是同事/工作群时，产出可直接粘贴的纯文本（[[feedback_copy_content_delivery]]：短文案不带 markdown 装饰）。send_message 代发只留给用户明说「帮我发出去」的场景。改动说明怎么写见 [[feedback_no_jargon_plain_product_language]]。相关 [[project_onlychat]]。
+**How to apply:** 用户说「给 XX 发/回一下 XX」且对象是同事/工作群时，产出可直接粘贴的纯文本（[[改稿每次返回完整全文]]：短文案不带 markdown 装饰）。send_message 代发只留给用户明说「帮我发出去」的场景。改动说明怎么写见 [[feedback_no_jargon_plain_product_language]]。相关 [[project_onlychat]]。
 
 ## 例外：页面卡片明说「发送给 XX」就用 MCP 直接发
 
 「写成 html 发送给 XX」这类（交付物是 pages 页面）→ publish_page 后 share_page preview 核对收件人唯一命中，随即 confirm=true 发出，不再停下问。发送时连接报错（ECONNRESET 等）不确定送达 → 直接重发，别让他去飞书里核。
 
 **Why:** 2026-10-29 简介格式限制页发朱俊瀚，confirm 时 ECONNRESET，我停下让 owner 去飞书看有没有送到，被回「你调用mcp 发啊」。
+
+
+补充：用户提「群里说/同事截图」先用 social-proxy find_thread_by_name+get_history 自己读（话题回复入库有几分钟延迟）；给同事的消息起草后给纯文本让用户自己发，不走 send_message 代发；例外：pages 页面明说「发送给 XX」就 share_page 直接发、连接报错直接重发

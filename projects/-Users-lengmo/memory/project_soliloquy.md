@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: b9eb6b3a-39fa-4b21-97d6-c08b50f0e514
-  modified: 2026-08-06T13:04:37.356Z
+  modified: 2026-11-02T06:12:42.879Z
 ---
 
 「独白」= **soliloquy**，路径 `~/Desktop/loop_project/soliloquy`（个人项目，非工作仓；已从 `~/Desktop/my-code/` 迁走，勿用旧路径）。
@@ -17,6 +17,8 @@ metadata:
 **定位**：陪伴线，对标 CrushOn。干净线（学习伙伴/看板/收件箱）已整仓拆去 `~/Desktop/my-code/lich`，**拆完两仓完全独立互不同步**，搬功能只在你主动说的时候。
 
 **2026-07-03 pivot**：OC 从"伙伴的私有人设"翻案为**可复用、可发布的角色素材**——OC 独立成表 ↔ 伙伴=实例，靠 `oc_id` 引用，状态留实例侧。这条 pivot 主动推翻了原 roadmap「不做 UGC 角色市场」的必输点。
+
+**现状入口**：公开范围与品牌域名正在变动（10-16 起转内部开放、注册关闭，线上现值开工先核），开工先读 BACKLOG §0 和功能控制现行规格。
 
 ## 关键设计不变量（改这块前先想清楚）
 

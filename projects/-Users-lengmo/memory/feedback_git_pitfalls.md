@@ -1,14 +1,14 @@
 ---
 name: feedback_git_pitfalls
-description: git 三坑：逐路径 add 挡不住 commit、--contains 查不出 cherry-pick、rebase 必须关钩子 + 时间熔断
+description: git 四坑：逐路径 add 挡不住 commit、--contains 查不出 cherry-pick、rebase 必须关钩子 + 时间熔断、切分支/checkout 前当场 git status（别的会话可能正在同一工作树改文件，几分钟前的「干净」不算数；要并行就开独立 worktree）
 metadata: 
   node_type: memory
   type: feedback
   originSessionId: fef34f95-7dcd-414f-a190-b108cc5f63ef
-  modified: 2026-09-21T07:28:06.873Z
+  modified: 2026-11-02T07:53:02.574Z
 ---
 
-# git 三坑
+# git 四坑
 
 ## 逐路径 git add 挡不住 commit——commit 提交的是整个索引
 
@@ -51,3 +51,15 @@ diff <(git show A -- f | grep -E '^[+-][^+-]') <(git show B -- f | grep -E '^[+-
 时间预期：普通 commit+push+PR ~3–5min；带必要 rebase ~6–8min；未知意外被熔断压到「几分钟内停下问你」。
 
 相关：[[feedback_worldcard_worktree]]（世界卡绝不碰 agg-tuning）、[[reference_rtk_smart_gateway]]、[[feedback_rebase_over_merge]]。
+
+## 切分支前当场看 status
+
+切分支、checkout、stash 之前**当场**跑 `git status --short`，不信同一会话里几分钟前看到的「干净」。多个 Claude/Codex 会话常从 `~` 启动、用绝对路径改同一个工作树，主对话看不见它们。
+
+**Why：** 2026-10-22 在 crushon-ai-perf-lab 主工作树上，开场 status 干净，十几分钟后直接 `git checkout` 到 docs 分支，结果带着别的会话正在改的 14 个文件（判据换血那批）一起切了过去；若对方那时 commit 就会落错分支。当场切回（checkout 会把未提交改动原样带回，diff --stat 前后一致）才没出事。
+
+**How to apply：**
+- checkout 紧挨着 status 跑，中间不隔别的长动作；status 非空且不是自己改的 → 不切，改开 `git worktree add <兄弟目录> <分支>` 做自己的活。
+- 派子 agent 改仓时把工作目录指到独立 worktree，并在 prompt 里写明「绝不进入主工作树」。
+- 一个分支只能被一个 worktree 占用；要在 worktree 里用的分支先确认主工作树没 checkout 它。
+- 关联：[[find-lost-things-fast]] 的「认 session 按内容非 mtime」节（同一台机多会话并发的另一种形状）。

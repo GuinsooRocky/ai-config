@@ -2,7 +2,10 @@
 name: project-geo-audit
 description: geo-audit 新项目=给任意站做「可被第三方复核」的 GEO 诊断；单一真相=仓内 docs/PRD.md；消费端采集不能自动化是天花板
 metadata:
+  node_type: memory
   type: project
+  originSessionId: 7ea49df9-4ecd-41a9-999f-cd80a8377ddd
+  modified: 2026-11-02T06:12:44.463Z
 ---
 
 2026-09-21 立项。**geo-audit** = 给任意网站产出**能被第三方复核**的 GEO 诊断与复测报告，目标是做成对外服务。
@@ -10,7 +13,7 @@ metadata:
 - 仓：`~/Desktop/my-code/geo-audit`，GitHub **private** `GuinsooRocky/geo-audit`
 - **单一真相 = 仓内 `docs/PRD.md`**（350 行，含 T0 准入九项 / T1 结构十二项 / 证据库 / 分母状态机 / 验收判据）。桌面那份已移走，别再去桌面找
 - 执行方是 **Codex**：整份 PRD 喂进去即可开工
-- 0 号客户 = soliloquy 自己（D0=2026-09-14，D+14=2026-09-28），仓只读
+- 0 号客户 = soliloquy 自己（D0=2026-09-14），仓只读。soliloquy 10-16 起转内部开放、注册关闭，域名待换，线上现值复测前先核
 
 **三条别忘的判断**（PRD 里已写死，复述给别人时别说反）：
 1. 差异化不是「更会优化」，是**诚实测量** —— 市面 GEO 工具的两大卖点（llms.txt、schema）已被大样本证伪

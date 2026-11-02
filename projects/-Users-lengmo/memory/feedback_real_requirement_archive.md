@@ -1,10 +1,11 @@
 ---
 name: 真实需求落档约定
-description: 用户说"落档"/"落一下"/"真实需求落档"时，在 /Users/lengmo/Desktop/cmm/agg/真实需求落档/ 新建一个 md 记录这次需求的全过程
+description: 用户说"落档"/"落一下"/"真实需求落档"时，在 /Users/lengmo/Desktop/cmm/agg/真实需求落档/ 新建一个 md 记录这次需求的全过程；另记 Obsidian vault 就是 ~/Desktop/archives（零迁移直挂，只做回看层，写入侧不变，CLI 叫 obsidian，手机端看不了）
 metadata:
   node_type: memory
   type: feedback
   originSessionId: 74c56540-2199-45c0-abfe-7e6a64e68f5c
+  modified: 2026-11-02T07:52:32.637Z
 ---
 **触发词**："落档"/"落一下"/"真实需求落档"/"把这个需求落一下"/"帮我把这个写进 agg"
 
@@ -22,3 +23,12 @@ metadata:
 - 文件路径就在 `/Users/lengmo/Desktop/cmm/agg/真实需求落档/` 这一层，**不要再分子目录**
 - 与全局 CLAUDE.md 里"存学习笔记 → /Users/lengmo/Desktop/archives/技术总结/"的约定**互不冲突**：触发词不同（"落档" vs "记一下/存学习笔记"），存放路径也不同
 - **不要每次任务结束都自动落档**——用户原话："不用每次都写记录的 过段时间我告诉你你总结就好"。等用户主动说触发词，或明确点出"现在落一下"才动手；不要把"完成一个里程碑"自动等价于"该落档了"。批量回顾交给用户主动触发。
+
+## Obsidian vault=archives
+
+2026-07-12 装的 Obsidian（brew cask），vault 直接指向 `~/Desktop/archives`（vault 注册在 `~/Library/Application Support/obsidian/obsidian.json`）。CLI 二进制叫 **`obsidian`**（`/opt/homebrew/bin/obsidian` → app 内的 obsidian-cli），`which obsidian-cli` 查不到。
+
+- **定位**：只做已有 markdown 库的回看层（图谱/双链/搜索/白板）；写入侧完全不变——学习笔记照旧写 `技术总结/`
+- **明确砍掉的**：Obsidian MCP（多余一层）、PARA 重构（现有目录就是真实分类）、Calendar 日记插件
+- 手机端看不了这个 vault（Obsidian mobile 只认 iCloud vault 或付费 Sync）
+- 相关笔记：`技术总结/04.20-三层记忆.md` 的 P2（Obsidian 长期层）由此落地

@@ -1,15 +1,17 @@
 ---
 name: onlychat-project-context
-description: onlychat 主仓 + onlychat-World-Path/ 经验文档目录，接任务前先查（结构以 World-Path/README.md 为索引）
+description: onlychat 主仓 + onlychat-World-Path/ 经验文档目录，接任务前先查（结构以 World-Path/README.md 为索引）；crushon-admin 上 pre 流程见 World-Path 同名文件
 metadata: 
   node_type: memory
   type: project
   originSessionId: 3b3ea1c7-ced1-4474-84aa-d82100f7fb7c
+  modified: 2026-11-02T07:52:30.919Z
 ---
 
 - 主仓：`/Users/lengmo/Desktop/cmm/onlychat`（Next.js + tRPC + next-auth；语音 / 支付 / 聊天 / 角色卡等模块）
-- 团队：**老板 = Wei**（commit 作者名也是 Wei，兼写码）；傅小杰 = 同事（测试/支付域居多）
+- 团队：傅晓杰 = 同事（测试/支付域居多，git 作者名写作傅小杰）
 - 经验文档：`/Users/lengmo/Desktop/cmm/onlychat-World-Path/`（资深开发陪读整理的"机构知识"）
+- crushon-admin 上 pre 流程见 World-Path 同名文件（`crushon-admin上pre流程.md`），接到「admin 上 pre」任务先读它。
 
 **How to apply**: 接 onlychat 任务，先读 `onlychat-World-Path/README.md` —— 那是现成的分类索引（快速入口 / 项目基础 / 工程与发布 / 专题），直接按它取文件，别自己猜路径。
 

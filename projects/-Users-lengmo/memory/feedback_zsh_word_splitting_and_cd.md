@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: feedback
   originSessionId: 1dcd4bc9-e1eb-4db6-b5d6-ba34c583496c
-  modified: 2026-10-12T07:49:45.104Z
+  modified: 2026-11-02T06:13:21.956Z
 ---
 
 Bash 工具的 shell 是用户的 zsh，不是 bash。两个坑今天各踩一次：
@@ -21,6 +21,7 @@ Bash 工具的 shell 是用户的 zsh，不是 bash。两个坑今天各踩一�
 - 不要 cd。一律写绝对路径、`git -C <dir>`，或者在 python 里用绝对路径。
 - **以 `=` 开头的裸词会被当成命令路径展开**：`echo ====` / `echo =====` 报 `(eval):1: === not found`，同一行里 `;` 后面的命令也跟着不跑（2026-09-23 onlychat 推荐模型审计踩两次，第二次把后面的 `git diff` 吞了）。分隔线一律加引号：`echo "===="`，或者改用 `echo "-----"`。
 - **测试文件清单塞进变量 = 假绿**：`T=$(git diff --name-only … | tr '\n' ' '); vitest run $T other.test.ts` 在 zsh 里 `$T` 是一个整参数，vitest 当成过滤串匹配不到任何文件，只跑了后面显式写的那些，照样报全绿（2026-10-11 soliloquy 画布：列了 27 个只跑 13 个）。要拆词写 `${=T}`；跑完核「Test Files N」等于预期文件数。
+- **0 文件当绿**：分 projects 的 vitest 仓，显式路径没被任何 project 收集时只打印 `include:` 清单、没有 `Test Files` 行，那不是通过（2026-09-11 soliloquy `shared/engineering/**` 只归 harness-parallel，门控写成 `vitest … | tail || exit 1`，退出码取的是 tail 的，没跑测试就提交推送了）。判据：输出里必须看到 `Test Files N passed` 且 N≥1；门控用 `vitest … > file; echo exit=$?`，别接管道；分 project 的仓先 `grep -n include vitest.config.*` 找归属再 `--project <name>`。
 - **grep 的 `--include=*.ts` 在 zsh 会先被当成 glob 展开**，匹配不到就报 `no matches found`，整条命令不执行。要写成 `--include='*.ts'`。
 - **管道吃掉退出码 = 假 PUSH_OK**：`git fetch 2>&1 | tail -1 && git push … | tail -1 && echo PUSH_OK` 里每段的退出码都是 `tail` 的 0，fetch/push 全部 `Connection reset by peer` 照样打印 PUSH_OK（2026-10-12 soliloquy SEO 整改推送，差点把「已推上 main」写进汇报）。网络类 git 命令不接管道：`if git fetch origin > /tmp/x.log 2>&1; then …`，最后再 `git merge-base --is-ancestor HEAD origin/main` 验真。
 - **BSD sed 不认 `\?`**：`sed 's/<\/\?loc>//g'` 在 macOS 上一字不剥，下游 `comm` 交集直接变 0（同日把 /discover 与 sitemap 交集误报成 0/23，真值 9/23）。要用 `sed -E 's#</?loc>##g'`，并对中间文件 `head` 一眼。

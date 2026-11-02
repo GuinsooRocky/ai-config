@@ -1,11 +1,11 @@
 ---
 name: project_onlychat_dynamic_scene_card_research
-description: onlychat 动态场景卡（短片/短剧）调研——老板派的四问，③性能已完结落档，其余三问仍待推进
+description: onlychat 动态场景卡（短片/短剧）调研——老板派的四问，③性能已完结落档，其余三问是否推进未核实，接手先问
 metadata: 
   node_type: memory
   type: project
   originSessionId: 90bbdd5e-a30d-4299-86b2-c303ee1e0a7f
-  modified: 2026-09-01T00:00:00.000Z
+  modified: 2026-11-02T06:12:57.004Z
 ---
 
 老板派的调研：**onlychat 动态场景卡需求调研**，四个子任务 = 四个问题：①短片/短剧（做成什么形态）②沿旧文档延伸落地细节（怎么落地）③性能（跑不跑得动）④结合 gojelly（竞品站哪）。
@@ -32,3 +32,6 @@ metadata:
 - **产出**：格式与码率选型表（含推荐转码参数）+ 各场景性能数据表（分设备）+ 播放策略结论（封面图先出 → 只播视口内 → 静音循环 → 滚出视口卸载 src → 短剧走全屏独立播放器）。
 
 相关：[[project_onlychat]]、[[feedback_commit_policy]]、[[feedback_project_intel_stays_in_project_docs]]（真正开工后接口/实测数据落项目文档，别堆全局 memory）
+
+
+补充：**③性能已完结**，结论在 World-Path/AI短剧-合集.html「性能线上实测」tab，测试床已回收，测法留作模板；其余三问是否推进未核实，接手先问

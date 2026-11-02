@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: feedback
   originSessionId: d762bb0d-bae0-4a38-9dbe-35f72a58e5d9
-  modified: 2026-10-23T08:19:43.202Z
+  modified: 2026-11-02T07:53:46.484Z
 ---
 
 10-23 perf-lab：owner 在一个会话里说过「最多存 7 份（本轮+比较用的 6 轮），不要 S3」，当时只落了「不要 S3」进决策账，「7 份」没记、清理逻辑也没改。下一个会话的汇报把「历史只留得住几轮、补法是另存中位数」当成技术薄弱处重新提，被 owner 顶回：「记在哪里了 docs里吗…这个我都说了怎么做 说了好几次」。
@@ -14,6 +14,6 @@ metadata:
 
 **How to apply:**
 1. owner 在对话里定了口径/做法，当场追加进项目的决策账（perf-lab 是 docs/decisions.md），连同「实现是否已跟上」一句；不只改代码不记账，也不只记一半。
-2. 汇报里列薄弱处、待办、建议之前，先 grep 决策账，再按 [[feedback-read-past-sessions-before-asking]] 搜近期会话里 owner 的原话；已定的只报「定了但实现没跟上」，不重新出方案。
+2. 汇报里列薄弱处、待办、建议之前，先 grep 决策账，再按 [[find-lost-things-fast]] 搜近期会话里 owner 的原话；已定的只报「定了但实现没跟上」，不重新出方案。
 3. 群里 owner 回同事的话也是拍板（「等 X 达标了再去调」= 现在不做）。10-30 perf-lab：拉了测试群历史，owner 10-29 已回徐唯原「逐个性能改动能不能看出来」要等重点页面指标达标再调，我还把它排成「最好的检出验收」，被顶「做出了无意义的 比如我驳回wei的事情」。读群历史时先挑出 owner 的回复记账，他推后或否掉的不进建议。
 4. 汇报方向时拿项目目标句逐条对：目标外的（更真实的设备条件、交互场景、函数级归因这类）明说「超出目标」，不混进待办。相关：[[feedback-think-before-escalating-gaps]]。

@@ -18,3 +18,6 @@ metadata:
 - soliloquy 的具体计费口径不记在这里，去仓里的 `docs/logic/模型供给与会员现行规格.md` 和额度 PRD 现读。
 
 相关：[[feedback_not_ground_truth]]、[[feedback_project_intel_stays_in_project_docs]]
+
+
+补充：10-11 画布建议保留扣费确认，main 前一天已改额度百分比制被顶

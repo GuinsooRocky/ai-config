@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: feedback
   originSessionId: 1ffc514c-783b-4496-9455-814a5d98ec77
-  modified: 2026-10-28T12:55:36.947Z
+  modified: 2026-11-02T16:08:34.127Z
 ---
 
 验证代码改动时，默认不调用真实模型（本机 Codex / 付费 API）去「看效果」，用模拟应答的测试加读代码即可。

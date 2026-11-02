@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 2389aa12-6873-4592-bd4d-1e4eacf9dc22
-  modified: 2026-10-26T14:47:44.154Z
+  modified: 2026-11-02T08:29:06.562Z
 ---
 
 `~/.claude` 目录本身是私有仓库 [GuinsooRocky/ai-config](https://github.com/GuinsooRocky/ai-config) 的直接 checkout（2026-07-01 建，原名 claude-config，2026-07-22 改名并重构成 Claude/Codex 共用能力源）。白名单式 `.gitignore` 只跟踪可复用配置 + memory + 消毒过的 settings/mcp/launchd。
@@ -20,6 +20,9 @@ metadata:
 - 改 `~/.claude/skills|agents|...` 后可提醒 `git status`/`commit` 增量备份；个人仓 commit 可自行判断，push 不主动（[[feedback_commit_policy]]）
 - `skills/xhs-writer` 已从 symlink **实体化为真实文件**（2026-07-30），单一真相在 `~/.claude`；`~/.agents/skills/khazix-writer` 反向改成了指向它的 symlink——改内容只改 `~/.claude` 这份
 - `skills/firecrawl` 是指向 `~/.agents` 的外部 symlink，已 gitignore 不入库（官方安装器管理，新机器重装即得）
+- `~/Desktop/cc-memory/memory/` 是单独的本地 git 仓，不推远端，数据库不入库
+- Codex 的规则在 `~/.codex/AGENTS.md`，不读 CLAUDE.md；改 CLAUDE.md 的规则要另外同步到它和 `codex/shared/AGENTS.md`，只发布版本改不到
+- **`~/.claude` 有别的会话未提交改动时从 Desktop 发布**（`prepare-update.sh` 按工作目录重建插件，会把别人的改动打进去）：`~/.claude` 用 `git commit -- <路径>` 只提交自己的 → Desktop `git pull --ff-only ~/.claude main` → 临时 `ln -s` 接回 `skills/firecrawl`（不接插件会丢 firecrawl）→ `CONTINUITY_CLAUDE_SOURCE=$PWD ./codex/scripts/rebuild-codex-plugin.sh` → 撤掉链接 → commit/push → `~/.claude` 用 `fetch` + `merge --ff-only`（pull.rebase 开着，目录脏时 pull 会拒）。`prepare-update.sh` 只看未提交改动，要在 Desktop 有改动时才生效
 - **memory 目录每天 03:30 由 launchd 自动 commit**（`launchd/com.lengmo.ai-config.memory-autocommit.plist` → `scripts/memory-autocommit.sh`，2026-09-21 起）：只 commit `projects/-Users-lengmo/memory`、不 push、不 bump 版本；skills/agents/hooks 等仍手工 commit。看到「memory 自动快照」提交别奇怪
 - **codex 那边装的是 Desktop 副本，不是 `~/.claude`**：`~/.codex/config.toml` 的 marketplace source 指向 `~/Desktop/cc-memory/ai-config/codex`。改完 `~/.claude` 要走：`CONTINUITY_CLAUDE_SOURCE=~/.claude ~/.claude/codex/scripts/rebuild-codex-plugin.sh` 重建便携插件 → commit/push → Desktop 副本 `pull --ff-only` → `codex plugin add claude-continuity@ai-continuity`，codex 才看得到。这条链 07-22 → 09-21 断了两个月没人发现（profile 引用已删 skill、`skills/synced` 无 SKILL.md 卡死生成脚本），09-21 修好；便携过滤器屏蔽词 `cmm` 会把描述里提到 cmm 的 skill 静默剔除（meta-check-skill 曾因示例名 `cmm-go` 中招）。正常走法是 `~/.claude` 里跑 `./scripts/prepare-update.sh patch`（自动重建插件+升版本+校验）。10-13 第三次断：codex 0.162 删了 plugin-creator 的 cachebuster 脚本，已改成两处脚本内联 perl 刷 `plugin.json` 版本后缀；注意脚本中途失败后重跑会判「生成物无变化」跳过版本刷新，要手动补一次
 - **`codex/scripts/install-codex.sh` 会用仓内 `codex/shared/AGENTS.md` 覆盖 `~/.codex/AGENTS.md`**（有备份到 `~/.codex/continuity-backups/`）：活文件常比仓内多（owner 直接在 `~/.codex` 里加法），跑前先 `diff` 两边、把活的合回仓再跑；只刷插件用上一条的 `codex plugin add` 即可（09-21 已把活文件回抄仓内一次，两边一致；owner 以后再直接改 `~/.codex/AGENTS.md` 就又会分叉，体检时顺手 diff）

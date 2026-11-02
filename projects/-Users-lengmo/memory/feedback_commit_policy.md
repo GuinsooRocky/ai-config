@@ -1,11 +1,11 @@
 ---
 name: Commit policy
-description: 提交/推送/发版/分支命名 全政策——仓×动作一张表；工作仓不明说不提交也不推，个人仓可自行判断，DK / soliloquy / sf-reader-all 已放开 push；onlychat develop 允许直推但每次要用户明说
+description: 提交/推送/发版/分支命名 全政策——仓×动作一张表；工作仓不明说不提交也不推，个人仓可自行判断，DK / soliloquy / sf-reader-all 已放开 push；onlychat develop 允许直推但每次要用户明说；DK 改后端只能整体 build_app.sh 重建，别 in-place 换 sidecar
 metadata:
   node_type: memory
   type: feedback
   originSessionId: 62222e4b-fd3d-4b5d-9f20-c6b5f75148fb
-  modified: 2026-10-15T09:03:12.846Z
+  modified: 2026-11-02T08:01:15.323Z
 ---
 
 # 提交与发版政策（仓 × 动作）
@@ -38,7 +38,7 @@ metadata:
 - **main/master/release 永不直接 push，必须走 PR**（公司有 pre-push hook 会触发远程通知）
 - **onlychat 的 `develop` 例外：允许直推、不必开 PR**（2026-09-03 owner 拍板，推翻此前
   「develop 也永不直推」）。理由：走 PR 每推一次触发一轮 chat-pr.yml，owner 得手动点取消；
-  同组其他人（傅小杰 / yechang）的提交在 develop 上也是线性无 merge commit。
+  同组其他人（傅晓杰，git 作者名写作傅小杰 / yechang）的提交在 develop 上也是线性无 merge commit。
   ⚠️⚠️ **「允许」不等于「授权」：每一次直推都要用户当次明说，说一次只算一次**
   （2026-09-10 owner 原话「我没说直推不要直推」——我把上一批的「直推develop」当成常设授权，
   连着又自作主张推了两次）。默认动作是：改完 + 验完 **停在本地**，报告改了什么、验了什么，
@@ -67,3 +67,9 @@ metadata:
 **提交粒度别加码（2026-10-15）**：一批修复合成一个提交就行，别要求「每个修复单独一个提交、方便单独回退」。给别的会话写条件/prompt 时也别塞这条；soliloquy PR #18 把 12 条单测修复合一个提交，我当成没达标来报，owner 回「不不不 就一个就好」。
 
 **「开始做 / 做吧」不等于提交或开 PR（2026-09-29）**：onlychat 推荐模型 §4.5 拆完后 owner 说「好的 开始做啊」，我自己理解成「剩下的就是提交」，一路跑 code-review、登记 features.md，弹出了提 PR 的确认框，被顶「我没说要 pr 哇」。工作仓提交和开 PR 只认明确的「提交 / 提pr / commit」这类说法；「做」指的是需求本身的活，意思拿不准时先问一句「做」指的是什么，别把交付动作当成默认的下一步。
+
+## DK 部署铁律
+
+DK 改后端**只能整体 `bash macapp/build_app.sh` 重建+一次性签，绝不 in-place 换 sidecar+反复重签**（破 launchd self-spawn，把 bot 搞停过）。
+
+铁律全文、验证旁路、应急恢复命令在 `~/Desktop/my-code/dk/CLAUDE.md`。这个文件只在 ralph/auto 分支，main 上没有。

@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: feedback
   originSessionId: fef34f95-7dcd-414f-a190-b108cc5f63ef
-  modified: 2026-10-30T11:26:18.259Z
+  modified: 2026-11-02T07:53:45.287Z
 ---
 
 # owner 拍板交互口径
@@ -25,7 +25,7 @@ metadata:
 
 用户叫"开个 loop / 把这批做完"时，**别用一串 gate-check + AskUserQuestion 菜单把他拦在门口**——他要的是吞吐，不是被反复确认。正确姿势：把 sane default 焊进去（取数口径照已有对称模式、设计岔口当场拍合理值）直接跑（workflow/ultracode），真有岔口在执行中 inline 抛出，而不是开跑前列三道选择题。安全(只改本仓不碰镜像/禁写桩/测试当 back-pressure)悄悄兜住就行，别拿出来当门槛念。
 
-用户原话（被我用 loop-forge 前置闸 + 选择题挡住后）："做个loop 这么难？那就开个ultracode"。这跟 [[feedback_task_execution_cadence]] 的"按改动规模分级"不冲突——分级是给我自己定深浅，不是拿去问用户。也跟 [[feedback_loop_needs_backpressure_first]] 不冲突：那条要的是「上 loop 前得有可机械判定的 back-pressure」，闸该自己焊进去悄悄兜住，**闸 ≠ 摆给用户的菜单**。
+用户原话（被我用 loop-forge 前置闸 + 选择题挡住后）："做个loop 这么难？那就开个ultracode"。这跟 [[feedback_task_execution_cadence]] 的"按改动规模分级"不冲突——分级是给我自己定深浅，不是拿去问用户。也跟 [[feedback-gates-must-fail-on-purpose]] 不冲突：那条要的是「上 loop 前得有可机械判定的 back-pressure」，闸该自己焊进去悄悄兜住，**闸 ≠ 摆给用户的菜单**。
 
 ### 别主动建议停下 / 收尾
 
@@ -124,3 +124,6 @@ lich 苹果风精度返工：我写返工 brief 时给每条清单定了三种�
 **Why:** 门是我自己在 brief 里开的；手里已经有推荐还上交，就是把可逆小事包装成互动。owner 的反馈回路是看产物，不是批清单。
 
 **How to apply:** 派工 brief 的条目状态只给「已修／驳回（写理由）」，产品取舍让子 agent 带推荐上报给我；集成时可逆的当场按推荐做完再报，只有不可逆 / 真钱 / 首曝光才上交。写完报告前扫一遍有没有「要你拍板 / 待 owner 定」字样，有就先做掉。
+
+
+补充：默认不设门带 1 个推荐直接走（只有不可逆/真钱/首曝光才停）；派工 brief 别开「留给 owner」档，手里有推荐就做掉（10-30 lich 第五次）；反讲收口后别再列「拍板/留意」清单（数据边界写兜底、有先例照先例、等字段留 TODO）；他明说「挨个问」就一次一题；问「哪种最好」是要答案不是要他选；甩截图问好看吗=要我改+同类筛查

@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: reference
   originSessionId: c1cf47c1-3c0c-4106-a059-b3a2e325eeb9
-  modified: 2026-10-30T14:43:03.047Z
+  modified: 2026-11-02T07:53:51.166Z
 ---
 
 公司用量统计工具 peekaboo-ab（`~/.agentboard/`，Stop hook + launchd `cc.agentboard.sync` 每 600s sync——2026-10-08 为降发热从 60s 调大，重跑 setup 会把 plist 改回 60 记得再调）扫全部 `~/.claude/projects/` + `~/.codex/sessions` 上报到 `https://peekaboo-ab.work`。
@@ -32,7 +32,7 @@ metadata:
 - **脱敏**：`project_path` 在 `~/Desktop/{cmm,my-code,archives,cc-memory}` 下 = 工作会话原样上报；其余会话 title/project_path/project_label → `"personal"`；**用量数字一律不动**——token 计不计数只取决于 drop 与否，跟脱敏无关
 - **cwd 升级**：原版认「首条 cwd、之后不覆盖」，从 home 开局的会话即便中途 cd 进工作目录也被钉死成 personal。patch 改成「一旦出现工作 cwd 就升级过去、不降级」→ 不用逐个加名单。Codex 侧更严：只有工具调用明确把 workdir 设在工作目录才升级，仅引用路径不算
 - **整条屏蔽 / 强制上报**：`~/.agentboard/privacy-rules.json` **运行时读取，改名单不用重打**。优先级 `drop_sessions`（显式屏蔽，最高，支持前缀如 `"codex:"`）> `force_report_sessions` > `drop_all_personal: true`（当前 true）
-- **全量屏蔽现状（2026-10-30 owner 定）**：`drop_sessions` 同时有 `claude:` 和 `codex:`，Claude、Codex 全部不上报，含 cmm 工作会话；恢复 Claude 上报 = 从名单摘掉 `claude:`。补丁只给 `codex:` 留了 force_report 例外，`claude:` 在位时 Claude 会话加黑穿不透（ab-drop 脚本会拒绝）；Codex 加黑不受影响
+- **全量屏蔽现状（2026-11-02 owner 定）**：`drop_sessions` 只有 `codex:` 和单会话 uuid，Claude 工作会话照常上报、个人会话靠 `drop_all_personal` 不报。Claude 全量开关是 `claude:`（10-30 加、11-02 摘），owner 反复开关；owner 口中的「claude 的 -」就是这个开关——旧写法 `"-"` 靠子串匹配拦住所有带横杠的 uuid，文件里已没有 `-`，要摘的是 `claude:`。补丁只给 `codex:` 留了 force_report 例外，`claude:` 在位时 Claude 会话加黑穿不透（ab-drop 脚本会拒绝）；Codex 加黑不受影响
 - **patch 脚本**：`node ~/.agentboard/privacy-patch.mjs apply|check`。幂等、5 个锚点各校验必须恰好 1 次、对不上就整个拒绝应用（不盲打，exit 1）、备份 `cli.mjs.orig-<日期>`、原子写入。**上游改代码就会打不上，需要人工更新锚点**——2.4.6 就是这么栽的（`postBackfillRaw` 多了 `final` 参数）
 
 ## ⚠️ 升级流程：绝不跑 `npx peekaboo-ab setup`
@@ -55,7 +55,7 @@ setup 自带 `backfillAll`，用**刚装的未打补丁的代码**扫全部会�
 
 = 让当前会话对 peekaboo-ab 整条免上报。⚠ 用户口中的"白名单"是**保护名单**（不上报），落的配置是 `drop_sessions`（屏蔽名单），别反着理解成"允许上报"。
 
-1. 定位当前 session uuid：scratchpad 路径里的 uuid 段，或按内容指纹 grep `~/.claude/projects/-Users-lengmo/*.jsonl`（[[feedback_session_id_by_content_not_mtime]]，别用 mtime）
+1. 定位当前 session uuid：scratchpad 路径里的 uuid 段，或按内容指纹 grep `~/.claude/projects/-Users-lengmo/*.jsonl`（[[find-lost-things-fast]]，别用 mtime）
 2. uuid 追加进 `~/.agentboard/privacy-rules.json` 的 `drop_sessions`（去重）；运行时读取即时生效，不用重打 patch
 3. 顺手 `node ~/.agentboard/privacy-patch.mjs check`——patch 不在位时名单没人读；不在位就 apply
 4. 如实提醒：该会话此前已上报的快照留在服务器，drop 只管之后

@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: reference
   originSessionId: 2f80354d-2a49-4554-9e73-b712e1b4a74a
-  modified: 2026-07-30T08:45:54.593Z
+  modified: 2026-11-02T07:53:52.533Z
 ---
 
 `settings.json` 里 `sandbox.filesystem.denyRead` **只约束 Bash 起的子进程**（macOS Seatbelt，
@@ -30,7 +30,7 @@ bash python3 读  → BLOCKED PermissionError     ← OS 挡住
 （5 探针 + 一个必须 OK 的控制组，防"全挡"其实是把正常活也掐死了）。
 
 姿态问题：`permissions.deny` 只能 deny-list（deny 优先级压过 allow，没法"全禁再开小口"）。
-要 allow-list 真边界，得把整个 claude 进程用 srt 从外面包住 —— 详见 [[project_dk_sidecar_deploy]]
+要 allow-list 真边界，得把整个 claude 进程用 srt 从外面包住 —— 详见 dk/CLAUDE.md 部署铁律（只在 ralph/auto 分支）
 相关的 dk/SANDBOX.md。
 
 ## 限权的三条实测坑（同日，比上面更容易踩）

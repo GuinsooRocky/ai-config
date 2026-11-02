@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: feedback
   originSessionId: bf2f57f8-3d9c-438f-830d-d29424652b54
-  modified: 2026-10-06T06:16:04.821Z
+  modified: 2026-11-02T06:13:54.183Z
 ---
 
 修完未成年红线的实现 bug（词尾、年龄写法漏拦）后，我提议再扩到日西葡阿四种语言、加 child/kid、接内容审核服务，被 owner 顶回：「先不要拦这些，这些模型的事情跟你有什么关系？」（2026-10-06，soliloquy）。

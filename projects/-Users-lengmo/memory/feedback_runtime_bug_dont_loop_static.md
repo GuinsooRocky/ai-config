@@ -20,3 +20,6 @@ metadata:
 - 持久化不对称是高频根因：一个方向写了后端、另一个只改本地 → 刷新/回灌时被覆盖。
 - 第 2 次得出"该工作"就熔断，别开第 3 轮；回路要短，用户给新证据就收敛，别每轮重述全链路（用户也嫌啰嗦）。
 - 关联 [[feedback_inline_over_background_workflow]]、[[feedback_task_execution_cadence]]。
+
+
+补充：世界卡NSFW开关栽过：开落了服务端、关没落，用户"你好慢"

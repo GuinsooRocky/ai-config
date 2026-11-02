@@ -14,3 +14,6 @@ owner 不想在合并前亲自按清单点一遍。静态闸全绿、独立审�
 - 亲点清单照样写进交付文档，作为发版前走查的依据，但不拿它当合并门。
 - 汇报时如实写「没有运行时证据」，不要包装成已验证。
 - 相关：[[feedback_done_needs_runtime_before_saying_so]]、[[feedback_owner_decision_interaction]]。
+
+
+补充：10-13 PR #17「直接合吧我并没有想看」
