@@ -1,6 +1,6 @@
 ---
 name: write-a-skill
-description: 新建或大改一个 agent skill——按官方 frontmatter 字段表写 SKILL.md、切分 reference 文件、配套脚本，写完必须跑 meta-check-skill 自审到 ≥85 才算交付。触发词："写个 skill"、"新建 skill"、"做一个 skill"、"把这个流程做成 skill"、"改一下这个 skill"、"create a skill"、"/write-a-skill"。不用于：审已有 skill 的质量打分（归 meta-check-skill）、从对话记录里挖 skill 候选（归 meta-skill-mining）、写给别的 session 执行的一次性 prompt（归 write-a-prompt）、建 agent 或 workflow（skill 只管 skill）。
+description: 新建或大改一个 agent skill——按官方 frontmatter 字段表写 SKILL.md、切分 reference 文件、配套脚本，写完必须跑 meta-check-skill 自审到 ≥85 才算交付。触发词："写个 skill"、"新建 skill"、"做一个 skill"、"把这个流程做成 skill"、"改一下这个 skill"、"create a skill"、"/write-a-skill"。不用于：审已有 skill 的质量打分（归 meta-check-skill）、写给别的 session 执行的一次性 prompt（归 write-a-prompt）、建 agent 或 workflow（skill 只管 skill）。
 ---
 
 # 写 Skill
@@ -11,7 +11,7 @@ description: 新建或大改一个 agent skill——按官方 frontmatter 字段
 
 - 用户说「写个 skill」「新建 skill」「把这个流程做成 skill」「改一下这个 skill」
 - 某个流程你已经重复手动跑过三次以上，值得固化
-- **不**用于：给已有 skill 打分（`meta-check-skill`）、从对话记录挖候选（`meta-skill-mining`）、写一次性 prompt（`write-a-prompt`）
+- **不**用于：给已有 skill 打分（`meta-check-skill`）、写一次性 prompt（`write-a-prompt`）
 
 ## 步骤 1 — 问清楚
 

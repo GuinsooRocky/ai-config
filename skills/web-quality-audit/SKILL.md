@@ -11,14 +11,15 @@ metadata:
 
 Comprehensive quality review based on Google Lighthouse audits. Covers Performance, Accessibility, SEO, and Best Practices across 150+ checks.
 
-> **Lighthouse v13 note (Oct 2025+).** Lighthouse has migrated the Performance category from per-opportunity audits to **Performance Insight Audits** ([announcement](https://developer.chrome.com/blog/moving-lighthouse-to-insights)). Several individual audit names this skill historically referenced — *First Meaningful Paint*, *No Document Write*, *Uses Passive Event Listeners*, *Uses Rel Preload* — have been removed or merged. The underlying *advice* is unchanged and still applies; only the report format moved. The CLS-related audits ("layout shifts", "non-composited animations", "unsized images") are now consolidated into a single `cls-culprits-insight`, and image audits are merged into `image-delivery-insight`. Treat older Lighthouse JSON output as a superset, not a contradiction.
+> **Lighthouse 13+.** The Performance category now uses shared **Performance Insights** across Lighthouse and the DevTools Performance panel ([announcement](https://developer.chrome.com/blog/moving-lighthouse-to-insights)). Follow current insight names and evidence. Do not require removed audit IDs (*First Meaningful Paint*, *No Document Write*, *Uses Passive Event Listeners*, *Uses Rel Preload*) or automatically recreate their recommendations; some were retired because they were noisy, inactionable, or easy to over-recommend.
 
 ## How it works
 
 1. Analyze the provided code/project for quality issues
-2. Categorize findings by severity (Critical, High, Medium, Low)
-3. Provide specific, actionable recommendations
-4. Include code examples for fixes
+2. Label each finding's evidence: **Measured** (cite the runtime source: a web-quality-audit workflow run, a Lighthouse/PageSpeed report, or field data the user supplied) or **Source hypothesis** (inferred from code only). A static audit cannot measure Core Web Vitals, so every performance finding from source is a hypothesis and must name the measurement that would confirm it (e.g. "LCP image not preloaded: hypothesis; run the web-quality-audit workflow on that URL and read the LCP element and value").
+3. Categorize findings by severity (Critical, High, Medium, Low)
+4. Provide specific, actionable recommendations
+5. Include code examples for fixes
 
 ## Audit categories
 
@@ -75,15 +76,15 @@ Comprehensive quality review based on Google Lighthouse audits. Covers Performan
 * **No noindex on important pages.** Check meta robots and headers.
 
 **On-Page SEO:**
-* **Unique title tags.** 50-60 characters. Primary keyword included.
-* **Meta descriptions.** 150-160 characters. Compelling and unique.
-* **Heading hierarchy.** Single `<h1>`. Logical heading structure.
+* **Unique title tags.** Make each title descriptive and concise; display truncation varies by device and result type.
+* **Meta descriptions.** Write useful, page-specific summaries; search engines may choose a different snippet.
+* **Heading hierarchy.** The primary heading is descriptive and the structure is logical; do not fail valid HTML solely for using more than one `<h1>`.
 * **Descriptive link text.** Not "click here" or "read more".
 
 **Technical SEO:**
 * **Mobile-friendly.** Responsive design. Tap targets ≥ 48px.
 * **HTTPS.** Secure connection required.
-* **Fast loading.** Performance directly impacts ranking.
+* **Page experience signals.** Use field Core Web Vitals as evidence, without promising a ranking change.
 * **Structured data.** JSON-LD for rich snippets (Article, Product, FAQ, etc.).
 
 ### Best practices (15% of typical issues)
@@ -124,6 +125,7 @@ When performing an audit, structure findings as:
 ### Critical issues (X found)
 - **[Category]** Issue description. File: `path/to/file.js:123`
   - **Impact:** Why this matters
+  - **Evidence:** Measured (source) or source hypothesis (plus the measurement that would confirm it)
   - **Fix:** Specific code change or recommendation
 
 ### High priority (X found)
@@ -139,6 +141,11 @@ When performing an audit, structure findings as:
 1. First fix this because...
 2. Then address...
 3. Finally optimize...
+
+### Verification
+- Checked in this audit: static source inspection only (or list the runtime sources used)
+- Still needs runtime measurement: hypotheses to confirm with the web-quality-audit workflow
+- Still needs manual or field validation: e.g. screen reader pass, real-user Core Web Vitals
 ```
 
 ## Quick checklist
@@ -161,8 +168,3 @@ When performing an audit, structure findings as:
 - [ ] Performance profiling
 - [ ] Accessibility audit with real users
 - [ ] SEO keyword review
-
-## References
-
-For detailed guidelines on specific areas:
-- [Performance Optimization](../performance/SKILL.md)
